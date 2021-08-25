@@ -1,0 +1,31 @@
+Package: SSVSforPsych
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: c(person(given="Sierra",
+         family="Bainter",
+         role=c("aut"),
+         email="sbainter@miami.edu"),
+  person(given="Thomas",
+         family="McCauley",
+         role=c("aut"),
+         email="thomasgranvillemccauley@gmail.com"),
+  person(given="Mahmoud",
+         family="Fahmy",
+         role=c("cre"),
+         email="mahmoud.m.fahm@gmail.com"))
+Description: Provides functionality for SSVS function.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    stats,
+    graphics,
+    bayestestR,
+    ggplot2,
+    BoomSpikeSlab
