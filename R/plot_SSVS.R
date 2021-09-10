@@ -20,7 +20,7 @@ plot_SSVS <- function(y,ssvs.results){
   plotDF$threshold <- as.factor(plotDF$threshold)
   levels(plotDF$threshold) <- c('< .50', '> .50')
 
-  suppressWarnings(ggplot2::ggplot(data=plotDF) +
+  plt <- ggplot2::ggplot(data=plotDF) +
     ggplot2::geom_point(ggplot2::aes(x = reorder(plotDF$Variable_name,-plotDF$Inclusion_probability),
                    y = plotDF$Inclusion_probability,
                    shape = plotDF$threshold),
@@ -36,7 +36,6 @@ plot_SSVS <- function(y,ssvs.results){
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
           panel.spacing = ggplot2::unit(0, "lines"),
           strip.background = ggplot2::element_blank(),
-          strip.placement = "outside"))
-
+          strip.placement = "outside")
+  suppressWarnings(print(plt))
 }
-
