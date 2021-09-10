@@ -30,11 +30,11 @@ SSVS <- function(y,x,
   x <- scale(x)
   y <- scale(y)
 
-  n  <- length(y)
-  np <- nrow(xp)
   p  <- ncol(x)
   xp     <- matrix(0,25,p)
   xp[,1] <- seq(-3,3,length=25)
+  n  <- length(y)
+  np <- nrow(xp)
 
   #initial values:
 
