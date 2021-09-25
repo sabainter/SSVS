@@ -1,5 +1,10 @@
 #' SSVS summary function
 #'
+#' Function to summarize results from SSVS including marginal inclusion probabilities,
+#' Bayesian model averaged parameter estimates, and 
+#' 95% highest posterior density credible intervals
+#' 
+#' 
 #' @param ssvs.results The result list from running the SSVS function
 #' @return Returns a dataframe with results
 #' @export
