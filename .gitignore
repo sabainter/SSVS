@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-inst/doc
-||||||| 9714557
-=======
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .Rbuildignore
->>>>>>> eefaa73c1da3dede0187dd0692065c81e311bb54
+

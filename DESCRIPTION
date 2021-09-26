@@ -14,7 +14,12 @@ Authors@R: c(person(given="Sierra",
          family="Fahmy",
          role=c("cre"),
          email="mahmoud.m.fahm@gmail.com"))
-Description: Provides functionality for SSVS function.
+Description: Functions for performing stochastic search variable selection (SSVS) 
+for binary and continuous outcomes and visualizing the results. 
+SSVS is a Bayesian variable selection method used to estimate the probability 
+that individual predictors should be included in the regression model. Using MCMC estimation, 
+the method samples thousands of regression models in order to characterize the 
+model uncertainty regarding both the predictor set and the regression parameters. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
