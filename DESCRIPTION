@@ -1,6 +1,6 @@
 Package: SSVSforPsych
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Functions for stochastic search variable selection (SSVS)
 Version: 0.1.0
 Authors@R: c(person(given="Sierra",
          family="Bainter",
