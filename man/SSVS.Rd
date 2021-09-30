@@ -21,23 +21,37 @@ SSVS(
 
 \item{x}{The set of predictor variables}
 
-\item{runs}{test}
+\item{runs}{Total number of iterations (including burn-in). Results are based on
+the Total - Burn-in iterations.}
 
-\item{burn}{test}
+\item{burn}{Number of burn-in iterations. Burn-in iterations are discarded
+warmup iterations used to achieve MCMC convergence. You may increase the number
+of burn-in iterations if you are having convergence issues.}
 
 \item{update}{test}
 
-\item{a1}{test}
+\item{a1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+residual variance.}
 
-\item{b1}{test}
+\item{b1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+residual variance.}
 
-\item{prec.beta}{test}
+\item{prec.beta}{Prior precision (1/variance) for beta coefficients}
 
-\item{inprob}{test}
+\item{inprob}{Prior inclusion probability value, which applies to all predictors.
+The prior inclusion probability reflects the prior belief that each predictor 
+should be included in the model. A prior inclusion probability of .5 reflects
+the belief that each predictor has an equal probability of being included or
+excluded. Note that a value of .5 also implies a prior belief that the true model
+contains half of the candidate predictors. The prior inclusion probability will 
+influence the magnitude of the marginal inclusion probabilities (MIPs), but the 
+relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al. 
+(2020) for more information.}
 }
 \value{
 Returns a list
 }
 \description{
-SSVS Function
+This function performs SSVS for continuous outcomes using a basic gibbs sampler
+and for binary outcomes uing the logit.spike() function from the BoomSpikeSlab package.
 }

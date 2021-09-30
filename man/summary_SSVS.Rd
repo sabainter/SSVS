@@ -13,5 +13,7 @@ summary_SSVS(ssvs.results)
 Returns a dataframe with results
 }
 \description{
-SSVS summary function
+Function to summarize results from SSVS including marginal inclusion probabilities,
+Bayesian model averaged parameter estimates, and 
+95% highest posterior density credible intervals
 }
