@@ -9,17 +9,21 @@ BSS(x, y, priorValue, runs, burn)
 \arguments{
 \item{x}{The set of predictor variables}
 
-\item{y}{The response variable}
+\item{y}{The binary response variable}
 
-\item{priorValue}{test}
+\item{priorValue}{Prior inclusion probability value, which applies to all predictors.}
 
-\item{runs}{test}
+\item{runs}{Total number of iterations (including burn-in). Results are based on
+the Total - Burn-in iterations.}
 
-\item{burn}{test}
+\item{burn}{Number of burn-in iterations. Burn-in iterations are discarded
+warmup iterations used to achieve MCMC convergence. You may increase the number
+of burn-in iterations if you are having convergence issues.}
 }
 \value{
 Returns a list
 }
 \description{
-BSS Function
+This function performs SSVS for binary outcomes, it is a wrapper for the
+logit.spike() function from the BoomSpikeSlab package.
 }

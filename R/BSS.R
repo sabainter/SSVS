@@ -1,10 +1,16 @@
 #' BSS Function
 #'
-#' @param y The response variable
+#' This function performs SSVS for binary outcomes, it is a wrapper for the
+#' logit.spike() function from the BoomSpikeSlab package.
+#'
+#' @param y The binary response variable
 #' @param x The set of predictor variables
-#' @param priorValue test
-#' @param runs test
-#' @param burn test
+#' @param priorValue Prior inclusion probability value, which applies to all predictors.
+#' @param runs Total number of iterations (including burn-in). Results are based on
+#' the Total - Burn-in iterations.
+#' @param burn Number of burn-in iterations. Burn-in iterations are discarded
+#' warmup iterations used to achieve MCMC convergence. You may increase the number
+#' of burn-in iterations if you are having convergence issues. 
 #'
 #' @return Returns a list
 #' @export

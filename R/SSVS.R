@@ -1,7 +1,6 @@
 #' SSVS Function
 #'
 #' This function performs SSVS for continuous outcomes using a basic gibbs sampler
-#' and for binary outcomes uing the logit.spike() function from the BoomSpikeSlab package.
 #'
 #' @param y The response variable
 #' @param x The set of predictor variables

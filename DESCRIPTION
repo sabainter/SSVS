@@ -12,7 +12,7 @@ Authors@R: c(person(given="Sierra",
          email="thomasgranvillemccauley@gmail.com"),
   person(given="Mahmoud",
          family="Fahmy",
-         role=c("cre"),
+         role=c("cre","aut"),
          email="mahmoud.m.fahm@gmail.com"))
 Description: Functions for performing stochastic search variable selection (SSVS) 
     for binary and continuous outcomes and visualizing the results. 
