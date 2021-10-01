@@ -8,22 +8,21 @@
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
 #' warmup iterations used to achieve MCMC convergence. You may increase the number
-#' of burn-in iterations if you are having convergence issues. 
-#' 
-#' @param update test
+#' of burn-in iterations if you are having convergence issues.
+#'
 #' @param a1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
 #' residual variance.
 #' @param b1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
 #' residual variance.
 #' @param prec.beta Prior precision (1/variance) for beta coefficients
 #' @param inprob Prior inclusion probability value, which applies to all predictors.
-#' The prior inclusion probability reflects the prior belief that each predictor 
+#' The prior inclusion probability reflects the prior belief that each predictor
 #' should be included in the model. A prior inclusion probability of .5 reflects
 #' the belief that each predictor has an equal probability of being included or
 #' excluded. Note that a value of .5 also implies a prior belief that the true model
-#' contains half of the candidate predictors. The prior inclusion probability will 
-#' influence the magnitude of the marginal inclusion probabilities (MIPs), but the 
-#' relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al. 
+#' contains half of the candidate predictors. The prior inclusion probability will
+#' influence the magnitude of the marginal inclusion probabilities (MIPs), but the
+#' relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
 #' (2020) for more information.
 #'
 #' @return Returns a list
@@ -34,7 +33,7 @@
 
 
 SSVS <- function(y,x,
-                 runs=20000,burn=5000,update=1000,
+                 runs=20000,burn=5000,
                  a1=0.01,b1=0.01,prec.beta=0.1,inprob=0.5){
 
   # error message for missing values
@@ -103,7 +102,7 @@ SSVS <- function(y,x,
     keep.taue[i]  <- taue
     keep.yp[i,]   <- yp
 
-    if(i%%update==0){
+    if(i%%1000==0){
       plot(beta,main=paste("Iteration",i))
       graphics::abline(0,0)
     }
