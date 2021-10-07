@@ -4,14 +4,14 @@
 \alias{BSS}
 \title{BSS Function}
 \usage{
-BSS(x, y, priorValue, runs, burn)
+BSS(x, y, inprob, runs, burn)
 }
 \arguments{
 \item{x}{The set of predictor variables}
 
 \item{y}{The binary response variable}
 
-\item{priorValue}{Prior inclusion probability value, which applies to all predictors.}
+\item{inprob}{Prior inclusion probability value, which applies to all predictors.}
 
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}
