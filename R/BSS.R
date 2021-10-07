@@ -5,12 +5,12 @@
 #'
 #' @param y The binary response variable
 #' @param x The set of predictor variables
-#' @param priorValue Prior inclusion probability value, which applies to all predictors.
+#' @param inprob Prior inclusion probability value, which applies to all predictors.
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
 #' warmup iterations used to achieve MCMC convergence. You may increase the number
-#' of burn-in iterations if you are having convergence issues. 
+#' of burn-in iterations if you are having convergence issues.
 #'
 #' @return Returns a list
 #' @export
@@ -18,7 +18,7 @@
 #' @importFrom  BoomSpikeSlab LogitZellnerPrior logit.spike
 
 
-BSS <- function(x,y,priorValue,runs,burn){
+BSS <- function(x,y,inprob,runs,burn){
   # Scale inputs
   x <- scale(as.matrix(x))
   y <- scale(as.matrix(y))
@@ -33,7 +33,7 @@ BSS <- function(x,y,priorValue,runs,burn){
   myPrior <- BoomSpikeSlab::LogitZellnerPrior(predictors = designMatrix,
                                successes = y,
                                trials = NULL,
-                               expected.model.size = (ncol(x)*priorValue),
+                               expected.model.size = (ncol(x)*inprob),
                                prior.inclusion.probabilities = NULL)
 
 
