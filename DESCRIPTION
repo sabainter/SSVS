@@ -35,3 +35,5 @@ Imports:
     bayestestR,
     ggplot2,
     BoomSpikeSlab
+Depends: 
+    R (>= 2.10)

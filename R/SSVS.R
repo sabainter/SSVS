@@ -25,6 +25,12 @@
 #' relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
 #' (2020) for more information.
 #'
+#' @examples
+#' preds<-c("Age","BFI_Agreeableness","BFI_Conscientiousness","BFI_Extraversion",
+#' "BFI_Neuroticism","BFI_Openness","PANAS_Negative_Prescan", "PANAS_Positive_Prescan",
+#' "PANAS_Trait_Negative", "PANAS_Trait_Positive")
+#' ex1 <- SSVS(dat$Mean_Unpleasantness,dat[,preds])
+#'
 #' @return Returns a list
 #' @export
 #'

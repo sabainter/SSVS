@@ -51,3 +51,7 @@ Returns a list
 \description{
 This function performs SSVS for continuous outcomes using a basic gibbs sampler
 }
+\examples{
+SSVS(dat$Mean_Unpleasantness,dat[,c("Age","Male")])
+
+}
