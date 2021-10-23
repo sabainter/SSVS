@@ -52,6 +52,9 @@ Returns a list
 This function performs SSVS for continuous outcomes using a basic gibbs sampler
 }
 \examples{
-SSVS(dat$Mean_Unpleasantness,dat[,c("Age","Male")])
+preds<-c("Age","BFI_Agreeableness","BFI_Conscientiousness","BFI_Extraversion",
+"BFI_Neuroticism","BFI_Openness","PANAS_Negative_Prescan", "PANAS_Positive_Prescan",
+"PANAS_Trait_Negative", "PANAS_Trait_Positive")
+ex1 <- SSVS(dat$Mean_Unpleasantness,dat[,preds])
 
 }
