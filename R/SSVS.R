@@ -1,9 +1,8 @@
 #' SSVS Function
 #'
 #' This function performs SSVS for continuous outcomes using a basic gibbs sampler
-#'
-#' @param y The response variable
-#' @param x The set of predictor variables
+#' @param formula TEST
+#' @param data TEST
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
@@ -26,21 +25,26 @@
 #' (2020) for more information.
 #'
 #' @examples
-#' preds<-c("Age","BFI_Agreeableness","BFI_Conscientiousness","BFI_Extraversion",
-#' "BFI_Neuroticism","BFI_Openness","PANAS_Negative_Prescan", "PANAS_Positive_Prescan",
-#' "PANAS_Trait_Negative", "PANAS_Trait_Positive")
-#' ex1 <- SSVS(dat$Mean_Unpleasantness,dat[,preds])
+#' ex1 <- SSVS(Mean_Unpleasantness~Age+BFI_Agreeableness+BFI_Conscientiousness+BFI_Extraversion
+#' +BFI_Neuroticism+BFI_Openness+PANAS_Negative_Prescan+PANAS_Positive_Prescan
+#' +PANAS_Trait_Negative+PANAS_Trait_Positive,data=dat)
+#'
 #'
 #' @return Returns a list
 #' @export
 #'
-#' @importFrom stats rgamma rnorm rbinom reorder var
+#' @importFrom stats rgamma rnorm rbinom reorder var model.frame
 #' @importFrom graphics abline
 
 
-SSVS <- function(y,x,
+SSVS <- function(formula,data,
                  runs=20000,burn=5000,
                  a1=0.01,b1=0.01,prec.beta=0.1,inprob=0.5){
+
+
+  ssvs_data <- stats::model.frame(formula,data)
+  y <- ssvs_data[,1]
+  x <- ssvs_data[,2:ncol(ssvs_data)]
 
   # error message for missing values
   if (sum(is.na(x))+sum(is.na(y))>0){

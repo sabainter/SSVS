@@ -5,8 +5,8 @@
 \title{SSVS Function}
 \usage{
 SSVS(
-  y,
-  x,
+  formula,
+  data,
   runs = 20000,
   burn = 5000,
   a1 = 0.01,
@@ -16,9 +16,9 @@ SSVS(
 )
 }
 \arguments{
-\item{y}{The response variable}
+\item{formula}{TEST}
 
-\item{x}{The set of predictor variables}
+\item{data}{TEST}
 
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}
@@ -52,9 +52,9 @@ Returns a list
 This function performs SSVS for continuous outcomes using a basic gibbs sampler
 }
 \examples{
-preds<-c("Age","BFI_Agreeableness","BFI_Conscientiousness","BFI_Extraversion",
-"BFI_Neuroticism","BFI_Openness","PANAS_Negative_Prescan", "PANAS_Positive_Prescan",
-"PANAS_Trait_Negative", "PANAS_Trait_Positive")
-ex1 <- SSVS(dat$Mean_Unpleasantness,dat[,preds])
+ex1 <- SSVS(Mean_Unpleasantness~Age+BFI_Agreeableness+BFI_Conscientiousness+BFI_Extraversion
++BFI_Neuroticism+BFI_Openness+PANAS_Negative_Prescan+PANAS_Positive_Prescan
++PANAS_Trait_Negative+PANAS_Trait_Positive,data=dat)
+
 
 }
