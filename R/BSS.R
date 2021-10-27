@@ -21,7 +21,7 @@
 BSS <- function(x,y,inprob,runs,burn){
   # Scale inputs
   x <- scale(as.matrix(x))
-  y <- scale(as.matrix(y))
+  y <- (as.matrix(y))
 
   # Make a column of 1s for the design matrix
   intercept <- rep(1, nrow(x))
