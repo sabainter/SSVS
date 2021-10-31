@@ -51,9 +51,8 @@ SSVS <- function(formula,data,
     stop('Missing values in selection')
   }
 
-  # Added scaling inside function
+  # Added scaling inside function for X only
   x <- scale(x)
-  y <- scale(y)
 
   p  <- ncol(x)
   xp     <- matrix(0,25,p)
