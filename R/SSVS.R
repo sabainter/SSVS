@@ -1,8 +1,10 @@
 #' SSVS Function
 #'
 #' This function performs SSVS for continuous outcomes using a basic gibbs sampler
-#' @param formula TEST
-#' @param data TEST
+#'
+#' @param x The set of predictor variables
+#' @param y The continuous response variable
+#' @param data The dataframe used to extract predictors and response values
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
@@ -33,18 +35,17 @@
 #' @return Returns a list
 #' @export
 #'
-#' @importFrom stats rgamma rnorm rbinom reorder var model.frame
+#' @importFrom stats rgamma rnorm rbinom reorder var
 #' @importFrom graphics abline
 
 
-SSVS <- function(formula,data,
+SSVS <- function(x,y,data,
                  runs=20000,burn=5000,
                  a1=0.01,b1=0.01,prec.beta=0.1,inprob=0.5){
 
 
-  ssvs_data <- stats::model.frame(formula,data)
-  y <- ssvs_data[,1]
-  x <- ssvs_data[,2:ncol(ssvs_data)]
+  y <- data[,y]
+  x <- data[,x]
 
   # error message for missing values
   if (sum(is.na(x))+sum(is.na(y))>0){

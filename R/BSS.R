@@ -3,8 +3,9 @@
 #' This function performs SSVS for binary outcomes, it is a wrapper for the
 #' logit.spike() function from the BoomSpikeSlab package.
 #'
-#' @param y The binary response variable
 #' @param x The set of predictor variables
+#' @param y The binary response variable
+#' @param data The dataframe used to extract predictors and response values
 #' @param inprob Prior inclusion probability value, which applies to all predictors.
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
@@ -18,7 +19,10 @@
 #' @importFrom  BoomSpikeSlab LogitZellnerPrior logit.spike
 
 
-BSS <- function(x,y,inprob,runs,burn){
+BSS <- function(x,y,data,inprob,runs,burn){
+
+  x <- data[,x]
+  y <- data[,y]
   # Scale inputs
   x <- scale(as.matrix(x))
   y <- (as.matrix(y))
