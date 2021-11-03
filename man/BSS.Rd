@@ -4,12 +4,14 @@
 \alias{BSS}
 \title{BSS Function}
 \usage{
-BSS(x, y, inprob, runs, burn)
+BSS(x, y, data, inprob, runs, burn)
 }
 \arguments{
 \item{x}{The set of predictor variables}
 
 \item{y}{The binary response variable}
+
+\item{data}{The dataframe used to extract predictors and response values}
 
 \item{inprob}{Prior inclusion probability value, which applies to all predictors.}
 

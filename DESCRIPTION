@@ -24,7 +24,7 @@ Description: Functions for performing stochastic search variable selection (SSVS
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown

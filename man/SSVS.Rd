@@ -5,7 +5,8 @@
 \title{SSVS Function}
 \usage{
 SSVS(
-  formula,
+  x,
+  y,
   data,
   runs = 20000,
   burn = 5000,
@@ -16,9 +17,11 @@ SSVS(
 )
 }
 \arguments{
-\item{formula}{TEST}
+\item{x}{The set of predictor variables}
 
-\item{data}{TEST}
+\item{y}{The continuous response variable}
+
+\item{data}{The dataframe used to extract predictors and response values}
 
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}
