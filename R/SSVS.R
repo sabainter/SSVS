@@ -5,6 +5,7 @@
 #' @param x The set of predictor variables
 #' @param y The continuous response variable
 #' @param data The dataframe used to extract predictors and response values
+#' @param plot True if progress plots are to be created for every 1000 iterations
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
@@ -39,7 +40,7 @@
 #' @importFrom graphics abline
 
 
-SSVS <- function(x,y,data,
+SSVS <- function(x,y,data, plot=T,
                  runs=20000,burn=5000,
                  a1=0.01,b1=0.01,prec.beta=0.1,inprob=0.5){
 
@@ -112,7 +113,7 @@ SSVS <- function(x,y,data,
     keep.taue[i]  <- taue
     keep.yp[i,]   <- yp
 
-    if(i%%1000==0){
+    if((i%%1000==0) & (plot==T)){
       plot(beta,main=paste("Iteration",i))
       graphics::abline(0,0)
     }

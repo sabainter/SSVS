@@ -1,11 +1,12 @@
 #' SSVS summary function
 #'
 #' Function to summarize results from SSVS including marginal inclusion probabilities,
-#' Bayesian model averaged parameter estimates, and 
+#' Bayesian model averaged parameter estimates, and
 #' 95% highest posterior density credible intervals
-#' 
-#' 
+#'
+#'
 #' @param ssvs.results The result list from running the SSVS function
+#' @param interval The desired probability for the credible interval, specified as a deciamal
 #' @return Returns a dataframe with results
 #' @export
 #'
@@ -14,7 +15,7 @@
 
 
 
-summary_SSVS <- function(ssvs.results){
+summary_SSVS <- function(ssvs.results,interval){
   # Get MIP for each variable
   inc_prob <- as.data.frame(round(apply(ssvs.results$beta!=0,2,mean),4))
 
@@ -27,9 +28,9 @@ summary_SSVS <- function(ssvs.results){
   for (m in names(temp.beta.frame)){
     average.beta[m] <- round(mean(temp.beta.frame[,m]),4)
     # 95% credibility interval lower
-    lower.credibility[m] <- round(bayestestR::ci(temp.beta.frame[,m], method = "HDI",ci = .95)[[2]],4)
+    lower.credibility[m] <- round(bayestestR::ci(temp.beta.frame[,m], method = "HDI",ci = interval)[[2]],4)
     # 95% credibility interval upper
-    upper.credibility[m] <- round(bayestestR::ci(temp.beta.frame[,m], method = "HDI",ci = .95)[[3]],4)
+    upper.credibility[m] <- round(bayestestR::ci(temp.beta.frame[,m], method = "HDI",ci = interval)[[3]],4)
   }
 
   # Save the average non-zero betas
@@ -46,7 +47,7 @@ summary_SSVS <- function(ssvs.results){
 
   res <- matrix(nrow=ncol(ssvs.results$beta),ncol=6)
 
-  colnames(res) <- c('Variable','MIP','Average Beta','Beta Low CI','Beta High CI', 'Average nonzero Beta')
+  colnames(res) <- c('Variable','MIP','Average Beta',paste0('Beta Low CI (',interval*100,'%)'),paste0('Beta High CI (',interval*100,'%)'), 'Average nonzero Beta')
 
   res[,1] <- colnames(ssvs.results$beta)
   res[,2] <- inc_prob[,1]
@@ -56,7 +57,5 @@ summary_SSVS <- function(ssvs.results){
   res[,6] <- average.nonzero.beta
 
   res <- as.data.frame(res)
-
-  print(res, row.names=F)
-
+  print.data.frame(res,right=F, row.names=F)
 }
