@@ -6,7 +6,10 @@
 #'
 #'
 #' @param ssvs.results The result list from running the SSVS function
-#' @param interval The desired probability for the credible interval, specified as a deciamal
+#' @param interval The desired probability for the credible interval, specified as a decimal
+#' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
+#' @param order The order that predictors will be shown in the output.
+#' Default is the order they are run in SSVS function
 #' @return Returns a dataframe with results
 #' @export
 #'
@@ -15,7 +18,7 @@
 
 
 
-summary_SSVS <- function(ssvs.results,interval){
+summary_SSVS <- function(ssvs.results,interval=0.95,cutoff=0,order=c("As entered","MIP Descending")){
   # Get MIP for each variable
   inc_prob <- as.data.frame(round(apply(ssvs.results$beta!=0,2,mean),4))
 
@@ -55,7 +58,16 @@ summary_SSVS <- function(ssvs.results,interval){
   res[,4] <- lower.credibility
   res[,5] <- upper.credibility
   res[,6] <- average.nonzero.beta
-
   res <- as.data.frame(res)
+
+  res[,2:6] <- apply(res[,2:6],2, function(x) as.numeric(x))
+
+
+  if ((length(order)==1)&&(order=="MIP Descending")){
+    res <- res[order(-res$MIP),]
+  }
+
+
+  res <- res[res$MIP>cutoff,]
   print.data.frame(res,right=F, row.names=F)
 }
