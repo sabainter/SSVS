@@ -8,6 +8,7 @@ SSVS(
   x,
   y,
   data,
+  plot = T,
   runs = 20000,
   burn = 5000,
   a1 = 0.01,
@@ -22,6 +23,8 @@ SSVS(
 \item{y}{The continuous response variable}
 
 \item{data}{The dataframe used to extract predictors and response values}
+
+\item{plot}{True if progress plots are to be created for every 1000 iterations}
 
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}

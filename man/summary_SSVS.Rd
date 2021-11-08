@@ -4,16 +4,28 @@
 \alias{summary_SSVS}
 \title{SSVS summary function}
 \usage{
-summary_SSVS(ssvs.results)
+summary_SSVS(
+  ssvs.results,
+  interval = 0.95,
+  cutoff = 0,
+  order = c("As entered", "MIP Descending")
+)
 }
 \arguments{
 \item{ssvs.results}{The result list from running the SSVS function}
+
+\item{interval}{The desired probability for the credible interval, specified as a decimal}
+
+\item{cutoff}{Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal}
+
+\item{order}{The order that predictors will be shown in the output.
+Default is the order they are run in SSVS function}
 }
 \value{
 Returns a dataframe with results
 }
 \description{
 Function to summarize results from SSVS including marginal inclusion probabilities,
-Bayesian model averaged parameter estimates, and 
+Bayesian model averaged parameter estimates, and
 95% highest posterior density credible intervals
 }
