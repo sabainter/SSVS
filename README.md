@@ -7,7 +7,14 @@
 
 <!-- badges: end -->
 
-The goal of SSVSforPsych is to …
+The goal of SSVSforPsych is to provide functions for performing
+stochastic search variable selection (SSVS) for binary and continuous
+outcomes and visualizing the results. SSVS is a Bayesian variable
+selection method used to estimate the probability that individual
+predictors should be included in a regression model. Using MCMC
+estimation, the method samples thousands of regression models in order
+to characterize the model uncertainty regarding both the predictor set
+and the regression parameters.
 
 ## Installation
 
