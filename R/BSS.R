@@ -19,7 +19,7 @@
 #' @importFrom  BoomSpikeSlab LogitZellnerPrior logit.spike
 
 
-BSS <- function(x,y,data,inprob,runs,burn){
+BSS <- function(x,y,data,inprob,runs=20000,burn=5000){
 
   x <- data[,x]
   y <- data[,y]
