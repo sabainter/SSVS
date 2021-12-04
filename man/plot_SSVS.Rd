@@ -17,3 +17,9 @@ Creates a plot of the inclusion probabilities by variable
 \description{
 SSVS plot function
 }
+\examples{
+outcome <- "qsec"
+predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+plot_SSVS(outcome,results)
+}

@@ -29,3 +29,9 @@ Function to summarize results from SSVS including marginal inclusion probabiliti
 Bayesian model averaged parameter estimates, and
 95% highest posterior density credible intervals
 }
+\examples{
+outcome <- "qsec"
+predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+summary_SSVS(results, interval=.9,order="MIP Descending" )
+}

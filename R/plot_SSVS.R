@@ -2,6 +2,11 @@
 #'
 #' @param y The name of the dependent variable
 #' @param ssvs.results The result list from running the SSVS function
+#' @examples
+#' outcome <- "qsec"
+#' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+#' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+#' plot_SSVS(outcome,results)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #'

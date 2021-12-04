@@ -4,7 +4,7 @@
 \alias{BSS}
 \title{BSS Function}
 \usage{
-BSS(x, y, data, inprob, runs, burn)
+BSS(x, y, data, inprob, runs = 20000, burn = 5000)
 }
 \arguments{
 \item{x}{The set of predictor variables}

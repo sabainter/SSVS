@@ -10,6 +10,11 @@
 #' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
 #' @param order The order that predictors will be shown in the output.
 #' Default is the order they are run in SSVS function
+#' @examples
+#' outcome <- "qsec"
+#' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+#' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+#' summary_SSVS(results, interval=.9,order="MIP Descending" )
 #' @return Returns a dataframe with results
 #' @export
 #'

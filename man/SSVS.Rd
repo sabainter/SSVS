@@ -58,9 +58,7 @@ Returns a list
 This function performs SSVS for continuous outcomes using a basic gibbs sampler
 }
 \examples{
-ex1 <- SSVS(Mean_Unpleasantness~Age+BFI_Agreeableness+BFI_Conscientiousness+BFI_Extraversion
-+BFI_Neuroticism+BFI_Openness+PANAS_Negative_Prescan+PANAS_Positive_Prescan
-+PANAS_Trait_Negative+PANAS_Trait_Positive,data=dat)
-
-
+outcome <- "qsec"
+predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
 }
