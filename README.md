@@ -11,14 +11,8 @@ The goal of SSVSforPsych is to …
 
 ## Installation
 
-You can install the released version of SSVSforPsych from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("SSVSforPsych")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version of SSVSforPsych from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
