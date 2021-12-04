@@ -36,25 +36,37 @@ devtools::install_github("mahmoud-mfahmy/SSVSforPsych")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Consider a simple example using SSVS on the mtcars dataset to predict quarter mile times. We first specify
+our response variable (qsec), then choose our predictors and run the SSVS function.
 
-```{r example}
+```{r ssvs, echo=TRUE, results='hide'}
 library(SSVSforPsych)
-## basic example code
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
+ 'vs', 'am', 'gear', 'carb','mpg')
+
+results <- SSVS(x = predictors,
+ y = outcome, data = mtcars, plot=F)
+
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+The results can be summarized and printed using the summary_SSVS() function. This will display both the MIP
+for each predictor, as well as the probable range of values for each coefficient.
+
+```{r summary, echo=TRUE, results='hide'}
+summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r table, echo=FALSE}
+knitr::kable(summary_results[,1:6],align = 'lccccc',row.names = FALSE)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+The MIPs for each predictor can then be visualized using the plot_SSVS() function.
+
+```{r plot, echo =TRUE}
+plot_SSVS('qsec', results)
+```
+
+
