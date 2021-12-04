@@ -30,7 +30,7 @@
 #' @examples
 #' ex1 <- SSVS(Mean_Unpleasantness~Age+BFI_Agreeableness+BFI_Conscientiousness+BFI_Extraversion
 #' +BFI_Neuroticism+BFI_Openness+PANAS_Negative_Prescan+PANAS_Positive_Prescan
-#' +PANAS_Trait_Negative+PANAS_Trait_Positive,data=dat)
+#' +PANAS_Trait_Negative+PANAS_Trait_Positive,data=dat,plot=F)
 #'
 #'
 #' @return Returns a list
