@@ -21,8 +21,17 @@
 
 BSS <- function(x,y,data,inprob,runs=20000,burn=5000){
 
+  # Automatically convert any two-level factors to binary variables
+  for (i in 1:ncol(data[,x])){
+    if (length(levels(data[,i]))==2){
+      data[,i] <- as.numeric(data[,i]) - 1
+      message("Two level factor converted to binary")
+    }
+  }
+
   x <- data[,x]
   y <- data[,y]
+
   # Scale inputs
   x <- scale(as.matrix(x))
   y <- (as.matrix(y))
