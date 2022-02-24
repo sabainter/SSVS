@@ -46,6 +46,6 @@ plot.ssvs <- function(x, y, MIP_threshold=0.5, ...){
           panel.spacing = ggplot2::unit(0, "lines"),
           strip.background = ggplot2::element_blank(),
           strip.placement = "outside")
-  suppressWarnings(print(plt))
+  plt
 }
 
