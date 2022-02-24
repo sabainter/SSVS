@@ -1,4 +1,4 @@
-Package: SSVSforPsych
+Package: SSVS
 Title: Functions for Stochastic Search Variable Selection (SSVS)
 Version: 0.1.0.9000
 Authors@R: c(person(given="Sierra",

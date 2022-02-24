@@ -1,25 +1,25 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SSVSforPsych <img src="man/figures/logo.png" align="right" width="120" />
+# SSVS <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/sabainter/SSVSforPsych/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVSforPsych/actions)
 <!-- badges: end -->
 
-The goal of SSVSforPsych is to provide functions for performing
-stochastic search variable selection (SSVS) for binary and continuous
-outcomes and visualizing the results. SSVS is a Bayesian variable
-selection method used to estimate the probability that individual
-predictors should be included in a regression model. Using MCMC
-estimation, the method samples thousands of regression models in order
-to characterize the model uncertainty regarding both the predictor set
-and the regression parameters.
+The goal of {SSVS} is to provide functions for performing stochastic
+search variable selection (SSVS) for binary and continuous outcomes and
+visualizing the results. SSVS is a Bayesian variable selection method
+used to estimate the probability that individual predictors should be
+included in a regression model. Using MCMC estimation, the method
+samples thousands of regression models in order to characterize the
+model uncertainty regarding both the predictor set and the regression
+parameters.
 
 ## Installation
 
-You can install the development version of SSVSforPsych from
+You can install the development version of {SSVS} from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -34,7 +34,7 @@ quarter mile times. We first specify our response variable (qsec), then
 choose our predictors and run the `ssvs()` function.
 
 ``` r
-library(SSVSforPsych)
+library(SSVS)
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')

@@ -15,13 +15,13 @@ knitr::opts_chunk$set(
 set.seed(1000)
 ```
 
-# SSVSforPsych <img src="man/figures/logo.png" align="right" width="120" />
+# SSVS <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sabainter/SSVSforPsych/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVSforPsych/actions)
 <!-- badges: end -->
 
-The goal of SSVSforPsych is to provide functions for performing stochastic search variable selection (SSVS) 
+The goal of {SSVS} is to provide functions for performing stochastic search variable selection (SSVS) 
 for binary and continuous outcomes and visualizing the results. 
 SSVS is a Bayesian variable selection method used to estimate the probability 
 that individual predictors should be included in a regression model. 
@@ -31,7 +31,7 @@ set and the regression parameters.
 
 ## Installation
 
-You can install the development version of SSVSforPsych from [GitHub](https://github.com/) with:
+You can install the development version of {SSVS} from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
@@ -43,7 +43,7 @@ Consider a simple example using SSVS on the mtcars dataset to predict quarter mi
 our response variable (qsec), then choose our predictors and run the `ssvs()` function.
 
 ```{r ssvs, echo=TRUE, results='hide'}
-library(SSVSforPsych)
+library(SSVS)
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
