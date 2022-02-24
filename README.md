@@ -23,8 +23,8 @@ You can install the development version of SSVSforPsych from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("mahmoud-mfahmy/SSVSforPsych")
+# install.packages("remotes")
+remotes::install_github("sabainter/SSVSforPsych")
 ```
 
 ## Example
@@ -40,7 +40,7 @@ predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
 results <- SSVS(x = predictors,
- y = outcome, data = mtcars, plot=F)
+ y= outcome, data = mtcars, plot = F)
 ```
 
 The results can be summarized and printed using the summary\_SSVS()
@@ -53,16 +53,16 @@ summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
 
 | Variable |  MIP   | Average Beta | Beta Low CI (90%) | Beta High CI (90%) | Average nonzero Beta |
 |:---------|:------:|:------------:|:-----------------:|:------------------:|:--------------------:|
-| wt       | 0.8437 |    1.0538    |      0.0000       |       1.9731       |        1.2491        |
-| vs       | 0.7771 |    0.6684    |      0.0000       |       1.2072       |        0.8601        |
-| hp       | 0.5542 |   -0.5222    |      -1.3410      |       0.0000       |       -0.9424        |
-| cyl      | 0.4143 |   -0.4580    |      -1.7547      |       0.0000       |       -1.1056        |
-| carb     | 0.4049 |   -0.3005    |      -1.0313      |       0.0000       |       -0.7421        |
-| am       | 0.4022 |   -0.2830    |      -1.0249      |       0.0000       |       -0.7038        |
-| disp     | 0.4003 |   -0.4547    |      -1.8406      |       0.0000       |       -1.1360        |
-| gear     | 0.1970 |   -0.0853    |      -0.5315      |       0.0009       |       -0.4328        |
-| mpg      | 0.1595 |    0.0545    |      -0.0036      |       0.4412       |        0.3417        |
-| drat     | 0.0889 |   -0.0146    |      0.0000       |       0.0000       |       -0.1642        |
+| wt       | 0.8600 |    1.0974    |      0.0000       |       1.9984       |        1.2761        |
+| vs       | 0.7818 |    0.6682    |      0.0000       |       1.2019       |        0.8547        |
+| hp       | 0.5330 |   -0.4988    |      -1.3380      |       0.0000       |       -0.9357        |
+| disp     | 0.4266 |   -0.4968    |      -1.8255      |       0.0012       |       -1.1647        |
+| carb     | 0.4236 |   -0.3169    |      -1.0301      |       0.0000       |       -0.7480        |
+| cyl      | 0.4002 |   -0.4489    |      -1.7527      |       0.0000       |       -1.1218        |
+| am       | 0.3828 |   -0.2761    |      -1.0345      |       0.0000       |       -0.7214        |
+| gear     | 0.1905 |   -0.0831    |      -0.4969      |       0.0000       |       -0.4359        |
+| mpg      | 0.1859 |    0.0705    |      0.0000       |       0.5258       |        0.3794        |
+| drat     | 0.0995 |   -0.0171    |      0.0000       |       0.0000       |       -0.1720        |
 
 The MIPs for each predictor can then be visualized using the
 plot\_SSVS() function.
