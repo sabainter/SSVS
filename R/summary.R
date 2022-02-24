@@ -19,6 +19,9 @@
 summary.ssvs <- function(object, interval = 0.95, cutoff = 0,
                          ordered = FALSE, ...){
   assert_ssvs(object)
+  checkmate::assert_number(interval)
+  checkmate::assert_number(cutoff)
+  checkmate::assert_logical(ordered, len = 1, any.missing = FALSE)
 
   # Get MIP for each variable
   inc_prob <- as.data.frame(round(apply(object$beta!=0,2,mean),4))

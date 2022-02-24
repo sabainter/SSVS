@@ -40,6 +40,19 @@
 ssvs <- function(data, x, y, continuous = TRUE,
                  inprob = 0.5, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, plot = TRUE) {
+  checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
+  checkmate::assert_character(x, any.missing = FALSE, min.len = 1)
+  checkmate::assert_character(y, any.missing = FALSE, len = 1)
+  checkmate::assert_subset(c(x, y), names(data))
+  checkmate::assert_logical(continuous, len = 1, any.missing = FALSE)
+  checkmate::assert_number(inprob)
+  checkmate::assert_number(runs)
+  checkmate::assert_number(burn)
+  checkmate::assert_number(a1)
+  checkmate::assert_number(b1)
+  checkmate::assert_number(prec.beta)
+  checkmate::assert_logical(plot, len = 1, any.missing = FALSE)
+
   if (continuous) {
     ssvs <- ssvs_continuous(
       data = data, x = x, y = y,

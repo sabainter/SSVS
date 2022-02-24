@@ -18,8 +18,12 @@
 #' @importFrom rlang .data
 plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
                       title = paste("Inclusion Probability for", y),
-                      ...){
+                      ...) {
   assert_ssvs(x)
+  checkmate::assert_string(y)
+  checkmate::assert_number(threshold, lower = 0, upper = 1)
+  checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
+  checkmate::assert_string(title)
 
   #Recreate a dataframe of the results
   plotDF <- as.data.frame(apply(x$beta!=0,2,mean))
