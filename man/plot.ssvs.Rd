@@ -4,7 +4,14 @@
 \alias{plot.ssvs}
 \title{Plot results of an SSVS model}
 \usage{
-\method{plot}{ssvs}(x, y, threshold = 0.5, legend = TRUE, ...)
+\method{plot}{ssvs}(
+  x,
+  y,
+  threshold = 0.5,
+  legend = TRUE,
+  title = paste("Inclusion Probability for", y),
+  ...
+)
 }
 \arguments{
 \item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
@@ -16,6 +23,8 @@ If \code{NULL}, no threshold is used.}
 
 \item{legend}{If \code{TRUE}, show a legend for the shapes based on the threshold.
 Ignored if \code{threshold = NULL}.}
+
+\item{title}{The title of the plot}
 
 \item{...}{Ignored}
 }

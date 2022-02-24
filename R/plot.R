@@ -6,6 +6,7 @@
 #' If `NULL`, no threshold is used.
 #' @param legend If `TRUE`, show a legend for the shapes based on the threshold.
 #' Ignored if `threshold = NULL`.
+#' @param title The title of the plot
 #' @param ... Ignored
 #' @examples
 #' outcome <- "qsec"
@@ -15,7 +16,9 @@
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #' @importFrom rlang .data
-plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE, ...){
+plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
+                      title = paste("Inclusion Probability for", y),
+                      ...){
   assert_ssvs(x)
 
   #Recreate a dataframe of the results
@@ -40,7 +43,7 @@ plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE, ...){
                         size = 2) +
     ggplot2::labs(y = "Inclusion Probability",
                   x = "Predictor variables",
-                  title = paste("Inclusion Probability for", y)) +
+                  title = title) +
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
     ggplot2::theme_classic() +
     ggplot2::geom_vline(xintercept = nrow(plotDF)+.5, linetype = 1, size = .5, alpha = .2) +
