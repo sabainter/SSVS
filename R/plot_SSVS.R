@@ -15,6 +15,8 @@
 #'
 
 plot_SSVS <- function(y,ssvs.results,MIP_threshold=0.5){
+  assert_ssvs(ssvs.results)
+
   #Recreate a dataframe of the results
   plotDF <- as.data.frame(apply(ssvs.results$beta!=0,2,mean))
   plotDF$var <- rownames(plotDF)

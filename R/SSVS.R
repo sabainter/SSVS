@@ -114,10 +114,14 @@ SSVS <- function(x, y, data, plot = T,
     }
   }
 
-  list(
+  result <- list(
     beta = keep.beta[burn:runs, ],
     int = keep.int[burn:runs],
     taue = keep.taue[burn:runs],
     pred = keep.yp[burn:runs, ]
   )
+
+  class(result) <- c("ssvs", class(result))
+
+  result
 }

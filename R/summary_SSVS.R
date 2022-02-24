@@ -25,6 +25,8 @@
 
 
 summary_SSVS <- function(ssvs.results,interval=0.95,cutoff=0,order=c("As entered","MIP Descending")){
+  assert_ssvs(ssvs.results)
+
   # Get MIP for each variable
   inc_prob <- as.data.frame(round(apply(ssvs.results$beta!=0,2,mean),4))
 

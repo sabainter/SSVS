@@ -61,6 +61,8 @@ BSS <- function(x,y,data,inprob,runs=20000,burn=5000){
 
   colnames(bssResults[["beta"]]) <- colnames(x)
 
+  class(bssResults) <- c("ssvs", class(bssResults))
+
   return(bssResults)
 
 }
