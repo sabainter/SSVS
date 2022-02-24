@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # SSVSforPsych <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/sabainter/SSVSforPsych/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVSforPsych/actions)
 <!-- badges: end -->
 
 The goal of SSVSforPsych is to provide functions for performing stochastic search variable selection (SSVS) 
