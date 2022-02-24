@@ -4,14 +4,15 @@
 \alias{plot.ssvs}
 \title{Plot results of an SSVS model}
 \usage{
-\method{plot}{ssvs}(x, y, MIP_threshold = 0.5, ...)
+\method{plot}{ssvs}(x, y, threshold = 0.5, ...)
 }
 \arguments{
 \item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
 
 \item{y}{The name of the dependent variable}
 
-\item{MIP_threshold}{An MIP threshold to show on the plot}
+\item{threshold}{An MIP threshold to show on the plot, must be between 0-1.
+If \code{NULL}, no threshold is used.}
 
 \item{...}{Ignored}
 }
