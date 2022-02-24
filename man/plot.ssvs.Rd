@@ -4,7 +4,7 @@
 \alias{plot.ssvs}
 \title{Plot results of an SSVS model}
 \usage{
-\method{plot}{ssvs}(x, y, threshold = 0.5, ...)
+\method{plot}{ssvs}(x, y, threshold = 0.5, legend = TRUE, ...)
 }
 \arguments{
 \item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
@@ -13,6 +13,9 @@
 
 \item{threshold}{An MIP threshold to show on the plot, must be between 0-1.
 If \code{NULL}, no threshold is used.}
+
+\item{legend}{If \code{TRUE}, show a legend for the shapes based on the threshold.
+Ignored if \code{threshold = NULL}.}
 
 \item{...}{Ignored}
 }

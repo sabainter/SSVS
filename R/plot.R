@@ -4,6 +4,8 @@
 #' @param y The name of the dependent variable
 #' @param threshold An MIP threshold to show on the plot, must be between 0-1.
 #' If `NULL`, no threshold is used.
+#' @param legend If `TRUE`, show a legend for the shapes based on the threshold.
+#' Ignored if `threshold = NULL`.
 #' @param ... Ignored
 #' @examples
 #' outcome <- "qsec"
@@ -13,7 +15,7 @@
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #' @importFrom rlang .data
-plot.ssvs <- function(x, y, threshold = 0.5, ...){
+plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE, ...){
   assert_ssvs(x)
 
   #Recreate a dataframe of the results
@@ -45,14 +47,16 @@ plot.ssvs <- function(x, y, threshold = 0.5, ...){
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
                    panel.spacing = ggplot2::unit(0, "lines"),
                    strip.background = ggplot2::element_blank(),
-                   strip.placement = "outside")
+                   strip.placement = "outside") +
+    ggplot2::guides(shape = FALSE)
 
-  if (is.null(threshold)) {
-    plt <- plt + ggplot2::guides(shape = FALSE)
-  } else {
+  if (!is.null(threshold)) {
     plt <- plt +
       ggplot2::labs(shape = "MIP threshold") +
       ggplot2::geom_hline(yintercept = threshold, linetype = 2)
+    if (legend) {
+      plt <- plt + ggplot2::guides(shape = ggplot2::guide_legend())
+    }
   }
 
   plt
