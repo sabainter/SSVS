@@ -99,7 +99,7 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
     z <- x %*% diag(delta)
     V <- solve(taue * t(z) %*% z + prec.beta * diag(p))
     M <- taue * t(z) %*% (y - int)
-    alpha <- V %*% M + t(chol(V)) %*% rnorm(p)
+    alpha <- V %*% M + t(chol(V)) %*% stats::rnorm(p)
     beta <- alpha * delta
 
     # update inclusion indicators:
@@ -117,7 +117,7 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
     }
 
     # Make predictions:
-    yp <- rnorm(np, int + xp %*% beta, 1 / sqrt(taue))
+    yp <- stats::rnorm(np, int + xp %*% beta, 1 / sqrt(taue))
 
     # Store the output:
     keep.beta[i, ] <- beta

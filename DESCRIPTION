@@ -29,11 +29,12 @@ BugReports: https://github.com/sabainter/SSVSforPsych/issues
 Depends: 
     R (>= 2.10)
 Imports: 
-    stats,
-    graphics,
     bayestestR,
+    BoomSpikeSlab,
     ggplot2,
-    BoomSpikeSlab
+    graphics,
+    rlang,
+    stats
 Suggests: 
     knitr,
     rmarkdown

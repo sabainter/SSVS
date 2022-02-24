@@ -11,7 +11,7 @@
 #' plot(results, outcome)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
-
+#' @importFrom rlang .data
 plot.ssvs <- function(x, y, MIP_threshold=0.5, ...){
   assert_ssvs(x)
 
@@ -27,9 +27,9 @@ plot.ssvs <- function(x, y, MIP_threshold=0.5, ...){
   levels(plotDF$threshold) <- c(paste0('< ',MIP_threshold),paste0('>',MIP_threshold))
 
   plt <- ggplot2::ggplot(data=plotDF) +
-    ggplot2::geom_point(ggplot2::aes(x = reorder(Variable_name,-Inclusion_probability),
-                                     y = Inclusion_probability,
-                                     shape = threshold),
+    ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variable_name"]], -.data[["Inclusion_probability"]]),
+                                     y = .data[["Inclusion_probability"]],
+                                     shape = .data[["threshold"]]),
                         size = 2) +
     ggplot2::labs(y = "Inclusion Probability",
                   x = "Predictor variables",
