@@ -11,9 +11,6 @@
 #' plot(results, outcome)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
-#'
-#' @importFrom ggplot2 ggplot geom_point labs scale_y_continuous theme_classic geom_vline geom_hline theme aes element_text unit element_blank
-#'
 
 plot.ssvs <- function(x, y, MIP_threshold=0.5, ...){
   assert_ssvs(x)
