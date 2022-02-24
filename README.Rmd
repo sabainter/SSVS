@@ -54,11 +54,11 @@ results <- SSVS(x = predictors,
 ```
 
 
-The results can be summarized and printed using the summary_SSVS() function. This will display both the MIP
+The results can be summarized and printed using the `summary()` function. This will display both the MIP
 for each predictor, as well as the probable range of values for each coefficient.
 
 ```{r summary, echo=TRUE, results='hide'}
-summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
+summary_results <- summary(results, interval=.9, order="MIP Descending")
 ```
 
 
@@ -66,10 +66,10 @@ summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
 knitr::kable(summary_results[,1:6],align = 'lccccc',row.names = FALSE)
 ```
 
-The MIPs for each predictor can then be visualized using the plot_SSVS() function.
+The MIPs for each predictor can then be visualized using the `plot()` function.
 
 ```{r plot, echo =TRUE}
-plot_SSVS('qsec', results)
+plot(results, 'qsec')
 ```
 
 

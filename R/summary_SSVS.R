@@ -5,16 +5,17 @@
 #' 95% highest posterior density credible intervals
 #'
 #'
-#' @param ssvs.results The result list from running the SSVS function
+#' @param object The result list from running the SSVS function
 #' @param interval The desired probability for the credible interval, specified as a decimal
 #' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
 #' @param order The order that predictors will be shown in the output.
+#' @param ... Ignored
 #' Default is the order they are run in SSVS function
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 #' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
-#' summary_SSVS(results, interval=.9,order="MIP Descending" )
+#' summary(results, interval=.9,order="MIP Descending" )
 #' @return Returns a dataframe with results
 #' @export
 #'
@@ -24,14 +25,14 @@
 
 
 
-summary_SSVS <- function(ssvs.results,interval=0.95,cutoff=0,order=c("As entered","MIP Descending")){
-  assert_ssvs(ssvs.results)
+summary.ssvs <- function(object,interval=0.95,cutoff=0,order=c("As entered","MIP Descending"), ...){
+  assert_ssvs(object)
 
   # Get MIP for each variable
-  inc_prob <- as.data.frame(round(apply(ssvs.results$beta!=0,2,mean),4))
+  inc_prob <- as.data.frame(round(apply(object$beta!=0,2,mean),4))
 
   # Get all post-burnin beta values
-  temp.beta.frame <- as.data.frame(ssvs.results[["beta"]])
+  temp.beta.frame <- as.data.frame(object[["beta"]])
   # Get average betas and upper and lower credibility
   average.beta <- NULL
   lower.credibility <- NULL
@@ -56,11 +57,11 @@ summary_SSVS <- function(ssvs.results,interval=0.95,cutoff=0,order=c("As entered
   }
 
 
-  res <- matrix(nrow=ncol(ssvs.results$beta),ncol=6)
+  res <- matrix(nrow=ncol(object$beta),ncol=6)
 
   colnames(res) <- c('Variable','MIP','Average Beta',paste0('Beta Low CI (',interval*100,'%)'),paste0('Beta High CI (',interval*100,'%)'), 'Average nonzero Beta')
 
-  res[,1] <- colnames(ssvs.results$beta)
+  res[,1] <- colnames(object$beta)
   res[,2] <- inc_prob[,1]
   res[,3] <- average.beta
   res[,4] <- lower.credibility

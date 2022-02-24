@@ -43,12 +43,12 @@ results <- SSVS(x = predictors,
  y= outcome, data = mtcars, plot = F)
 ```
 
-The results can be summarized and printed using the summary\_SSVS()
+The results can be summarized and printed using the `summary()`
 function. This will display both the MIP for each predictor, as well as
 the probable range of values for each coefficient.
 
 ``` r
-summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
+summary_results <- summary(results, interval=.9, order="MIP Descending")
 ```
 
 | Variable |  MIP   | Average Beta | Beta Low CI (90%) | Beta High CI (90%) | Average nonzero Beta |
@@ -64,11 +64,11 @@ summary_results <- summary_SSVS(results, interval=.9, order="MIP Descending")
 | mpg      | 0.1584 |    0.0563    |      -0.0001      |       0.4160       |        0.3557        |
 | drat     | 0.1003 |   -0.0180    |      -0.0008      |       0.0000       |       -0.1794        |
 
-The MIPs for each predictor can then be visualized using the
-plot\_SSVS() function.
+The MIPs for each predictor can then be visualized using the `plot()`
+function.
 
 ``` r
-plot_SSVS('qsec', results)
+plot(results, 'qsec')
 ```
 
 <img src="man/figures/README-plot-1.png" width="100%" />

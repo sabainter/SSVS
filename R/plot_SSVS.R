@@ -1,24 +1,25 @@
 #' SSVS plot function
 #'
+#' @param x The result list from running the SSVS function
 #' @param y The name of the dependent variable
-#' @param ssvs.results The result list from running the SSVS function
 #' @param MIP_threshold An MIP threshold to show on the plot
+#' @param ... Ignored
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 #' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
-#' plot_SSVS(outcome,results)
+#' plot(results, outcome)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #'
 #' @importFrom ggplot2 ggplot geom_point labs scale_y_continuous theme_classic geom_vline geom_hline theme aes element_text unit element_blank
 #'
 
-plot_SSVS <- function(y,ssvs.results,MIP_threshold=0.5){
-  assert_ssvs(ssvs.results)
+plot.ssvs <- function(x, y, MIP_threshold=0.5, ...){
+  assert_ssvs(x)
 
   #Recreate a dataframe of the results
-  plotDF <- as.data.frame(apply(ssvs.results$beta!=0,2,mean))
+  plotDF <- as.data.frame(apply(x$beta!=0,2,mean))
   plotDF$var <- rownames(plotDF)
   plotDF$DV <- as.character(y)
   names(plotDF) <- c("Inclusion_probability","Variable_name","Dependent_variable")
