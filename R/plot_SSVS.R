@@ -2,6 +2,7 @@
 #'
 #' @param y The name of the dependent variable
 #' @param ssvs.results The result list from running the SSVS function
+#' @param MIP_threshold An MIP threshold to show on the plot
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")

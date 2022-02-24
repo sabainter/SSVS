@@ -27,7 +27,7 @@ Returns a dataframe with results
 \description{
 Function to summarize results from SSVS including marginal inclusion probabilities,
 Bayesian model averaged parameter estimates, and
-95% highest posterior density credible intervals
+95\% highest posterior density credible intervals
 }
 \examples{
 outcome <- "qsec"

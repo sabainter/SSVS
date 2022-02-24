@@ -4,12 +4,14 @@
 \alias{plot_SSVS}
 \title{SSVS plot function}
 \usage{
-plot_SSVS(y, ssvs.results)
+plot_SSVS(y, ssvs.results, MIP_threshold = 0.5)
 }
 \arguments{
 \item{y}{The name of the dependent variable}
 
 \item{ssvs.results}{The result list from running the SSVS function}
+
+\item{MIP_threshold}{An MIP threshold to show on the plot}
 }
 \value{
 Creates a plot of the inclusion probabilities by variable

@@ -4,7 +4,7 @@
 \name{dat}
 \alias{dat}
 \title{Example dataset for SSVS function
- @format A data frame with 74 records and 76 variables}
+@format A data frame with 74 records and 76 variables}
 \format{
 An object of class \code{data.frame} with 74 rows and 76 columns.
 }
@@ -13,6 +13,6 @@ dat
 }
 \description{
 Example dataset for SSVS function
- @format A data frame with 74 records and 76 variables
+@format A data frame with 74 records and 76 variables
 }
 \keyword{datasets}
