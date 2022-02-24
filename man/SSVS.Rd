@@ -2,44 +2,31 @@
 % Please edit documentation in R/SSVS.R
 \name{SSVS}
 \alias{SSVS}
-\title{SSVS Function}
+\title{Perform SSVS for continuous and binary outcomes}
 \usage{
 SSVS(
+  data,
   x,
   y,
-  data,
-  plot = T,
+  continuous = TRUE,
+  inprob = 0.5,
   runs = 20000,
   burn = 5000,
   a1 = 0.01,
   b1 = 0.01,
   prec.beta = 0.1,
-  inprob = 0.5
+  plot = TRUE
 )
 }
 \arguments{
-\item{x}{The set of predictor variables}
-
-\item{y}{The continuous response variable}
-
 \item{data}{The dataframe used to extract predictors and response values}
 
-\item{plot}{True if progress plots are to be created for every 1000 iterations}
+\item{x}{The set of predictor variables}
 
-\item{runs}{Total number of iterations (including burn-in). Results are based on
-the Total - Burn-in iterations.}
+\item{y}{The response variable}
 
-\item{burn}{Number of burn-in iterations. Burn-in iterations are discarded
-warmup iterations used to achieve MCMC convergence. You may increase the number
-of burn-in iterations if you are having convergence issues.}
-
-\item{a1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
-residual variance.}
-
-\item{b1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
-residual variance.}
-
-\item{prec.beta}{Prior precision (1/variance) for beta coefficients}
+\item{continuous}{If \code{TRUE}, treat the response variable as continuous. If
+\code{FALSE}, treat the response variable as binary.}
 
 \item{inprob}{Prior inclusion probability value, which applies to all predictors.
 The prior inclusion probability reflects the prior belief that each predictor
@@ -50,15 +37,36 @@ contains half of the candidate predictors. The prior inclusion probability will
 influence the magnitude of the marginal inclusion probabilities (MIPs), but the
 relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
 (2020) for more information.}
+
+\item{runs}{Total number of iterations (including burn-in). Results are based on
+the Total - Burn-in iterations.}
+
+\item{burn}{Number of burn-in iterations. Burn-in iterations are discarded
+warmup iterations used to achieve MCMC convergence. You may increase the number
+of burn-in iterations if you are having convergence issues.}
+
+\item{a1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+residual variance. Only used when \code{continuous = TRUE}.}
+
+\item{b1}{Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+residual variance. Only used when \code{continuous = TRUE}.}
+
+\item{prec.beta}{Prior precision (1/variance) for beta coefficients.
+Only used when \code{continuous = TRUE}.}
+
+\item{plot}{If \code{TRUE}, progress plots will be created for every 1000 iterations.
+Only used when \code{continuous = TRUE}.}
 }
 \value{
-Returns a list
+An \code{SSVS} object that can be used in
+\code{\link[=summary.ssvs]{summary()}} or \code{\link[=plot.ssvs]{plot()}}.
 }
 \description{
-This function performs SSVS for continuous outcomes using a basic gibbs sampler
+For continuous outcomes, a basic Gibbs sampler is used. For binary
+outcomes, \code{\link[BoomSpikeSlab:logit.spike]{BoomSpikeSlab::logit.spike()}} is used.
 }
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 }

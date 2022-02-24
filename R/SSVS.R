@@ -1,22 +1,13 @@
-#' SSVS Function
+#' Perform SSVS for continuous and binary outcomes
 #'
-#' This function performs SSVS for continuous outcomes using a basic gibbs sampler
+#' For continuous outcomes, a basic Gibbs sampler is used. For binary
+#' outcomes, [`BoomSpikeSlab::logit.spike()`] is used.
 #'
-#' @param x The set of predictor variables
-#' @param y The continuous response variable
 #' @param data The dataframe used to extract predictors and response values
-#' @param plot True if progress plots are to be created for every 1000 iterations
-#' @param runs Total number of iterations (including burn-in). Results are based on
-#' the Total - Burn-in iterations.
-#' @param burn Number of burn-in iterations. Burn-in iterations are discarded
-#' warmup iterations used to achieve MCMC convergence. You may increase the number
-#' of burn-in iterations if you are having convergence issues.
-#'
-#' @param a1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
-#' residual variance.
-#' @param b1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
-#' residual variance.
-#' @param prec.beta Prior precision (1/variance) for beta coefficients
+#' @param x The set of predictor variables
+#' @param y The response variable
+#' @param continuous If `TRUE`, treat the response variable as continuous. If
+#' `FALSE`, treat the response variable as binary.
 #' @param inprob Prior inclusion probability value, which applies to all predictors.
 #' The prior inclusion probability reflects the prior belief that each predictor
 #' should be included in the model. A prior inclusion probability of .5 reflects
@@ -26,21 +17,44 @@
 #' influence the magnitude of the marginal inclusion probabilities (MIPs), but the
 #' relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
 #' (2020) for more information.
-#'
+#' @param runs Total number of iterations (including burn-in). Results are based on
+#' the Total - Burn-in iterations.
+#' @param burn Number of burn-in iterations. Burn-in iterations are discarded
+#' warmup iterations used to achieve MCMC convergence. You may increase the number
+#' of burn-in iterations if you are having convergence issues.
+#' @param a1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+#' residual variance. Only used when `continuous = TRUE`.
+#' @param b1 Prior parameter for Gamma(a,b) distribution on the precision (1/variance)
+#' residual variance. Only used when `continuous = TRUE`.
+#' @param prec.beta Prior precision (1/variance) for beta coefficients.
+#' Only used when `continuous = TRUE`.
+#' @param plot If `TRUE`, progress plots will be created for every 1000 iterations.
+#' Only used when `continuous = TRUE`.
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
-#' @return Returns a list
+#' results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' @return An `SSVS` object that can be used in
+#' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
-#'
-#' @importFrom stats rgamma rnorm rbinom reorder var
-#' @importFrom graphics abline
+SSVS <- function(data, x, y, continuous = TRUE,
+                 inprob = 0.5, runs = 20000, burn = 5000,
+                 a1 = 0.01, b1 = 0.01, prec.beta = 0.1, plot = TRUE) {
+  if (continuous) {
+    ssvs_continuous(
+      data = data, x = x, y = y,
+      inprob = inprob, runs = runs, burn = burn,
+      a1 = a1, b1 = b1, prec.beta = prec.beta, plot = plot
+    )
+  } else {
+    ssvs_binary(
+      data = data, x = x, y = y,
+      inprob = inprob, runs = runs, burn = burn
+    )
+  }
+}
 
-
-SSVS <- function(x, y, data, plot = T,
-                 runs = 20000, burn = 5000,
-                 a1 = 0.01, b1 = 0.01, prec.beta = 0.1, inprob = 0.5) {
+ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, plot) {
   y <- data[, y]
   x <- data[, x]
 
@@ -64,7 +78,7 @@ SSVS <- function(x, y, data, plot = T,
   beta <- rep(0, p)
   alpha <- rep(0, p)
   delta <- rep(0, p)
-  taue <- 1 / var(y)
+  taue <- 1 / stats::var(y)
 
   # keep track of stuff:
 
@@ -75,8 +89,8 @@ SSVS <- function(x, y, data, plot = T,
 
   # LET'S ROLL:
   for (i in 1:runs) {
-    taue <- rgamma(1, n / 2 + a1, sum((y - int - x %*% beta)^2) / 2 + b1)
-    int <- rnorm(1, mean(y - x %*% beta), 1 / sqrt(n * taue))
+    taue <- stats::rgamma(1, n / 2 + a1, sum((y - int - x %*% beta)^2) / 2 + b1)
+    int <- stats::rnorm(1, mean(y - x %*% beta), 1 / sqrt(n * taue))
 
     # update alpha
     z <- x %*% diag(delta)
@@ -94,7 +108,7 @@ SSVS <- function(x, y, data, plot = T,
       diff <- log.p.in - log.p.out
       diff <- ifelse(diff > 10, 10, diff)
       p.in <- exp(diff) / (1 + exp(diff))
-      delta[j] <- rbinom(1, 1, p.in)
+      delta[j] <- stats::rbinom(1, 1, p.in)
       beta[j] <- delta[j] * alpha[j]
       r <- r - x[, j] * beta[j]
     }
@@ -124,4 +138,50 @@ SSVS <- function(x, y, data, plot = T,
   class(result) <- c("ssvs", class(result))
 
   result
+}
+
+ssvs_binary <- function(data, x, y, inprob, runs, burn) {
+  # Automatically convert any two-level factors to binary variables
+  for (i in 1:ncol(data[,x])){
+    if (length(levels(data[,i]))==2){
+      data[,i] <- as.numeric(data[,i]) - 1
+      message("Two level factor converted to binary")
+    }
+  }
+
+  x <- data[,x]
+  y <- data[,y]
+
+  # Scale inputs
+  x <- scale(as.matrix(x))
+  y <- (as.matrix(y))
+
+  # Make a column of 1s for the design matrix
+  intercept <- rep(1, nrow(x))
+
+  # Create design matrix that includes the column of 1s, and the predictors
+  designMatrix <- as.matrix(cbind(intercept, x))
+
+  # Save the prior value to use
+  myPrior <- BoomSpikeSlab::LogitZellnerPrior(predictors = designMatrix,
+                                              successes = y,
+                                              trials = NULL,
+                                              expected.model.size = (ncol(x)*inprob),
+                                              prior.inclusion.probabilities = NULL)
+
+
+
+
+  ## logit.spike()
+  bssResults <- BoomSpikeSlab::logit.spike(formula = as.matrix(y) ~
+                                             as.matrix(x),
+                                           niter = runs,
+                                           prior = myPrior)
+  bssResults[["beta"]] <- as.data.frame(bssResults[["beta"]][-c(1:burn),-1])
+
+  colnames(bssResults[["beta"]]) <- colnames(x)
+
+  class(bssResults) <- c("ssvs", class(bssResults))
+
+  bssResults
 }
