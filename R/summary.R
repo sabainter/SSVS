@@ -59,7 +59,7 @@ summary.ssvs <- function(object,interval=0.95,cutoff=0,order=c("As entered","MIP
 
   res <- matrix(nrow=ncol(object$beta),ncol=6)
 
-  colnames(res) <- c('Variable','MIP','Average Beta',paste0('Beta Low CI (',interval*100,'%)'),paste0('Beta High CI (',interval*100,'%)'), 'Average nonzero Beta')
+  colnames(res) <- c('Variable', 'MIP', 'Avg Beta',paste0('Lower CI (',interval*100,'%)'),paste0('Upper CI (',interval*100,'%)'), 'Avg Nonzero Beta')
 
   res[,1] <- colnames(object$beta)
   res[,2] <- inc_prob[,1]

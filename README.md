@@ -39,8 +39,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- SSVS(x = predictors,
- y= outcome, data = mtcars, plot = F)
+results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`
@@ -51,18 +50,18 @@ the probable range of values for each coefficient.
 summary_results <- summary(results, interval=.9, order="MIP Descending")
 ```
 
-| Variable |  MIP   | Average Beta | Beta Low CI (90%) | Beta High CI (90%) | Average nonzero Beta |
-|:---------|:------:|:------------:|:-----------------:|:------------------:|:--------------------:|
-| wt       | 0.8433 |    1.0433    |      0.0000       |       1.9513       |        1.2372        |
-| vs       | 0.7512 |    0.6399    |      0.0000       |       1.1982       |        0.8519        |
-| hp       | 0.5413 |   -0.4995    |      -1.3349      |       0.0000       |       -0.9228        |
-| cyl      | 0.4551 |   -0.5173    |      -1.7670      |       0.0005       |       -1.1367        |
-| am       | 0.4240 |   -0.3107    |      -1.0805      |       0.0000       |       -0.7328        |
-| disp     | 0.4130 |   -0.4553    |      -1.8170      |       0.0012       |       -1.1023        |
-| carb     | 0.3938 |   -0.2890    |      -1.0068      |       0.0000       |       -0.7338        |
-| gear     | 0.2013 |   -0.0918    |      -0.5464      |       0.0002       |       -0.4560        |
-| mpg      | 0.1584 |    0.0563    |      -0.0001      |       0.4160       |        0.3557        |
-| drat     | 0.1003 |   -0.0180    |      -0.0008      |       0.0000       |       -0.1794        |
+| Variable |  MIP   | Avg Beta | Lower CI (90%) | Upper CI (90%) | Avg Nonzero Beta |
+|:---------|:------:|:--------:|:--------------:|:--------------:|:----------------:|
+| wt       | 0.8433 |  1.0433  |     0.0000     |     1.9513     |      1.2372      |
+| vs       | 0.7512 |  0.6399  |     0.0000     |     1.1982     |      0.8519      |
+| hp       | 0.5413 | -0.4995  |    -1.3349     |     0.0000     |     -0.9228      |
+| cyl      | 0.4551 | -0.5173  |    -1.7670     |     0.0005     |     -1.1367      |
+| am       | 0.4240 | -0.3107  |    -1.0805     |     0.0000     |     -0.7328      |
+| disp     | 0.4130 | -0.4553  |    -1.8170     |     0.0012     |     -1.1023      |
+| carb     | 0.3938 | -0.2890  |    -1.0068     |     0.0000     |     -0.7338      |
+| gear     | 0.2013 | -0.0918  |    -0.5464     |     0.0002     |     -0.4560      |
+| mpg      | 0.1584 |  0.0563  |    -0.0001     |     0.4160     |      0.3557      |
+| drat     | 0.1003 | -0.0180  |    -0.0008     |     0.0000     |     -0.1794      |
 
 The MIPs for each predictor can then be visualized using the `plot()`
 function.

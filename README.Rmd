@@ -48,9 +48,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- SSVS(x = predictors,
- y= outcome, data = mtcars, plot = F)
-
+results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 ```
 
 
@@ -63,7 +61,7 @@ summary_results <- summary(results, interval=.9, order="MIP Descending")
 
 
 ```{r table, echo=FALSE}
-knitr::kable(summary_results[,1:6],align = 'lccccc',row.names = FALSE)
+knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 ```
 
 The MIPs for each predictor can then be visualized using the `plot()` function.
