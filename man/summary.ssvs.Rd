@@ -2,39 +2,32 @@
 % Please edit documentation in R/summary.R
 \name{summary.ssvs}
 \alias{summary.ssvs}
-\title{SSVS summary function}
+\title{Summarize results of an SSVS model}
 \usage{
-\method{summary}{ssvs}(
-  object,
-  interval = 0.95,
-  cutoff = 0,
-  order = c("As entered", "MIP Descending"),
-  ...
-)
+\method{summary}{ssvs}(object, interval = 0.95, cutoff = 0, ordered = FALSE, ...)
 }
 \arguments{
-\item{object}{The result list from running the SSVS function}
+\item{object}{An SSVS result object obtained from the \code{\link[=SSVS]{SSVS()}} function}
 
 \item{interval}{The desired probability for the credible interval, specified as a decimal}
 
 \item{cutoff}{Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal}
 
-\item{order}{The order that predictors will be shown in the output.}
+\item{ordered}{If \code{TRUE}, order the results based on MIP (in descending order)}
 
-\item{...}{Ignored
-Default is the order they are run in SSVS function}
+\item{...}{Ignored}
 }
 \value{
-Returns a dataframe with results
+A dataframe with results
 }
 \description{
-Function to summarize results from SSVS including marginal inclusion probabilities,
+Summarize results from SSVS including marginal inclusion probabilities,
 Bayesian model averaged parameter estimates, and
 95\% highest posterior density credible intervals
 }
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
-summary(results, interval=.9,order="MIP Descending" )
+results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+summary(results, interval = 0.9, ordered = TRUE)
 }

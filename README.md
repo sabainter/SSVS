@@ -47,7 +47,7 @@ function. This will display both the MIP for each predictor, as well as
 the probable range of values for each coefficient.
 
 ``` r
-summary_results <- summary(results, interval=.9, order="MIP Descending")
+summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 ```
 
 | Variable |  MIP   | Avg Beta | Lower CI (90%) | Upper CI (90%) | Avg Nonzero Beta |

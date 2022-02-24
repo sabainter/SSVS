@@ -1,31 +1,23 @@
-#' SSVS summary function
+#' Summarize results of an SSVS model
 #'
-#' Function to summarize results from SSVS including marginal inclusion probabilities,
+#' Summarize results from SSVS including marginal inclusion probabilities,
 #' Bayesian model averaged parameter estimates, and
 #' 95% highest posterior density credible intervals
 #'
-#'
-#' @param object The result list from running the SSVS function
+#' @param object An SSVS result object obtained from the [`SSVS()`] function
 #' @param interval The desired probability for the credible interval, specified as a decimal
 #' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
-#' @param order The order that predictors will be shown in the output.
+#' @param ordered If `TRUE`, order the results based on MIP (in descending order)
 #' @param ... Ignored
-#' Default is the order they are run in SSVS function
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
-#' summary(results, interval=.9,order="MIP Descending" )
-#' @return Returns a dataframe with results
+#' results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' summary(results, interval = 0.9, ordered = TRUE)
+#' @return A dataframe with results
 #' @export
-#'
-#' @importFrom bayestestR ci
-#'
-#'
-
-
-
-summary.ssvs <- function(object,interval=0.95,cutoff=0,order=c("As entered","MIP Descending"), ...){
+summary.ssvs <- function(object, interval = 0.95, cutoff = 0,
+                         ordered = FALSE, ...){
   assert_ssvs(object)
 
   # Get MIP for each variable
@@ -59,24 +51,27 @@ summary.ssvs <- function(object,interval=0.95,cutoff=0,order=c("As entered","MIP
 
   res <- matrix(nrow=ncol(object$beta),ncol=6)
 
-  colnames(res) <- c('Variable', 'MIP', 'Avg Beta',paste0('Lower CI (',interval*100,'%)'),paste0('Upper CI (',interval*100,'%)'), 'Avg Nonzero Beta')
+  colnames(res) <- c('Variable', 'MIP', 'Avg Beta',
+                     paste0('Lower CI (', interval * 100, '%)'),
+                     paste0('Upper CI (', interval * 100, '%)'),
+                     'Avg Nonzero Beta')
 
-  res[,1] <- colnames(object$beta)
-  res[,2] <- inc_prob[,1]
-  res[,3] <- average.beta
-  res[,4] <- lower.credibility
-  res[,5] <- upper.credibility
-  res[,6] <- average.nonzero.beta
+  res[, 1] <- colnames(object$beta)
+  res[, 2] <- inc_prob[, 1]
+  res[, 3] <- average.beta
+  res[, 4] <- lower.credibility
+  res[, 5] <- upper.credibility
+  res[, 6] <- average.nonzero.beta
   res <- as.data.frame(res)
 
-  res[,2:6] <- apply(res[,2:6],2, function(x) as.numeric(x))
+  res[, 2:6] <- apply(res[, 2:6], 2, function(x) as.numeric(x))
 
 
-  if ((length(order)==1)&&(order=="MIP Descending")){
-    res <- res[order(-res$MIP),]
+  if (ordered){
+    res <- res[order(-res$MIP), ]
   }
 
 
-  res <- res[res$MIP>cutoff,]
-  print.data.frame(res,right=F, row.names=F)
+  res <- res[res$MIP > cutoff, ]
+  print.data.frame(res, right = FALSE, row.names = FALSE)
 }

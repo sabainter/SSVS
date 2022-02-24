@@ -56,7 +56,7 @@ The results can be summarized and printed using the `summary()` function. This w
 for each predictor, as well as the probable range of values for each coefficient.
 
 ```{r summary, echo=TRUE, results='hide'}
-summary_results <- summary(results, interval=.9, order="MIP Descending")
+summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 ```
 
 
