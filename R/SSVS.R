@@ -33,25 +33,28 @@
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
-#' @return An `SSVS` object that can be used in
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' @return An SSVS object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
-SSVS <- function(data, x, y, continuous = TRUE,
+ssvs <- function(data, x, y, continuous = TRUE,
                  inprob = 0.5, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, plot = TRUE) {
   if (continuous) {
-    ssvs_continuous(
+    ssvs <- ssvs_continuous(
       data = data, x = x, y = y,
       inprob = inprob, runs = runs, burn = burn,
       a1 = a1, b1 = b1, prec.beta = prec.beta, plot = plot
     )
   } else {
-    ssvs_binary(
+    ssvs <- ssvs_binary(
       data = data, x = x, y = y,
       inprob = inprob, runs = runs, burn = burn
     )
   }
+
+  class(ssvs) <- c("ssvs", class(ssvs))
+  ssvs
 }
 
 ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, plot) {
@@ -135,8 +138,6 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
     pred = keep.yp[burn:runs, ]
   )
 
-  class(result) <- c("ssvs", class(result))
-
   result
 }
 
@@ -180,8 +181,6 @@ ssvs_binary <- function(data, x, y, inprob, runs, burn) {
   bssResults[["beta"]] <- as.data.frame(bssResults[["beta"]][-c(1:burn),-1])
 
   colnames(bssResults[["beta"]]) <- colnames(x)
-
-  class(bssResults) <- c("ssvs", class(bssResults))
 
   bssResults
 }

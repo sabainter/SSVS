@@ -4,7 +4,7 @@
 #' Bayesian model averaged parameter estimates, and
 #' 95% highest posterior density credible intervals
 #'
-#' @param object An SSVS result object obtained from the [`SSVS()`] function
+#' @param object An SSVS result object obtained from [`ssvs()`]
 #' @param interval The desired probability for the credible interval, specified as a decimal
 #' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
 #' @param ordered If `TRUE`, order the results based on MIP (in descending order)
@@ -12,7 +12,7 @@
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 #' summary(results, interval = 0.9, ordered = TRUE)
 #' @return A dataframe with results
 #' @export

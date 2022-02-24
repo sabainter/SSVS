@@ -1,13 +1,13 @@
-#' SSVS plot function
+#' Plot results of an SSVS model
 #'
-#' @param x The result list from running the SSVS function
+#' @param x An SSVS result object obtained from [`ssvs()`]
 #' @param y The name of the dependent variable
 #' @param MIP_threshold An MIP threshold to show on the plot
 #' @param ... Ignored
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+#' results <- ssvs(x = predictors, y = outcome, data = mtcars, plot = FALSE)
 #' plot(results, outcome)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export

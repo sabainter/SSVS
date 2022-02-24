@@ -31,7 +31,7 @@ remotes::install_github("sabainter/SSVSforPsych")
 
 Consider a simple example using SSVS on the mtcars dataset to predict
 quarter mile times. We first specify our response variable (qsec), then
-choose our predictors and run the SSVS function.
+choose our predictors and run the `ssvs()` function.
 
 ``` r
 library(SSVSforPsych)
@@ -39,7 +39,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`

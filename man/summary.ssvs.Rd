@@ -7,7 +7,7 @@
 \method{summary}{ssvs}(object, interval = 0.95, cutoff = 0, ordered = FALSE, ...)
 }
 \arguments{
-\item{object}{An SSVS result object obtained from the \code{\link[=SSVS]{SSVS()}} function}
+\item{object}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
 
 \item{interval}{The desired probability for the credible interval, specified as a decimal}
 
@@ -28,6 +28,6 @@ Bayesian model averaged parameter estimates, and
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- SSVS(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
 summary(results, interval = 0.9, ordered = TRUE)
 }

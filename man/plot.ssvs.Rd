@@ -2,12 +2,12 @@
 % Please edit documentation in R/plot.R
 \name{plot.ssvs}
 \alias{plot.ssvs}
-\title{SSVS plot function}
+\title{Plot results of an SSVS model}
 \usage{
 \method{plot}{ssvs}(x, y, MIP_threshold = 0.5, ...)
 }
 \arguments{
-\item{x}{The result list from running the SSVS function}
+\item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
 
 \item{y}{The name of the dependent variable}
 
@@ -19,11 +19,11 @@
 Creates a plot of the inclusion probabilities by variable
 }
 \description{
-SSVS plot function
+Plot results of an SSVS model
 }
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- SSVS(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+results <- ssvs(x = predictors, y = outcome, data = mtcars, plot = FALSE)
 plot(results, outcome)
 }
