@@ -1,7 +1,6 @@
 Package: SSVSforPsych
-Type: Package
-Title: Functions for stochastic search variable selection (SSVS)
-Version: 0.1.0
+Title: Functions for Stochastic Search Variable Selection (SSVS)
+Version: 0.1.0.9000
 Authors@R: c(person(given="Sierra",
          family="Bainter",
          role=c("aut"),
@@ -13,27 +12,35 @@ Authors@R: c(person(given="Sierra",
   person(given="Mahmoud",
          family="Fahmy",
          role=c("cre","aut"),
-         email="mahmoud.m.fahm@gmail.com"))
+         email="mahmoud.m.fahm@gmail.com"),
+  person("Dean", "Attali", 
+         role = "aut",
+         email = "daattali@gmail.com", 
+         comment= c(ORCID="0000-0002-5645-3493")))
 Description: Functions for performing stochastic search variable selection (SSVS) 
     for binary and continuous outcomes and visualizing the results. 
     SSVS is a Bayesian variable selection method used to estimate the probability 
-    that individual predictors should be included in the regression model. 
+    that individual predictors should be included in a regression model. 
     Using MCMC estimation, the method samples thousands of regression models 
     in order to characterize the model uncertainty regarding both the predictor 
     set and the regression parameters. 
-License: GPL-3
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.2
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
+URL: https://github.com/sabainter/SSVSforPsych
+BugReports: https://github.com/sabainter/SSVSforPsych/issues
+Depends: 
+    R (>= 2.10)
 Imports: 
     stats,
     graphics,
     bayestestR,
     ggplot2,
     BoomSpikeSlab
-Depends: 
-    R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Roxygen: list(markdown = TRUE)
+
+
