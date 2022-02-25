@@ -4,14 +4,14 @@
 \alias{summary.ssvs}
 \title{Summarize results of an SSVS model}
 \usage{
-\method{summary}{ssvs}(object, interval = 0.95, cutoff = 0, ordered = FALSE, ...)
+\method{summary}{ssvs}(object, interval = 0.95, threshold = 0, ordered = FALSE, ...)
 }
 \arguments{
 \item{object}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
 
 \item{interval}{The desired probability for the credible interval, specified as a decimal}
 
-\item{cutoff}{Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal}
+\item{threshold}{Minimum MIP threshold where a predictor will be shown in the output, specified as a decimal}
 
 \item{ordered}{If \code{TRUE}, order the results based on MIP (in descending order)}
 

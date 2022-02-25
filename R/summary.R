@@ -6,7 +6,7 @@
 #'
 #' @param object An SSVS result object obtained from [`ssvs()`]
 #' @param interval The desired probability for the credible interval, specified as a decimal
-#' @param cutoff Minimum MIP cutoff where a predictor will be shown in the output, specified as a decimal
+#' @param threshold Minimum MIP threshold where a predictor will be shown in the output, specified as a decimal
 #' @param ordered If `TRUE`, order the results based on MIP (in descending order)
 #' @param ... Ignored
 #' @examples
@@ -16,11 +16,11 @@
 #' summary(results, interval = 0.9, ordered = TRUE)
 #' @return A dataframe with results
 #' @export
-summary.ssvs <- function(object, interval = 0.95, cutoff = 0,
+summary.ssvs <- function(object, interval = 0.95, threshold = 0,
                          ordered = FALSE, ...){
   assert_ssvs(object)
   checkmate::assert_number(interval)
-  checkmate::assert_number(cutoff)
+  checkmate::assert_number(threshold)
   checkmate::assert_logical(ordered, len = 1, any.missing = FALSE)
 
   # Get MIP for each variable
@@ -75,6 +75,6 @@ summary.ssvs <- function(object, interval = 0.95, cutoff = 0,
   }
 
 
-  res <- res[res$MIP > cutoff, ]
+  res <- res[res$MIP > threshold, ]
   print.data.frame(res, right = FALSE, row.names = FALSE)
 }
