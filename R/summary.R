@@ -19,8 +19,8 @@
 summary.ssvs <- function(object, interval = 0.95, threshold = 0,
                          ordered = FALSE, ...){
   assert_ssvs(object)
-  checkmate::assert_number(interval)
-  checkmate::assert_number(threshold)
+  checkmate::assert_number(interval, lower = 0, upper = 1)
+  checkmate::assert_number(threshold, lower = 0, upper = 1)
   checkmate::assert_logical(ordered, len = 1, any.missing = FALSE)
 
   # Get MIP for each variable
