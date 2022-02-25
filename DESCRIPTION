@@ -24,8 +24,8 @@ Description: Functions for performing stochastic search variable selection (SSVS
     Using MCMC estimation, the method samples thousands of regression models 
     in order to characterize the model uncertainty regarding both the predictor 
     set and the regression parameters. 
-URL: https://github.com/sabainter/SSVSforPsych
-BugReports: https://github.com/sabainter/SSVSforPsych/issues
+URL: https://github.com/sabainter/SSVS
+BugReports: https://github.com/sabainter/SSVS/issues
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -44,5 +44,3 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
-
-

@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/sabainter/SSVSforPsych/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVSforPsych/actions)
+[![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
 <!-- badges: end -->
 
 The goal of {SSVS} is to provide functions for performing stochastic
@@ -24,7 +24,7 @@ You can install the development version of {SSVS} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVSforPsych")
+remotes::install_github("sabainter/SSVS")
 ```
 
 ## Example
