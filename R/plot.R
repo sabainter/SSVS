@@ -28,8 +28,7 @@ plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
   #Recreate a dataframe of the results
   plotDF <- as.data.frame(apply(x$beta!=0,2,mean))
   plotDF$var <- rownames(plotDF)
-  plotDF$DV <- as.character(y)
-  names(plotDF) <- c("Inclusion_probability","Variable_name","Dependent_variable")
+  names(plotDF) <- c("Inclusion_probability","Variable_name")
   plotDF <- plotDF[order(-plotDF$Inclusion_probability),]
 
   if (is.null(threshold)) {
