@@ -43,7 +43,7 @@ plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
     ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variable_name"]], -.data[["Inclusion_probability"]]),
                                      y = .data[["Inclusion_probability"]],
                                      shape = .data[["threshold"]]),
-                        size = 2, fill = "black") +
+                        size = 2) +
     ggplot2::labs(y = "Inclusion Probability",
                   x = "Predictor variables",
                   title = title) +
@@ -54,11 +54,7 @@ plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
                    panel.spacing = ggplot2::unit(0, "lines"),
                    strip.background = ggplot2::element_blank(),
                    strip.placement = "outside") +
-    ggplot2::guides(shape = FALSE) +
-    ggplot2::scale_shape_manual(
-      breaks = c(0, paste0('< ', threshold), paste0('> ', threshold)),
-      values = c(19, 25, 24)
-    )
+    ggplot2::guides(shape = FALSE)
 
   if (!is.null(threshold)) {
     plt <- plt +
