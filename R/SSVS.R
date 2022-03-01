@@ -46,8 +46,8 @@ ssvs <- function(data, x, y, continuous = TRUE,
   checkmate::assert_subset(c(x, y), names(data))
   checkmate::assert_logical(continuous, len = 1, any.missing = FALSE)
   checkmate::assert_number(inprob, lower = 0, upper = 1)
-  checkmate::assert_integer(burn, lower = 1, len = 1, any.missing = FALSE)
-  checkmate::assert_integer(runs, lower = burn + 1, len = 1, any.missing = FALSE)
+  checkmate::assert_integerish(burn, lower = 1, len = 1, any.missing = FALSE)
+  checkmate::assert_integerish(runs, lower = burn + 1, len = 1, any.missing = FALSE)
   checkmate::assert_number(a1, lower = 0)
   checkmate::assert_false(a1 == 0)
   checkmate::assert_number(b1, lower = 0)
@@ -190,8 +190,7 @@ ssvs_binary <- function(data, x, y, inprob, runs, burn) {
 
 
   ## logit.spike()
-  bssResults <- BoomSpikeSlab::logit.spike(formula = as.matrix(y) ~
-                                             as.matrix(x),
+  bssResults <- BoomSpikeSlab::logit.spike(formula = as.matrix(y) ~ as.matrix(x),
                                            niter = runs,
                                            prior = myPrior)
   bssResults[["beta"]] <- as.data.frame(bssResults[["beta"]][-c(1:burn),-1])
