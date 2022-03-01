@@ -15,7 +15,7 @@ ssvs(
   a1 = 0.01,
   b1 = 0.01,
   prec.beta = 0.1,
-  plot = TRUE
+  progress = TRUE
 )
 }
 \arguments{
@@ -54,7 +54,9 @@ residual variance. Only used when \code{continuous = TRUE}.}
 \item{prec.beta}{Prior precision (1/variance) for beta coefficients.
 Only used when \code{continuous = TRUE}.}
 
-\item{plot}{If \code{TRUE}, progress plots will be created for every 1000 iterations.
+\item{progress}{If \code{TRUE}, show progress of the model creation. When \code{continuous = TRUE},
+progress plots will be created for every 1000 iterations. When \code{continuous = FALSE},
+10 progress messages will be printed.
 Only used when \code{continuous = TRUE}.}
 }
 \value{
@@ -68,5 +70,5 @@ outcomes, \code{\link[BoomSpikeSlab:logit.spike]{BoomSpikeSlab::logit.spike()}} 
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
 }

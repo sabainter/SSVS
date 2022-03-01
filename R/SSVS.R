@@ -28,18 +28,20 @@
 #' residual variance. Only used when `continuous = TRUE`.
 #' @param prec.beta Prior precision (1/variance) for beta coefficients.
 #' Only used when `continuous = TRUE`.
-#' @param plot If `TRUE`, progress plots will be created for every 1000 iterations.
+#' @param progress If `TRUE`, show progress of the model creation. When `continuous = TRUE`,
+#' progress plots will be created for every 1000 iterations. When `continuous = FALSE`,
+#' 10 progress messages will be printed.
 #' Only used when `continuous = TRUE`.
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
 #' @return An SSVS object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
 ssvs <- function(data, x, y, continuous = TRUE,
                  inprob = 0.5, runs = 20000, burn = 5000,
-                 a1 = 0.01, b1 = 0.01, prec.beta = 0.1, plot = TRUE) {
+                 a1 = 0.01, b1 = 0.01, prec.beta = 0.1, progress = TRUE) {
   checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
   checkmate::assert_character(x, any.missing = FALSE, min.len = 1)
   checkmate::assert_character(y, any.missing = FALSE, len = 1)
@@ -54,18 +56,18 @@ ssvs <- function(data, x, y, continuous = TRUE,
   checkmate::assert_false(b1 == 0)
   checkmate::assert_number(prec.beta, lower = 0)
   checkmate::assert_false(prec.beta == 0)
-  checkmate::assert_logical(plot, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
 
   if (continuous) {
     ssvs <- ssvs_continuous(
       data = data, x = x, y = y,
       inprob = inprob, runs = runs, burn = burn,
-      a1 = a1, b1 = b1, prec.beta = prec.beta, plot = plot
+      a1 = a1, b1 = b1, prec.beta = prec.beta, progress = progress
     )
   } else {
     ssvs <- ssvs_binary(
       data = data, x = x, y = y,
-      inprob = inprob, runs = runs, burn = burn
+      inprob = inprob, runs = runs, burn = burn, progress = progress
     )
   }
 
@@ -73,7 +75,7 @@ ssvs <- function(data, x, y, continuous = TRUE,
   ssvs
 }
 
-ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, plot) {
+ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, progress) {
   y <- data[, y]
   x <- data[, x]
 
@@ -141,7 +143,7 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
     keep.taue[i] <- taue
     keep.yp[i, ] <- yp
 
-    if ((i %% 1000 == 0) & (plot == T)) {
+    if ((i %% 1000 == 0) & (progress == TRUE)) {
       plot(beta, main = paste("Iteration", i))
       graphics::abline(0, 0)
     }
@@ -157,7 +159,7 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
   result
 }
 
-ssvs_binary <- function(data, x, y, inprob, runs, burn) {
+ssvs_binary <- function(data, x, y, inprob, runs, burn, progress) {
   # Automatically convert any two-level factors to binary variables
   for (i in 1:ncol(data[,x])){
     if (length(levels(data[,i]))==2){
@@ -190,9 +192,15 @@ ssvs_binary <- function(data, x, y, inprob, runs, burn) {
 
 
   ## logit.spike()
+  if (progress) {
+    ping <- runs / 10
+  } else {
+    ping <- 0
+  }
   bssResults <- BoomSpikeSlab::logit.spike(formula = as.matrix(y) ~ as.matrix(x),
                                            niter = runs,
-                                           prior = myPrior)
+                                           prior = myPrior,
+                                           ping = ping)
   bssResults[["beta"]] <- as.data.frame(bssResults[["beta"]][-c(1:burn),-1])
 
   colnames(bssResults[["beta"]]) <- colnames(x)
