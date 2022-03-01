@@ -12,7 +12,7 @@
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- ssvs(data = mtcars, x = predictors, y = outcome, plot = FALSE)
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
 #' summary(results, interval = 0.9, ordered = TRUE)
 #' @return A dataframe with results
 #' @export

@@ -37,6 +37,6 @@ Plot results of an SSVS model
 \examples{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- ssvs(x = predictors, y = outcome, data = mtcars, plot = FALSE)
+results <- ssvs(x = predictors, y = outcome, data = mtcars, progress = FALSE)
 plot(results, outcome)
 }
