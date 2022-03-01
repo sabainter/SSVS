@@ -1,31 +1,28 @@
 #' Plot results of an SSVS model
 #'
 #' @param x An SSVS result object obtained from [`ssvs()`]
-#' @param y The name of the dependent variable
 #' @param threshold An MIP threshold to show on the plot, must be between 0-1.
 #' If `NULL`, no threshold is used.
 #' @param legend If `TRUE`, show a legend for the shapes based on the threshold.
 #' Ignored if `threshold = NULL`.
-#' @param title The title of the plot
+#' @param title The title of the plot. Set to `NULL` to use a default title.
 #' @param ... Ignored
 #' @examples
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 #' results <- ssvs(x = predictors, y = outcome, data = mtcars, progress = FALSE)
-#' plot(results, outcome)
+#' plot(results)
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #' @importFrom rlang .data
-plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
-                      title = paste("Inclusion Probability for", y),
+plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL,
                       ...) {
   assert_ssvs(x)
-  checkmate::assert_string(y)
   checkmate::assert_number(threshold, lower = 0, upper = 1)
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
-  checkmate::assert_string(title)
+  checkmate::assert_string(title, null.ok = TRUE)
 
-  #Recreate a dataframe of the results
+  # Recreate a dataframe of the results
   plotDF <- as.data.frame(apply(x$beta!=0,2,mean))
   plotDF$var <- rownames(plotDF)
   names(plotDF) <- c("Inclusion_probability","Variable_name")
@@ -37,6 +34,10 @@ plot.ssvs <- function(x, y, threshold = 0.5, legend = TRUE,
     plotDF$threshold <- ifelse(plotDF$Inclusion_probability > threshold, 1, 0)
     plotDF$threshold <- factor(plotDF$threshold, levels = c(0, 1))
     levels(plotDF$threshold) <- c(paste0('< ', threshold), paste0('> ', threshold))
+  }
+
+  if (is.null(title)) {
+    title <- paste("Inclusion Probability for", attr(x, "response"))
   }
 
   plt <- ggplot2::ggplot(data = plotDF) +

@@ -83,6 +83,7 @@ ssvs <- function(data, x, y, continuous = TRUE,
   }
 
   class(ssvs) <- c("ssvs", class(ssvs))
+  attr(ssvs, "response") <- y
   ssvs
 }
 

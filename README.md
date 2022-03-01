@@ -67,7 +67,7 @@ The MIPs for each predictor can then be visualized using the `plot()`
 function.
 
 ``` r
-plot(results, 'qsec')
+plot(results)
 ```
 
 <img src="man/figures/README-plot-1.png" width="100%" />

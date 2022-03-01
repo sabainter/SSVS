@@ -4,19 +4,10 @@
 \alias{plot.ssvs}
 \title{Plot results of an SSVS model}
 \usage{
-\method{plot}{ssvs}(
-  x,
-  y,
-  threshold = 0.5,
-  legend = TRUE,
-  title = paste("Inclusion Probability for", y),
-  ...
-)
+\method{plot}{ssvs}(x, threshold = 0.5, legend = TRUE, title = NULL, ...)
 }
 \arguments{
 \item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
-
-\item{y}{The name of the dependent variable}
 
 \item{threshold}{An MIP threshold to show on the plot, must be between 0-1.
 If \code{NULL}, no threshold is used.}
@@ -24,7 +15,7 @@ If \code{NULL}, no threshold is used.}
 \item{legend}{If \code{TRUE}, show a legend for the shapes based on the threshold.
 Ignored if \code{threshold = NULL}.}
 
-\item{title}{The title of the plot}
+\item{title}{The title of the plot. Set to \code{NULL} to use a default title.}
 
 \item{...}{Ignored}
 }
@@ -38,5 +29,5 @@ Plot results of an SSVS model
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 results <- ssvs(x = predictors, y = outcome, data = mtcars, progress = FALSE)
-plot(results, outcome)
+plot(results)
 }

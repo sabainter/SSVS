@@ -67,7 +67,7 @@ knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 The MIPs for each predictor can then be visualized using the `plot()` function.
 
 ```{r plot, echo =TRUE}
-plot(results, 'qsec')
+plot(results)
 ```
 
 
