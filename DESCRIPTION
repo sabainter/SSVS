@@ -37,6 +37,7 @@ Imports:
     rlang,
     stats
 Suggests: 
+    AER,
     knitr,
     rmarkdown
 License: GPL-3
