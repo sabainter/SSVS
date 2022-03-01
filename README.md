@@ -27,11 +27,11 @@ You can install the development version of {SSVS} from
 remotes::install_github("sabainter/SSVS")
 ```
 
-## Example
+## Example 1 - continuous response variable
 
-Consider a simple example using SSVS on the mtcars dataset to predict
-quarter mile times. We first specify our response variable (qsec), then
-choose our predictors and run the `ssvs()` function.
+Consider a simple example using SSVS on the `mtcars` dataset to predict
+quarter mile times. We first specify our response variable (“qsec”),
+then choose our predictors and run the `ssvs()` function.
 
 ``` r
 library(SSVS)
@@ -71,3 +71,54 @@ plot(results)
 ```
 
 <img src="man/figures/README-plot-1.png" width="100%" />
+
+## Example 2 - binary response variable
+
+In the example above, the response variable was a continuous variable.
+The same workflow can be used for binary variables by specifying
+`continuous = FALSE` to the `ssvs()` function.
+
+As an example, let’s create a binary variable:
+
+``` r
+library(AER)
+data(Affairs)
+Affairs$hadaffair[Affairs$affairs > 0] <- 1
+Affairs$hadaffair[Affairs$affairs == 0] <- 0
+```
+
+Then define the outcome and predictors.
+
+``` r
+outcome <- "hadaffair"
+predictors <- c("gender", "age", "yearsmarried", "children", "religiousness", "education", "occupation", "rating")
+```
+
+And finally run the model:
+
+``` r
+results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+```
+
+Now the results can be summarized or visualized in the same manner.
+
+``` r
+summary_results <- summary(results, interval = 0.9, ordered = TRUE)
+```
+
+| Variable      |  MIP   | Avg Beta | Lower CI (90%) | Upper CI (90%) | Avg Nonzero Beta |
+|:--------------|:------:|:--------:|:--------------:|:--------------:|:----------------:|
+| rating        | 0.9993 | -0.5553  |    -0.7173     |    -0.4027     |     -0.5557      |
+| religiousness | 0.4024 | -0.1332  |    -0.4032     |     0.0000     |     -0.3309      |
+| children      | 0.0955 |  0.0268  |     0.0000     |     0.0000     |      0.2804      |
+| yearsmarried  | 0.0899 |  0.0272  |     0.0000     |     0.0000     |      0.3020      |
+| gender        | 0.0075 |  0.0008  |     0.0000     |     0.0000     |      0.1092      |
+| occupation    | 0.0063 |  0.0006  |     0.0000     |     0.0000     |      0.0986      |
+| age           | 0.0058 | -0.0007  |     0.0000     |     0.0000     |     -0.1202      |
+| education     | 0.0041 |  0.0004  |     0.0000     |     0.0000     |      0.1011      |
+
+``` r
+plot(results)
+```
+
+<img src="man/figures/README-binary-plot-1.png" width="100%" />

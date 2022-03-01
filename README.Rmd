@@ -37,10 +37,10 @@ You can install the development version of {SSVS} from [GitHub](https://github.c
 # install.packages("remotes")
 remotes::install_github("sabainter/SSVS")
 ```
-## Example
+## Example 1 - continuous response variable 
 
-Consider a simple example using SSVS on the mtcars dataset to predict quarter mile times. We first specify
-our response variable (qsec), then choose our predictors and run the `ssvs()` function.
+Consider a simple example using SSVS on the `mtcars` dataset to predict quarter mile times. We first specify
+our response variable ("qsec"), then choose our predictors and run the `ssvs()` function.
 
 ```{r ssvs, echo=TRUE, results='hide'}
 library(SSVS)
@@ -70,4 +70,42 @@ The MIPs for each predictor can then be visualized using the `plot()` function.
 plot(results)
 ```
 
+## Example 2 - binary response variable 
 
+In the example above, the response variable was a continuous variable. The same workflow can be used for binary variables by specifying `continuous = FALSE` to the `ssvs()` function.
+
+As an example, let's create a binary variable:
+
+```{r binary-data, echo=TRUE, results='hide', message=FALSE}
+library(AER)
+data(Affairs)
+Affairs$hadaffair[Affairs$affairs > 0] <- 1
+Affairs$hadaffair[Affairs$affairs == 0] <- 0
+```
+
+Then define the outcome and predictors.
+
+```{r binary-vars, echo=TRUE}
+outcome <- "hadaffair"
+predictors <- c("gender", "age", "yearsmarried", "children", "religiousness", "education", "occupation", "rating")
+```
+
+And finally run the model:
+
+```{r binary-run, echo=TRUE, message=FALSE}
+results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+```
+
+Now the results can be summarized or visualized in the same manner.
+
+```{r binary-results, results='hide'}
+summary_results <- summary(results, interval = 0.9, ordered = TRUE)
+```
+
+```{r binary-table, echo=FALSE}
+knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
+```
+
+```{r binary-plot, echo =TRUE}
+plot(results)
+```
