@@ -18,7 +18,7 @@
 plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL,
                       ...) {
   assert_ssvs(x)
-  checkmate::assert_number(threshold, lower = 0, upper = 1)
+  checkmate::assert_number(threshold, lower = 0, upper = 1, null.ok = TRUE)
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
   checkmate::assert_string(title, null.ok = TRUE)
 
