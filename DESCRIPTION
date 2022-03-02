@@ -3,7 +3,7 @@ Title: Functions for Stochastic Search Variable Selection (SSVS)
 Version: 0.1.0.9000
 Authors@R: c(person(given="Sierra",
          family="Bainter",
-         role=c("cre", aut"),
+         role=c("cre", "aut"),
          email="sbainter@miami.edu"),
   person(given="Thomas",
          family="McCauley",
