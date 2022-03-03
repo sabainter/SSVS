@@ -25,8 +25,4 @@ test_that("ssvs works", {
   set.seed(1000)
   results_simple <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
   expect_equal(results_simple, readRDS(system.file("testdata/results_simple.rds", package = "SSVS")))
-  set.seed(1000)
-  results_a1b1 <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE, a1 = 0.05, b1 = 0.05)
-  expect_equal(results_a1b1, readRDS(system.file("testdata/results_a1b1.rds", package = "SSVS")))
-  expect_false(isTRUE(all.equal(results_simple, results_a1b1)))
 })
