@@ -33,6 +33,7 @@
 #' 10 progress messages will be printed.
 #' Only used when `continuous = TRUE`.
 #' @examples
+#' \donttest{
 #' # Example 1: continuous response variable
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
@@ -47,6 +48,7 @@
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
 #' results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+#' }
 #' @return An SSVS object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export

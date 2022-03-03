@@ -26,8 +26,10 @@ Bayesian model averaged parameter estimates, and
 95\% highest posterior density credible intervals
 }
 \examples{
+\donttest{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
 summary(results, interval = 0.9, ordered = TRUE)
+}
 }

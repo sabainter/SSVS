@@ -68,6 +68,7 @@ For continuous outcomes, a basic Gibbs sampler is used. For binary
 outcomes, \code{\link[BoomSpikeSlab:logit.spike]{BoomSpikeSlab::logit.spike()}} is used.
 }
 \examples{
+\donttest{
 # Example 1: continuous response variable
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
@@ -82,4 +83,5 @@ outcome <- "hadaffair"
 predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 "education", "occupation", "rating")
 results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+}
 }

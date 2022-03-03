@@ -8,10 +8,12 @@
 #' @param title The title of the plot. Set to `NULL` to use a default title.
 #' @param ... Ignored
 #' @examples
+#' \donttest{
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 #' results <- ssvs(x = predictors, y = outcome, data = mtcars, progress = FALSE)
 #' plot(results)
+#' }
 #' @return Creates a plot of the inclusion probabilities by variable
 #' @export
 #' @importFrom rlang .data

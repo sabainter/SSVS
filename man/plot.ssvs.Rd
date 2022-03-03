@@ -26,8 +26,10 @@ Creates a plot of the inclusion probabilities by variable
 Plot results of an SSVS model
 }
 \examples{
+\donttest{
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 results <- ssvs(x = predictors, y = outcome, data = mtcars, progress = FALSE)
 plot(results)
+}
 }
