@@ -78,5 +78,13 @@ summary.ssvs <- function(object, interval = 0.95, threshold = 0,
 
 
   res <- res[res$MIP > threshold, ]
-  print.data.frame(res, right = FALSE, row.names = FALSE)
+  class(res) <- c("ssvs_summary", class(res))
+  res
+}
+
+#' Print the summary of an SSVS model
+#' @export
+#' @keywords internal
+print.ssvs_summary <- function(x, ...) {
+  print.data.frame(x, right = FALSE, row.names = FALSE)
 }
