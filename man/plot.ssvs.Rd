@@ -4,7 +4,7 @@
 \alias{plot.ssvs}
 \title{Plot results of an SSVS model}
 \usage{
-\method{plot}{ssvs}(x, threshold = 0.5, legend = TRUE, title = NULL, ...)
+\method{plot}{ssvs}(x, threshold = 0.5, legend = TRUE, title = NULL, color = TRUE, ...)
 }
 \arguments{
 \item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
@@ -16,6 +16,8 @@ If \code{NULL}, no threshold is used.}
 Ignored if \code{threshold = NULL}.}
 
 \item{title}{The title of the plot. Set to \code{NULL} to use a default title.}
+
+\item{color}{If \code{TRUE}, the data points will be colored based on the threshold.}
 
 \item{...}{Ignored}
 }
