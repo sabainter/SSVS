@@ -122,3 +122,9 @@ plot(results)
 ```
 
 <img src="man/figures/README-binary-plot-1.png" width="100%" />
+
+## Interactive version
+
+You can launch an interactive (shiny) web application that lets you run
+SSVS analyses without programming. Simply install this package and run
+`SSVS::launch()` in an R console.

@@ -3,5 +3,6 @@
 S3method(plot,ssvs)
 S3method(print,ssvs_summary)
 S3method(summary,ssvs)
+export(launch)
 export(ssvs)
 importFrom(rlang,.data)

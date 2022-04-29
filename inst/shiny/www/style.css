@@ -1,0 +1,123 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+h4, h5, h6, .form-group>label {
+  font-weight: 700;
+}
+
+#header {
+  background: #BBC2E2;
+  margin: 0 -15px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+#header h1, #header h2, #header h3 {
+  margin-top: 0;
+}
+
+#logo {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 1rem;
+  right: 0;
+}
+
+.message {
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #847979;
+  border-radius: .25rem;
+  color: #04195E;
+  background-color: #BBC2E2;
+}
+
+.help-icon {
+  background-color: #BBC2E2;
+  margin-left: 5px;
+  padding: 1px 6px;
+  border-radius: 50%;
+}
+
+.tooltip .tooltip-inner {
+  max-width: 400px;
+}
+
+.nav-item .nav-link {
+  color: #225C3E;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  border-top: 2px solid #04195E;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #04195E;
+  color: #FFFFFF;
+}
+
+.nav-pills .nav-link {
+  color: #04195E;
+}
+
+.progress-bar {
+  background-color: #04195E;
+}
+
+.irs--shiny .irs-bar {
+  border-top: 1px solid #04195E;
+  border-bottom: 1px solid #04195E;
+  background-color: #04195E;
+}
+
+.irs--shiny .irs-single {
+  background-color: #04195E;
+}
+
+.analysis-form {
+  padding: 0 1rem 1rem;
+  background: #fafafa;
+  margin-bottom: 2rem;
+  border: 1px solid #eee;
+}
+
+.dropdown .btn-light {
+  background: #ffffff;
+  border-color: #ced4da;
+}
+
+.dropdown .btn-light:focus {
+  border-color: #80bdff !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%) !important;
+}
+
+.btn.btn-success {
+  background-color: #225C3E;
+  color: #FFFFFF;
+}
+
+.tabbable {
+  position: relative;
+}
+
+.download-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@media (min-width: 576px) and (max-width: 1000px) {
+  .download-buttons {
+    position: inherit;
+    margin-top: 0.5rem;
+  }
+}
