@@ -2,7 +2,8 @@
 #'
 #' Summarize results from SSVS including marginal inclusion probabilities,
 #' Bayesian model averaged parameter estimates, and
-#' 95% highest posterior density credible intervals
+#' 95% highest posterior density credible intervals. Estimates and
+#' credible intervals are based on standardized X variables.
 #'
 #' @param object An SSVS result object obtained from [`ssvs()`]
 #' @param interval The desired probability for the credible interval, specified as a decimal
@@ -18,7 +19,7 @@
 #' }
 #' @return A dataframe with results
 #' @export
-summary.ssvs <- function(object, interval = 0.95, threshold = 0,
+summary.ssvs <- function(object, interval = 0.89, threshold = 0,
                          ordered = FALSE, ...){
   assert_ssvs(object)
   checkmate::assert_number(interval, lower = 0, upper = 1)
@@ -56,17 +57,16 @@ summary.ssvs <- function(object, interval = 0.95, threshold = 0,
 
   res <- matrix(nrow=ncol(object$beta),ncol=6)
 
-  colnames(res) <- c('Variable', 'MIP', 'Avg Beta',
+  colnames(res) <- c('Variable', 'MIP', 'Avg Beta','Avg Nonzero Beta',
                      paste0('Lower CI (', interval * 100, '%)'),
-                     paste0('Upper CI (', interval * 100, '%)'),
-                     'Avg Nonzero Beta')
+                     paste0('Upper CI (', interval * 100, '%)'))
 
   res[, 1] <- colnames(object$beta)
   res[, 2] <- inc_prob[, 1]
   res[, 3] <- average.beta
-  res[, 4] <- lower.credibility
-  res[, 5] <- upper.credibility
-  res[, 6] <- average.nonzero.beta
+  res[, 4] <- average.nonzero.beta
+  res[, 5] <- lower.credibility
+  res[, 6] <- upper.credibility
   res <- as.data.frame(res)
 
   res[, 2:6] <- apply(res[, 2:6], 2, function(x) as.numeric(x))

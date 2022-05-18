@@ -4,7 +4,7 @@
 \alias{summary.ssvs}
 \title{Summarize results of an SSVS model}
 \usage{
-\method{summary}{ssvs}(object, interval = 0.95, threshold = 0, ordered = FALSE, ...)
+\method{summary}{ssvs}(object, interval = 0.89, threshold = 0, ordered = FALSE, ...)
 }
 \arguments{
 \item{object}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
@@ -23,7 +23,8 @@ A dataframe with results
 \description{
 Summarize results from SSVS including marginal inclusion probabilities,
 Bayesian model averaged parameter estimates, and
-95\% highest posterior density credible intervals
+95\% highest posterior density credible intervals. Estimates and
+credible intervals are based on standardized X variables.
 }
 \examples{
 \donttest{

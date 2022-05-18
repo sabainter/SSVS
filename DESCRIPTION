@@ -23,7 +23,11 @@ Description: Functions for performing stochastic search variable selection (SSVS
     that individual predictors should be included in a regression model. 
     Using MCMC estimation, the method samples thousands of regression models 
     in order to characterize the model uncertainty regarding both the predictor 
-    set and the regression parameters. 
+    set and the regression parameters. For details see Bainter, McCauley, Wager, 
+    and Losin (2020) Improving practices for selecting a subset of important 
+    predictors in psychology: An application to predicting pain, Advances in 
+    Methods and Practices in Psychological Science 3(1), 66-80 
+    <DOI:10.1177/2515245919885617>.
 URL: https://github.com/sabainter/SSVS
 BugReports: https://github.com/sabainter/SSVS/issues
 Depends: 

@@ -4,8 +4,8 @@
 #' outcomes, [`BoomSpikeSlab::logit.spike()`] is used.
 #'
 #' @param data The dataframe used to extract predictors and response values
-#' @param x The set of predictor variables
 #' @param y The response variable
+#' @param x The set of predictor variables
 #' @param continuous If `TRUE`, treat the response variable as continuous. If
 #' `FALSE`, treat the response variable as binary.
 #' @param inprob Prior inclusion probability value, which applies to all predictors.
@@ -52,7 +52,7 @@
 #' @return An SSVS object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
-ssvs <- function(data, x, y, continuous = TRUE,
+ssvs <- function(data, y, x, continuous = TRUE,
                  inprob = 0.5, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, progress = TRUE) {
   checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
@@ -73,13 +73,13 @@ ssvs <- function(data, x, y, continuous = TRUE,
 
   if (continuous) {
     ssvs <- ssvs_continuous(
-      data = data, x = x, y = y,
+      data = data, y = y, x = x,
       inprob = inprob, runs = runs, burn = burn,
       a1 = a1, b1 = b1, prec.beta = prec.beta, progress = progress
     )
   } else {
     ssvs <- ssvs_binary(
-      data = data, x = x, y = y,
+      data = data, y = y, x = x,
       inprob = inprob, runs = runs, burn = burn, progress = progress
     )
   }
@@ -89,7 +89,7 @@ ssvs <- function(data, x, y, continuous = TRUE,
   ssvs
 }
 
-ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, progress) {
+ssvs_continuous <- function(data, y, x, inprob, runs, burn, a1, b1, prec.beta, progress) {
   y <- data[, y]
   x <- data[, x]
 
@@ -173,7 +173,7 @@ ssvs_continuous <- function(data, x, y, inprob, runs, burn, a1, b1, prec.beta, p
   result
 }
 
-ssvs_binary <- function(data, x, y, inprob, runs, burn, progress) {
+ssvs_binary <- function(data, y, x, inprob, runs, burn, progress) {
   # Automatically convert any two-level factors to binary variables
   for (i in 1:ncol(data[,x])){
     if (length(levels(data[,i]))==2){

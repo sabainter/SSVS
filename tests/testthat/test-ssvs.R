@@ -23,6 +23,6 @@ test_that("ssvs works", {
   outcome <- "qsec"
 
   set.seed(1000)
-  results_simple <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+  results_simple <- ssvs(data = mtcars, y = outcome, x = predictors, progress = FALSE)
   expect_equal(results_simple, readRDS(system.file("testdata/results_simple.rds", package = "SSVS")))
 })
