@@ -42,10 +42,21 @@ Imports:
     stats
 Suggests: 
     AER,
-    testthat (>= 3.0.0),
+    bslib,
+    foreign,
+    glue,
     knitr,
+    psych,
+    reactable,
+    readxl,
     rmarkdown,
-    shiny
+    scales,
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    testthat (>= 3.0.0),
+    tools,
+    utils
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
