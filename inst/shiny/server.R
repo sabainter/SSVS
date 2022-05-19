@@ -153,8 +153,8 @@ function(input, output, session) {
     result <- try(
       SSVS::ssvs(
         data_postclean(),
-        input$predictors,
-        input$dependent,
+        x = input$predictors,
+        y = input$dependent,
         progress = FALSE,
         continuous = continuous,
         inprob = input$prior,
@@ -233,8 +233,8 @@ function(input, output, session) {
       "predictors <- {paste(utils::capture.output(dput({input$predictors})), collapse = '')}\n",
       "result <- ssvs(",
       "data, ",
-      "predictors, ",
-      "response, ",
+      "x = predictors, ",
+      "y = response, ",
       "continuous = {as.character(input$logistic == 'continuous')}, ",
       "inprob = {input$prior}, ",
       "runs = {input$nruns}, ",
