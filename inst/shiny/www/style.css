@@ -8,6 +8,7 @@ h1, h2, h3 {
 
 h4, h5, h6, .form-group>label {
   font-weight: 700;
+  color: #04195E;
 }
 
 #header {
@@ -15,6 +16,7 @@ h4, h5, h6, .form-group>label {
   margin: 0 -15px;
   padding: 1.25rem;
   margin-bottom: 2rem;
+  color: #04195E;
 }
 
 #header h1, #header h2, #header h3 {
@@ -119,4 +121,8 @@ h4, h5, h6, .form-group>label {
     position: inherit;
     margin-top: 0.5rem;
   }
+}
+
+p, .shiny-text-output, .btn-default {
+  color: #04195E;
 }
