@@ -1,4 +1,4 @@
-# Unreleased version
+# SSVS 2.0.0 (2022-05-27)
 
 - BREAKING CHANGE: Swapped `x` and `y` parameters of `ssvs()`
 - BREAKING CHANGE: Changed default `interval` parameter of `summary()`
