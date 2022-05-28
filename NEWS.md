@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # SSVS 2.0.0 (2022-05-27)
+=======
+# SSVS 1.1.0 (2022-05-27)
+>>>>>>> a719bdae0ae01800280f71ae305369fafba4940d
 
 - BREAKING CHANGE: Swapped `x` and `y` parameters of `ssvs()`
 - BREAKING CHANGE: Changed default `interval` parameter of `summary()`
