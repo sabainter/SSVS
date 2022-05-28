@@ -1,10 +1,6 @@
 Package: SSVS
 Title: Functions for Stochastic Search Variable Selection (SSVS)
-<<<<<<< HEAD
 Version: 2.0.0
-=======
-Version: 1.1.0
->>>>>>> a719bdae0ae01800280f71ae305369fafba4940d
 Authors@R: c(person(given="Sierra",
          family="Bainter",
          role=c("cre", "aut"),
