@@ -20,15 +20,16 @@
 #' @importFrom rlang .data
 plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL, color = TRUE,
                       ...) {
+  # Basic checks and setup
   assert_ssvs(x)
   checkmate::assert_number(threshold, lower = 0, upper = 1, null.ok = TRUE)
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
   checkmate::assert_string(title, null.ok = TRUE)
 
-  # Recreate a dataframe of the results
-  plotDF <- as.data.frame(apply(x$beta!=0,2,mean))
+  # Data preparation
+  plotDF <- as.data.frame(apply(x$beta != 0, 2, mean))
   plotDF$var <- rownames(plotDF)
-  names(plotDF) <- c("Inclusion_probability","Variable_name")
+  names(plotDF) <- c("Inclusion_probability", "Variable_name")
   plotDF <- plotDF[order(-plotDF$Inclusion_probability),]
 
   if (is.null(threshold)) {
@@ -55,8 +56,8 @@ plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL, color = T
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
                         size = 2) +
-    ggplot2::labs(y = "Inclusion Probability",
-                  x = "Predictor variables",
+    ggplot2::labs(y = "Inclusion Probability", 
+                  x = "Predictor variables", 
                   title = title) +
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
     ggplot2::scale_color_manual(values = cols) +
@@ -65,18 +66,18 @@ plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL, color = T
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
                    panel.spacing = ggplot2::unit(0, "lines"),
                    strip.background = ggplot2::element_blank(),
-                   strip.placement = "outside") +
-    ggplot2::guides(shape = FALSE, color = FALSE)
+                   strip.placement = "outside")
 
   if (!is.null(threshold)) {
     plt <- plt +
-      ggplot2::labs(shape = "MIP threshold") +
+      ggplot2::labs(shape = "MIP threshold", color = "MIP threshold") +
       ggplot2::geom_hline(yintercept = threshold, linetype = 2)
     if (legend) {
-      plt <- plt + ggplot2::guides(shape = ggplot2::guide_legend())
+      plt <- plt + ggplot2::guides(shape = "legend", color = "legend")
+    } else {
+      plt <- plt + ggplot2::guides(shape = "none", color = "none")  # Correctly disable the legends using "none"
     }
   }
 
   plt
 }
-
