@@ -36,6 +36,7 @@ SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
   all_data <- NULL
 
   for (i in 1:imputations) {
+    final_results = data.frame(Variables = x)
     for (r in 1:replications) {
       temp <- data[data$.imp == i & data$r == r, c(x, y)]
       results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = TRUE, progress = FALSE)
