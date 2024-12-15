@@ -38,18 +38,19 @@ SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
   for (i in 1:imputations) {
     for (r in 1:replications) {
       temp <- data[data$.imp == i & data$r == r, c(x, y)]
-      results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = continuous, progress = progress)
+      results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = TRUE, progress = FALSE)
       summary_results <- summary(results, interval = interval, ordered = FALSE)
-      final_results <- merge(final_results, summary_results[, c("MIP", "Avg Beta")], by = 0, all = TRUE, sort = FALSE)[-1]
+      final_results = merge(final_results, summary_results[, c('MIP', 'Avg Beta', 'Avg Nonzero Beta')], by = 0, all = TRUE, sort = FALSE) [-1]
       names(final_results)[names(final_results) == "MIP"] <- paste(r, "MIP")
       names(final_results)[names(final_results) == "Avg Beta"] <- paste(r, "Avg Beta")
+      names(final_results)[names(final_results) == 'Avg Nonzero Beta'] <- paste(r,'Avg Nonzero Beta')
     }
     all_data <- rbind(all_data, final_results)
   }
 
   avg_imp <- all_data %>%
     dplyr::group_by(Variables) %>%
-    dplyr::summarise(across(everything(), mean, .names = "mean_{.col}"))
+    dplyr::summarise_all("mean")
 
   class(avg_imp) <- c("ssvs", class(avg_imp))
   attr(avg_imp, "response") <- y
