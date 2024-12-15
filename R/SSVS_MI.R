@@ -21,10 +21,10 @@
 #' VariableData <- read.csv("example.csv")
 #' outcome <- "yMCAR40"
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-#' results <- ssvs_imputed(data = VariableData, y = outcome, x = predictors)
+#' results <- SSVS_MI(data = VariableData, y = outcome, x = predictors)
 #' }
 #' @export
-ssvs_imputed <- function(data, y, x, imputations = 25, replications = 500,
+SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
                          interval = 0.9, continuous = TRUE, progress = FALSE) {
   checkmate::assert_data_frame(data, min.rows = 1)
   checkmate::assert_character(y, len = 1)
@@ -56,3 +56,4 @@ ssvs_imputed <- function(data, y, x, imputations = 25, replications = 500,
 
   avg_imp
 }
+
