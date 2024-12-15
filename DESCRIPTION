@@ -40,7 +40,8 @@ Imports:
     ggplot2,
     graphics,
     rlang,
-    stats
+    stats,
+    dplyr
 Suggests: 
     AER,
     bslib,
