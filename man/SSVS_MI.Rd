@@ -44,7 +44,7 @@ aggregated results across multiple imputations and replications.
 }
 \examples{
 \donttest{
-data(example_data.csv)
+data(example_data)
 outcome <- "yMCAR40"
 predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
 results <- SSVS_MI(data = example_data, y = outcome, x = predictors)
