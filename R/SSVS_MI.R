@@ -18,10 +18,10 @@
 #'   inclusion probabilities and average beta coefficients for each predictor.
 #' @examples
 #' \donttest{
-#' VariableData <- read.csv("example.csv")
+#' data(example_data.csv)
 #' outcome <- "yMCAR40"
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-#' results <- SSVS_MI(data = VariableData, y = outcome, x = predictors)
+#' results <- SSVS_MI(data = example_data, y = outcome, x = predictors)
 #' }
 #' @export
 SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
