@@ -39,7 +39,7 @@ SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
     final_results = data.frame(Variables = x)
     for (r in 1:replications) {
       temp <- data[data$.imp == i & data$r == r, c(x, y)]
-      results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = TRUE, progress = FALSE)
+      results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = continuous, progress = progress)
       summary_results <- summary(results, interval = interval, ordered = FALSE)
       final_results = merge(final_results, summary_results[, c('MIP', 'Avg Beta', 'Avg Nonzero Beta')], by = 0, all = TRUE, sort = FALSE) [-1]
       names(final_results)[names(final_results) == "MIP"] <- paste(r, "MIP")
