@@ -61,7 +61,7 @@ plot_ssvs_est <- function(data, ty=NA, pal=NA, Condition=NA, cond=TRUE, title=NU
 
   } else {
 
-  plt <- ggplot2::ggplot(data, aes(x = forcats::fct_inorder(Variables), y = avg.beta)) +
+  plt <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variables), y = avg.beta)) +
       ggplot2::geom_errorbar(
         ggplot2::aes(ymin = min, ymax = max),
         position = "dodge", width = 0.2
