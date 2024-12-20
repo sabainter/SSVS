@@ -36,6 +36,9 @@ plot_ssvs_est <- function(data, ty=NA, pal=NA, Condition=NA, cond=TRUE, title=NU
     if (sum(is.na(Condition))>0) {
       stop("please input `Condition`")
     }
+    if (!all(unique(Condition) %in% ty)) {
+      stop("Levels in `Condition` do not match `ty`. Please ensure they align.")
+    }
   }
 
   if (cond) {
