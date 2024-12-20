@@ -41,6 +41,7 @@ plot_ssvs_est <- function(data, ty=NA, pal=NA, Condition=NA, cond=TRUE, title=NU
   if (cond) {
 
   data$Condition = Condition
+  data$Condition = factor(data$Condition, levels=ty)
 
   plt <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variables), y = avg.beta)) +
     ggplot2::geom_errorbar(
