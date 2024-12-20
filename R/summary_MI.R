@@ -21,7 +21,7 @@ summary_MI <- function(data, x, cf_min = 0.025, cf_max = 0.975) {
   data <- data %>%
     as.data.frame() %>%
     dplyr::mutate(Variables = x) %>%
-    rowwise() %>%
+    dplyr::rowwise() %>%
     dplyr::mutate(
       avg.beta = mean(c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
       sd.beta = sd(c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
