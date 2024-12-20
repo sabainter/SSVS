@@ -110,6 +110,30 @@ knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 plot(results)
 ```
 
+## Example 3 - example for SSVS-MI analysis
+
+We will use a simple example stored in this package to do SSVS-MI analysis. We first need to specify outcome, predictors, imputations and replications, and then use `SSVS_MI()` function.
+
+```{r ssvs_MI, echo=TRUE, results='hide'}
+data(example_data)
+outcome <- "yMCAR40"
+predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
+results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
+```
+
+
+The result can be summarized by using `summary_MI()` function. This will display average estimates, standard deviation, and 95% confidence intervals for each coefficient.
+```{r summary, echo=TRUE}
+summary_stats <- summary_MI(results, x = predictors)
+print(summary_stats)
+```
+
+The estimates for each predictor can then be visualized using the `plot_MI()` function.
+```{r plot, echo =TRUE}
+plot_ssvs_est(summary_stats, cond=FALSE)
+```
+
+
 ## Interactive version
 
 You can launch an interactive (shiny) web application that lets you run SSVS analyses without programming. Simply install this package and run `SSVS::launch()` in an R console.
