@@ -23,10 +23,10 @@ summary_MI <- function(data, x, cf_min = 0.025, cf_max = 0.975) {
     dplyr::mutate(Variables = x) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      avg.beta = mean(c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
-      sd.beta = sd(c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
-      min = quantile(c_across(dplyr::contains("Avg.Beta")), probs = cf_min, na.rm = TRUE),
-      max = quantile(c_across(dplyr::contains("Avg.Beta")), probs = cf_max, na.rm = TRUE)
+      avg.beta = mean(dplyr::c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
+      sd.beta = sd(dplyr::c_across(dplyr::contains("Avg.Beta")), na.rm = TRUE),
+      min = quantile(dplyr::c_across(dplyr::contains("Avg.Beta")), probs = cf_min, na.rm = TRUE),
+      max = quantile(dplyr::c_across(dplyr::contains("Avg.Beta")), probs = cf_max, na.rm = TRUE)
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(Variables, avg.beta, sd.beta, min, max)
