@@ -1,12 +1,13 @@
-#' Example Data for SSVS Analysis
+#' Example Data for SSVS-MI Analysis
 #'
-#' A dataset with 30 rows and 8 variables used for demonstrating the
+#' A dataset with 45 rows and 9 variables used for demonstrating the
 #' `SSVS_MI` function.
 #'
-#' @format A data frame with 30 rows and 8 variables:
+#' @format A data frame with 45 rows and 9 variables:
 #' \describe{
 #'   \item{.imp}{Imputation identifier (1 to 3).}
-#'   \item{r}{Replication identifier (1 to 5).}
+#'   \item{.id}{ID identifier (1 to 5).}
+#'   \item{r}{Replication identifier (1 to 3).}
 #'   \item{yMCAR40}{Response variable.}
 #'   \item{xMCAR40_1}{Predictor variable 1.}
 #'   \item{xMCAR40_2}{Predictor variable 2.}
@@ -19,5 +20,5 @@
 #' data(example_data)
 #' outcome <- "yMCAR40"
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-#' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 5)
+#' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
 "example_data"

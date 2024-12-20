@@ -21,8 +21,8 @@ from an SSVS result object.
 data(example_data)
 outcome <- "yMCAR40"
 predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-results <- SSVS_MI(data = example_data, y = outcome, x = predictors)
-summary_stats <- ssvs_summary(results)
+results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
+summary_stats <- summary_MI(results)
 print(summary_stats)
 }
 }

@@ -21,7 +21,7 @@
 #' data(example_data)
 #' outcome <- "yMCAR40"
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-#' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 5)
+#' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
 #' }
 #' @export
 SSVS_MI <- function(data, y, x, imputations = 25, replications = 500,
