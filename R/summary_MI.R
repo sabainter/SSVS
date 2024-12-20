@@ -16,7 +16,7 @@
 #' }
 #' @export
 summary_MI <- function(data, x, cf_min = 0.025, cf_max = 0.975) {
-  assert_ssvs(x)
+  assert_ssvs(data)
 
   data <- data %>%
     as.data.frame() %>%
