@@ -27,13 +27,13 @@ plot_ssvs_est <- function(data, ty=NA, pal=NA, Condition=NA, cond=TRUE, title=NU
   }
 
   if (cond) {
-    if (is.na(ty)) {
+    if (is.na(ty)>0) {
       stop("please input `ty`")
     }
-    if (is.na(pal)) {
+    if (is.na(pal)>0) {
       stop("please input `pal`")
     }
-    if (is.na(Condition)) {
+    if (is.na(Condition)>0) {
       stop("please input `Condition`")
     }
   }
