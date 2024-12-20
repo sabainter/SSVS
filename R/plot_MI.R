@@ -14,10 +14,10 @@
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
 #' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
 #' summary_stats <- summary_MI(results)
-#' plot_ssvs_est(summary_stats)
+#' plot_ssvs_est(summary_stats, cond=FALSE)
 #' }
 #' @export
-plot_ssvs_est <- function(data, ty=NULL, pal=NULL, Condition=NULL, cond=TRUE, title=NULL) {
+plot_ssvs_est <- function(data, ty=NA, pal=NA, Condition=NA, cond=TRUE, title=NULL) {
   checkmate::assert_data_frame(data, min.cols = 5)
   checkmate::assert_character(ty, min.len = 1)
   checkmate::assert_character(pal, len = length(ty))
@@ -27,13 +27,13 @@ plot_ssvs_est <- function(data, ty=NULL, pal=NULL, Condition=NULL, cond=TRUE, ti
   }
 
   if (cond) {
-    if (is.null(ty)) {
+    if (is.na(ty)) {
       stop("please input `ty`")
     }
-    if (is.null(pal)) {
+    if (is.na(pal)) {
       stop("please input `pal`")
     }
-    if (is.null(Condition)) {
+    if (is.na(Condition)) {
       stop("please input `Condition`")
     }
   }

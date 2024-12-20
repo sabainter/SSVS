@@ -6,9 +6,9 @@
 \usage{
 plot_ssvs_est(
   data,
-  ty = NULL,
-  pal = NULL,
-  Condition = NULL,
+  ty = NA,
+  pal = NA,
+  Condition = NA,
   cond = TRUE,
   title = NULL
 )
@@ -34,6 +34,6 @@ outcome <- "yMCAR40"
 predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
 results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
 summary_stats <- summary_MI(results)
-plot_ssvs_est(summary_stats)
+plot_ssvs_est(summary_stats, cond=FALSE)
 }
 }
