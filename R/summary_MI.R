@@ -11,7 +11,7 @@
 #' outcome <- "yMCAR40"
 #' predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
 #' results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
-#' summary_stats <- summary_MI(results)
+#' summary_stats <- summary_MI(results, x = predictors)
 #' print(summary_stats)
 #' }
 #' @export
@@ -28,7 +28,7 @@ summary_MI <- function(data, x, cf_min = 0.025, cf_max = 0.975) {
       min = quantile(c_across(dplyr::contains("Avg.Beta")), probs = cf_min, na.rm = TRUE),
       max = quantile(c_across(dplyr::contains("Avg.Beta")), probs = cf_max, na.rm = TRUE)
     ) %>%
-    ungroup() %>%
+    dplyr::ungroup() %>%
     dplyr::select(Variables, avg.beta, sd.beta, min, max)
 
   class(data) <- c("ssvs_summary", class(data))
