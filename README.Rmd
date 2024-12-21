@@ -123,13 +123,13 @@ results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations
 
 
 The result can be summarized by using `summary_MI()` function. This will display average estimates, standard deviation, and 95% confidence intervals for each coefficient.
-```{r summary, echo=TRUE}
+```{r summary_MI, echo=TRUE}
 summary_stats <- summary_MI(results, x = predictors)
 print(summary_stats)
 ```
 
 The estimates for each predictor can then be visualized using the `plot_MI()` function.
-```{r plot, echo =TRUE}
+```{r plot_MI, echo =TRUE}
 plot_ssvs_est(summary_stats, cond=FALSE)
 ```
 
