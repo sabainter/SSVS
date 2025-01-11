@@ -2,10 +2,10 @@
 
 S3method(plot,ssvs)
 S3method(print,ssvs_summary)
+S3method(summary,est)
 S3method(summary,ssvs)
 export(launch)
 export(plot_ssvs_est)
 export(ssvs)
 export(ssvs_mi)
-export(summary_MI)
 importFrom(rlang,.data)

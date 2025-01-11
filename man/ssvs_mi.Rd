@@ -39,7 +39,7 @@ inclusion probabilities and average beta coefficients for each predictor.
 \description{
 This function performs Stochastic Search Variable Selection (SSVS) analysis on multiply imputed datasets
 for a given set of predictors and a response variable. It supports continuous response variables and calculates
-aggregated results across multiple imputations and replications.
+aggregated results across multiple imputations.
 }
 \examples{
 \donttest{
