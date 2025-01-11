@@ -41,9 +41,9 @@ ssvs_mi <- function(data, y, x, imp, imp_num = 5,
       results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = continuous, progress = progress)
       summary_results <- summary(results, interval = interval, ordered = FALSE)
       final_results <- merge(final_results, summary_results[, c('MIP', 'Avg Beta', 'Avg Nonzero Beta')], by = 0, all = TRUE, sort = FALSE) [-1]
-      names(final_results)[names(final_results) == "MIP"] <- paste(r, "MIP")
-      names(final_results)[names(final_results) == "Avg Beta"] <- paste(r, "Avg Beta")
-      names(final_results)[names(final_results) == 'Avg Nonzero Beta'] <- paste(r,'Avg Nonzero Beta')
+      names(final_results)[names(final_results) == "MIP"] <- paste(i, "MIP")
+      names(final_results)[names(final_results) == "Avg Beta"] <- paste(i, "Avg Beta")
+      names(final_results)[names(final_results) == 'Avg Nonzero Beta'] <- paste(i,'Avg Nonzero Beta')
   }
 
   class(final_results) <- c("ssvs", class(final_results))
