@@ -2,23 +2,26 @@
 % Please edit documentation in R/plot_MI.R
 \name{plot.est}
 \alias{plot.est}
-\title{Plot SSVS-MI Estimates with Confidence Intervals}
+\title{Plot SSVS-MI Estimates and Marginal Inclusion Probabilities (MIP)}
 \usage{
 \method{plot}{est}(data, title = NULL)
 }
 \arguments{
-\item{data}{A data frame containing the summary statistics for SSVS results. Must include columns
-\code{Variables}, \code{avg.beta}, \code{min}, and \code{max} with option \code{Condition}.}
+\item{data}{A data frame containing summary statistics for SSVS results. Must include columns:
+\describe{
+\item{Variables}{The predictor variables.}
+\item{avg.beta}{The average beta coefficients across imputations or replications.}
+\item{min}{The minimum beta coefficients.}
+\item{max}{The maximum beta coefficients.}
+}}
 
-\item{ty}{A character vector specifying the order of conditions in the plot.}
-
-\item{pal}{A character vector of colors corresponding to the conditions.}
+\item{title}{A character string specifying the plot title. Defaults to \code{"SSVS-MI estimates"}.}
 }
 \value{
-A \code{ggplot2} object representing the SSVS estimates plot.
+A \code{ggplot2} object representing the plot of SSVS estimates.
 }
 \description{
-This function creates a plot of SSVS-MI estimates with confidence intervals for multiple conditions.
+This function creates a plot of SSVS-MI estimates with minimum and maximum.
 }
 \examples{
 \donttest{
@@ -28,8 +31,6 @@ predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','m
 imputation <- '.imp'
 results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 summary_est <- summary.est(results)
-summary_mip <- summary.mip(results)
 plot.est(summary_est)
-plot.mip(summary_mip)
 }
 }

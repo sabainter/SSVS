@@ -1,12 +1,16 @@
-#' Plot SSVS-MI Estimates with Confidence Intervals
+#' Plot SSVS-MI Estimates and Marginal Inclusion Probabilities (MIP)
 #'
-#' This function creates a plot of SSVS-MI estimates with confidence intervals for multiple conditions.
+#' This function creates a plot of SSVS-MI estimates with minimum and maximum.
 #'
-#' @param data A data frame containing the summary statistics for SSVS results. Must include columns
-#'   `Variables`, `avg.beta`, `min`, and `max` with option `Condition`.
-#' @param ty A character vector specifying the order of conditions in the plot.
-#' @param pal A character vector of colors corresponding to the conditions.
-#' @return A `ggplot2` object representing the SSVS estimates plot.
+#' @param data A data frame containing summary statistics for SSVS results. Must include columns:
+#'   \describe{
+#'     \item{Variables}{The predictor variables.}
+#'     \item{avg.beta}{The average beta coefficients across imputations or replications.}
+#'     \item{min}{The minimum beta coefficients.}
+#'     \item{max}{The maximum beta coefficients.}
+#'   }
+#' @param title A character string specifying the plot title. Defaults to `"SSVS-MI estimates"`.
+#' @return A `ggplot2` object representing the plot of SSVS estimates.
 #' @examples
 #' \donttest{
 #' data(imputed_mtcars)
@@ -15,9 +19,7 @@
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 #' summary_est <- summary.est(results)
-#' summary_mip <- summary.mip(results)
 #' plot.est(summary_est)
-#' plot.mip(summary_mip)
 #' }
 #' @export
 plot.est <- function(data, title=NULL) {
@@ -44,6 +46,34 @@ plot.est <- function(data, title=NULL) {
   plt
 }
 
+
+#' Creates a plot for marginal inclusion probabilities (MIP) optional thresholds for highlighting significant predictors.
+#'
+#' @param data A data frame containing MIP summary statistics. Must include columns:
+#'   \describe{
+#'     \item{Variables}{The predictor variables.}
+#'     \item{avg.mip}{The average MIP values across imputations or replications.}
+#'     \item{min}{The minimum MIP values.}
+#'     \item{max}{The maximum MIP values.}
+#'   }
+#' @param threshold A numeric value (between 0 and 1) specifying the MIP threshold to highlight significant predictors.
+#'   Defaults to 0.5.
+#' @param legend Logical indicating whether to include a legend for the threshold. Defaults to `TRUE`.
+#' @param title A character string specifying the plot title. Defaults to `"Multiple Inclusion Probability for SSVS-MI"`.
+#' @param color Logical indicating whether to use color to highlight thresholds. Defaults to `TRUE`.
+#' @return A `ggplot2` object representing the plot of MIP with thresholds.
+#' @examples
+#' \donttest{
+#' # Example using imputed data
+#' data(imputed_mtcars)
+#' outcome <- "qsec"
+#' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
+#' imputation <- ".imp"
+#' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+#' summary_mip <- summary.mip(results)
+#' plot.mip(summary_mip)
+#' }
+#' @export
 plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color = TRUE) {
   checkmate::assert_data_frame(data, min.cols = 4)
   checkmate::assert_number(threshold, lower = 0, upper = 1, null.ok = TRUE)
@@ -61,7 +91,7 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
   }
 
   if (is.null(title)) {
-    title <- "Multiple Inclusion Probability for SSVS-MI"
+    title <- "Marginal Inclusion Probability for SSVS-MI"
   }
 
   if (color) {
@@ -76,13 +106,13 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
                         size = 2) +
-    ggplot2::geom_errorbar(aes(x = .data[["Variables"]],
+    ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variables"]],
                                y = .data[["avg.mip"]],
                                ymin = .data[["min"]],
                                ymax = .data[["max"]]),
                            width = .10,
                            position = "dodge") +
-    ggplot2::labs(y = "Multiple Inclusion Probability",
+    ggplot2::labs(y = "Marginal Inclusion Probability",
                   x = "Predictor variables",
                   title = title) +
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
