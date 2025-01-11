@@ -22,11 +22,14 @@ This function creates a plot of SSVS-MI estimates with confidence intervals for 
 }
 \examples{
 \donttest{
-data(example_data)
-outcome <- "yMCAR40"
-predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
-summary_stats <- summary_MI(results)
-plot_ssvs_est(summary_stats, cond=FALSE)
+data(imputed_mtcars)
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
+imputation <- '.imp'
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+summary_est <- summary.est(results)
+summary_mip <- summary.mip(results)
+plot.est(summary_est)
+plot.mip(summary_mip)
 }
 }
