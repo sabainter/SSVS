@@ -8,7 +8,7 @@
 #' @param y The response variable (character string).
 #' @param x A vector of predictor variable names.
 #' @param imp The imputation variable.
-#' @param imputations The number of imputations to process (default is 5).
+#' @param imp_num The number of imputations to process (default is 5).
 #' @param interval Confidence interval level for summary results (default is 0.9).
 #' @param continuous Logical indicating if the response variable is continuous (default is TRUE).
 #' @param progress Logical indicating whether to display progress (default is FALSE).
@@ -21,10 +21,10 @@
 #' outcome <- 'qsec'
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
-#' results <- SSVS_MI(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+#' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 #' }
 #' @export
-ssvs_mi <- function(data, y, x, imp, imputations = 5,
+ssvs_mi <- function(data, y, x, imp, imp_num = 5,
                          interval = 0.9, continuous = TRUE, progress = FALSE) {
   checkmate::assert_data_frame(data, min.rows = 1)
   checkmate::assert_character(y, len = 1)
@@ -36,9 +36,8 @@ ssvs_mi <- function(data, y, x, imp, imputations = 5,
   final_results <- data.frame(Variables = x)
 
   for (i in 1:imputations) {
-      data <- data %>%
-        dplyr::filter(imp==i)
-      temp <- data[, c(x, y)]
+      ind <- data[, imp]
+      temp <- data[ind, ]
       results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = continuous, progress = progress)
       summary_results <- summary(results, interval = interval, ordered = FALSE)
       final_results <- merge(final_results, summary_results[, c('MIP', 'Avg Beta', 'Avg Nonzero Beta')], by = 0, all = TRUE, sort = FALSE) [-1]
