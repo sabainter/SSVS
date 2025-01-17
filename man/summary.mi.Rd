@@ -10,11 +10,11 @@
 \item{x}{An SSVS result object or a compatible data frame containing model estimates.}
 }
 \value{
-A data frame with variables, average, minimum, and maximum for beta coefficients and MIP
+A data frame with variables, average, minimum, and maximum for beta, MIP and nonzero beta
 }
 \description{
-Computes summary statistics (average, minimum, and maximum) for beta coefficients and MIP
-from an SSVS result object.
+Computes summary statistics (average, minimum, and maximum) for beta coefficients, MIP and
+average nonzero beta coefficients from an SSVS result object.
 }
 \examples{
 \donttest{
