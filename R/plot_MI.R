@@ -110,12 +110,12 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
   }
 
   plt <- ggplot2::ggplot(data = plotDF) +
-    ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variables"]], -.data[["avg.mip"]]),
+    ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variable"]], -.data[["avg.mip"]]),
                                      y = .data[["avg.mip"]],
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
                         size = 2) +
-    ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variables"]],
+    ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variable"]],
                                y = .data[["avg.mip"]],
                                ymin = .data[["min.mip"]],
                                ymax = .data[["max.mip"]]),
