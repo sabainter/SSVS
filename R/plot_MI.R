@@ -4,10 +4,10 @@
 #'
 #' @param data A data frame containing summary statistics for SSVS results. Must include columns:
 #'   \describe{
-#'     \item{Variables}{The predictor variables.}
-#'     \item{avg.beta}{The average beta coefficients across imputations or replications.}
-#'     \item{min}{The minimum beta coefficients.}
-#'     \item{max}{The maximum beta coefficients.}
+#'     \item{Variable}{The predictor variables.}
+#'     \item{Avg Beta}{The average beta coefficients across imputations or replications.}
+#'     \item{Min Beta}{The minimum beta coefficients.}
+#'     \item{Max Beta}{The maximum beta coefficients.}
 #'   }
 #' @param title A character string specifying the plot title. Defaults to `"SSVS-MI estimates"`.
 #' @return A `ggplot2` object representing the plot of SSVS estimates.
@@ -30,9 +30,10 @@ plot.est <- function(data, title=NULL) {
     title <- "SSVS-MI estimates"
   }
 
-  plt <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variables), y = avg.beta)) +
+  plt <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variable),
+                                            y = .data[['Avg Beta']])) +
       ggplot2::geom_errorbar(
-        ggplot2::aes(ymin = min.beta, ymax = max.beta),
+        ggplot2::aes(ymin = .data[['Min Beta']], ymax = .data[['Max Beta']]),
         position = "dodge", width = 0.2
       ) +
       ggplot2::geom_point() +
@@ -51,10 +52,10 @@ plot.est <- function(data, title=NULL) {
 #'
 #' @param data A data frame containing MIP summary statistics. Must include columns:
 #'   \describe{
-#'     \item{Variables}{The predictor variables.}
-#'     \item{avg.mip}{The average MIP values across imputations or replications.}
-#'     \item{min}{The minimum MIP values.}
-#'     \item{max}{The maximum MIP values.}
+#'     \item{Variable}{The predictor variables.}
+#'     \item{Avg MIP}{The average MIP values across imputations or replications.}
+#'     \item{Min MIP}{The minimum MIP values.}
+#'     \item{Max MIP}{The maximum MIP values.}
 #'   }
 #' @param threshold A numeric value (between 0 and 1) specifying the MIP threshold to highlight significant predictors.
 #'   Defaults to 0.5.
@@ -80,6 +81,14 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
   checkmate::assert_string(title, null.ok = TRUE)
 
+  plotDF <- data %>%
+    as.data.frame() %>%
+    dplyr::mutate(
+      avg.mip = `Avg MIP`,
+      min.mip = `Min MIP`,
+      max.mip = `Max MIP`
+    ) %>%
+    dplyr::select(Variable, avg.mip, min.mip, max.mip)
   plotDF <- data[order(-data$avg.mip),]
 
   if (is.null(threshold)) {

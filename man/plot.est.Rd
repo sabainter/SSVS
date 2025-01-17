@@ -9,10 +9,10 @@
 \arguments{
 \item{data}{A data frame containing summary statistics for SSVS results. Must include columns:
 \describe{
-\item{Variables}{The predictor variables.}
-\item{avg.beta}{The average beta coefficients across imputations or replications.}
-\item{min}{The minimum beta coefficients.}
-\item{max}{The maximum beta coefficients.}
+\item{Variable}{The predictor variables.}
+\item{Avg Beta}{The average beta coefficients across imputations or replications.}
+\item{Min Beta}{The minimum beta coefficients.}
+\item{Max Beta}{The maximum beta coefficients.}
 }}
 
 \item{title}{A character string specifying the plot title. Defaults to \code{"SSVS-MI estimates"}.}

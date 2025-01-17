@@ -9,10 +9,10 @@
 \arguments{
 \item{data}{A data frame containing MIP summary statistics. Must include columns:
 \describe{
-\item{Variables}{The predictor variables.}
-\item{avg.mip}{The average MIP values across imputations or replications.}
-\item{min}{The minimum MIP values.}
-\item{max}{The maximum MIP values.}
+\item{Variable}{The predictor variables.}
+\item{Avg MIP}{The average MIP values across imputations or replications.}
+\item{Min MIP}{The minimum MIP values.}
+\item{Max MIP}{The maximum MIP values.}
 }}
 
 \item{threshold}{A numeric value (between 0 and 1) specifying the MIP threshold to highlight significant predictors.

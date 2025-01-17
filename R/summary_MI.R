@@ -41,6 +41,9 @@ summary.mi <- function(data) {
     dplyr::select(Variables, avg.beta, min.beta, max.beta,
                   avg.mip, min.mip, max.mip,
                   avg.nonzero, min.nonzero, max.nonzero)
+  colnames(data) = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+                           "Avg MIP", "Min MIP", "Max MIP",
+                           "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta")
 
   class(data) <- c("ssvs_summary", class(data))
   data
