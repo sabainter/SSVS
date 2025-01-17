@@ -30,7 +30,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
 results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-summary_est <- summary.est(results)
-plot.est(summary_est)
+summary_MI <- summary.mi(results)
+plot.est(summary_MI)
 }
 }

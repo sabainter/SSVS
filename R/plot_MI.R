@@ -18,8 +18,8 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_est <- summary.est(results)
-#' plot.est(summary_est)
+#' summary_MI <- summary.mi(results)
+#' plot.est(summary_MI)
 #' }
 #' @export
 plot.est <- function(data, title=NULL) {
@@ -32,7 +32,7 @@ plot.est <- function(data, title=NULL) {
 
   plt <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variables), y = avg.beta)) +
       ggplot2::geom_errorbar(
-        ggplot2::aes(ymin = min, ymax = max),
+        ggplot2::aes(ymin = min.beta, ymax = max.beta),
         position = "dodge", width = 0.2
       ) +
       ggplot2::geom_point() +
@@ -70,8 +70,8 @@ plot.est <- function(data, title=NULL) {
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
 #' imputation <- ".imp"
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_mip <- summary.mip(results)
-#' plot.mip(summary_mip)
+#' summary_MI <- summary.mi(results)
+#' plot.mip(summary_MI)
 #' }
 #' @export
 plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color = TRUE) {
@@ -108,8 +108,8 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
                         size = 2) +
     ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variables"]],
                                y = .data[["avg.mip"]],
-                               ymin = .data[["min"]],
-                               ymax = .data[["max"]]),
+                               ymin = .data[["min.mip"]],
+                               ymax = .data[["max.mip"]]),
                            width = .10,
                            position = "dodge") +
     ggplot2::labs(y = "Marginal Inclusion Probability",

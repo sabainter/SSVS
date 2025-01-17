@@ -1,10 +1,10 @@
 #' Calculate Summary Statistics for SSVS-MI Results
 #'
-#' Computes summary statistics (average, minimum, and maximum) for beta coefficients and MIP
-#' from an SSVS result object.
+#' Computes summary statistics (average, minimum, and maximum) for beta coefficients, MIP and
+#' average nonzero beta coefficients from an SSVS result object.
 #'
 #' @param x An SSVS result object or a compatible data frame containing model estimates.
-#' @return A data frame with variables, average, minimum, and maximum for beta coefficients and MIP
+#' @return A data frame with variables, average, minimum, and maximum for beta, MIP and nonzero beta
 #' @examples
 #' \donttest{
 #' data(imputed_mtcars)

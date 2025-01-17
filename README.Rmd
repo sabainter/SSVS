@@ -157,27 +157,20 @@ results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imp
 ```
 
 
-The estimates of SSVS_MI result can be summarized by using `summary.est()` function. This will display average estimates, minimum, and maximum for each coefficient.
+The estimates of SSVS_MI result can be summarized by using `summary.mi()` function. This will display average, minimum, and maximum of estimates, MIP and average nonzero beta for each coefficient.
 ```{r summary-est, echo=TRUE}
-summary_est <- summary.est(results)
-print(summary_est)
+summary_MI <- summary.mi(results)
+print(summary_MI)
 ```
-
-The MIP of SSVS_MI result can be summarized by using `summary.mip()` function. This will display average MIP, minimum, and maximum for each coefficient.
-```{r summary_mip, echo=TRUE}
-summary_mip <- summary.mip(results)
-print(summary_mip)
-```
-
 
 The estimates for each predictor can then be visualized using the `plot.est()` function.
 ```{r plot-est, echo =TRUE}
-plot.est(summary_est)
+plot.est(summary_MI)
 ```
 
 The MIP for each predictor can then be visualized using the `plot.mip()` function.
 ```{r plot-mip, echo=TRUE}
-plot.mip(summary_mip)
+plot.mip(summary_MI)
 ```
 
 
