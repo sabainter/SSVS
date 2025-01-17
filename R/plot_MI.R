@@ -89,7 +89,7 @@ plot.mip <- function(data, threshold = 0.5, legend = TRUE, title = NULL, color =
       max.mip = `Max MIP`
     ) %>%
     dplyr::select(Variable, avg.mip, min.mip, max.mip)
-  plotDF <- data[order(-data$avg.mip),]
+  plotDF <- plotDF[order(-plotDF$avg.mip),]
 
   if (is.null(threshold)) {
     plotDF$threshold <- as.factor(0)
