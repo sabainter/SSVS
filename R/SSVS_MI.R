@@ -37,7 +37,7 @@ ssvs_mi <- function(data, y, x, imp, imp_num = 5,
 
   for (i in 1:imp_num) {
       ind <- data[, imp]
-      temp <- data[ind, ]
+      temp <- data[which(ind==i), ]
       results <- SSVS::ssvs(data = temp, x = x, y = y, continuous = continuous, progress = progress)
       summary_results <- summary(results, interval = interval, ordered = FALSE)
       final_results <- merge(final_results, summary_results[, c('MIP', 'Avg Beta', 'Avg Nonzero Beta')], by = 0, all = TRUE, sort = FALSE) [-1]

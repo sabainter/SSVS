@@ -12,13 +12,11 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_est <- summary.est(results)
-#' print(summary_est)
-#' summary_mip <- summary.mip(results)
-#' print(summary_mip)
+#' summary_MI <- summary.mi(results)
+#' print(summary_MI)
 #' }
 #' @export
-summary.est <- function(data) {
+summary.mi <- function(data) {
   assert_ssvs(data)
 
   data <- data %>%
@@ -26,30 +24,23 @@ summary.est <- function(data) {
     dplyr::rowwise() %>%
     dplyr::mutate(
       avg.beta = mean(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE),
-      min = min(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE),
-      max = max(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE)
+      min.beta = min(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE),
+      max.beta = max(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE)
     ) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(Variables, avg.beta, min, max)
-
-  class(data) <- c("ssvs_summary", class(data))
-  data
-}
-
-
-summary.mip <- function(data) {
-  assert_ssvs(data)
-
-  data <- data %>%
-    as.data.frame() %>%
-    dplyr::rowwise() %>%
     dplyr::mutate(
       avg.mip = mean(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE),
-      min = min(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE),
-      max = max(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE)
+      min.mip = min(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE),
+      max.mip = max(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+      avg.nonzero = mean(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE),
+      min.nonzero = min(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE),
+      max.nonzero = max(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(Variables, avg.mip, min, max)
+    dplyr::select(Variables, avg.beta, min.beta, max.beta,
+                  avg.mip, min.mip, max.mip,
+                  avg.nonzero, min.nonzero, max.nonzero)
 
   class(data) <- c("ssvs_summary", class(data))
   data
