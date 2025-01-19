@@ -108,14 +108,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5552  |     -0.5552      |    -0.7106     |    -0.3917     |
-| religiousness | 0.4247 | -0.1422  |     -0.3348      |    -0.4070     |     0.0000     |
-| yearsmarried  | 0.1035 |  0.0321  |      0.3099      |     0.0000     |     0.1024     |
-| children      | 0.0751 |  0.0204  |      0.2714      |     0.0000     |     0.0000     |
-| age           | 0.0111 | -0.0024  |     -0.2146      |     0.0000     |     0.0000     |
-| gender        | 0.0093 |  0.0010  |      0.1067      |     0.0000     |     0.0000     |
-| occupation    | 0.0064 |  0.0008  |      0.1176      |     0.0000     |     0.0000     |
-| education     | 0.0050 |  0.0005  |      0.1066      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5548  |     -0.5548      |    -0.7103     |    -0.3943     |
+| religiousness | 0.3808 | -0.1258  |     -0.3303      |    -0.3981     |     0.0000     |
+| children      | 0.0807 |  0.0226  |      0.2802      |     0.0000     |     0.0000     |
+| yearsmarried  | 0.0774 |  0.0235  |      0.3035      |     0.0000     |     0.0000     |
+| age           | 0.0081 | -0.0015  |     -0.1840      |     0.0000     |     0.0000     |
+| gender        | 0.0071 |  0.0010  |      0.1401      |     0.0000     |     0.0000     |
+| occupation    | 0.0059 |  0.0007  |      0.1125      |     0.0000     |     0.0000     |
+| education     | 0.0057 |  0.0008  |      0.1352      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)
@@ -125,40 +125,98 @@ plot(results)
 
 ## Example 3 - example for SSVS-MI analysis
 
-We will use a simple example stored in this package to do SSVS-MI
-analysis. We first need to specify outcome, predictors, imputations and
-replications, and then use `SSVS_MI()` function.
+First, we will show how to use `mice()` function to impute data.
 
 ``` r
-data(example_data)
-outcome <- "yMCAR40"
-predictors <- c("xMCAR40_1", "xMCAR40_2", "xMCAR40_3", "xMCAR40_4", "xMCAR40_5")
-results <- SSVS_MI(data = example_data, y = outcome, x = predictors, imputations = 3, replications = 3)
+library(mice)
+
+# Load the mtcars dataset
+data <- mtcars
+
+# Introduce random missingness in 10% of the data
+set.seed(123)  
+n <- nrow(data) * ncol(data)
+missing_indices <- sample(n, size = 0.1 * n, replace = FALSE)
+
+# Convert missing indices to row-column positions
+rows <- (missing_indices - 1) %% nrow(data) + 1
+cols <- (missing_indices - 1) %/% nrow(data) + 1
+
+# Assign NA to the identified positions
+for (i in seq_along(rows)) {
+  data[rows[i], cols[i]] <- NA
+}
+
+# Perform multiple imputation using mice
+imputed_data <- mice(data, m = 5, maxit = 50, seed = 123)
+
+# Display the results of the imputation
+summary(imputed_data)
+
+# Extract and show the first completed dataset
+imputed_mtcars <- complete(imputed_data, "long")
+head(imputed_mtcars)
 ```
 
-The result can be summarized by using `summary_MI()` function. This will
-display average estimates, standard deviation, and 95% confidence
-intervals for each coefficient.
+We will use this imputed data to do SSVS-MI analysis. We first need to
+specify outcome, predictors, and imputations, and then use `SSVS_MI()`
+function.
 
 ``` r
-summary_stats <- summary_MI(results, x = predictors)
-print(summary_stats)
-#>  Variables avg.beta  sd.beta   min        max      
-#>  xMCAR40_1 0.8808667 1.4771947 -0.2427733 2.4364483
-#>  xMCAR40_2 1.8668556 1.0379125  0.9271833 2.8922267
-#>  xMCAR40_3 0.2339667 1.9620911 -1.4429617 2.2326200
-#>  xMCAR40_4 0.2759889 1.3006269 -0.8860150 1.5716033
-#>  xMCAR40_5 0.6334444 0.1593281  0.4907350 0.7919167
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
+imputation <- '.imp'
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+```
+
+The estimates of SSVS_MI result can be summarized by using
+`summary.mi()` function. This will display average, minimum, and maximum
+of estimates, MIP and average nonzero beta for each coefficient.
+
+``` r
+summary_MI <- summary.mi(results)
+print(summary_MI)
+#>  Variable Avg Beta Min Beta Max Beta Avg MIP Min MIP Max MIP Avg Nonzero Beta
+#>  cyl      -1.12494 -1.5338  -0.5440  0.78332 0.5482  0.8965  -1.40290        
+#>  disp     -0.27532 -1.1233   0.0031  0.30064 0.1413  0.7565  -0.54504        
+#>  hp       -0.40554 -0.7750  -0.1912  0.51962 0.3120  0.8385  -0.74010        
+#>  drat     -0.64942 -0.8412  -0.3755  0.84148 0.6100  0.9683  -0.75698        
+#>  wt        0.79026  0.4665   1.7013  0.75254 0.5971  0.9681   0.99290        
+#>  vs        0.48298  0.1695   0.8313  0.60334 0.2762  0.9443   0.76662        
+#>  am       -0.10768 -0.2667  -0.0461  0.21718 0.1397  0.4239  -0.44058        
+#>  gear     -0.20026 -0.4883  -0.0150  0.33668 0.1015  0.6510  -0.44048        
+#>  carb     -0.21882 -0.7588  -0.0425  0.32414 0.1319  0.8530  -0.50014        
+#>  mpg       0.01382 -0.0034   0.0393  0.14114 0.1241  0.1573   0.09624        
+#>  Min Nonzero Beta Max Nonzero Beta
+#>  -1.7778          -0.9923         
+#>  -1.4850           0.0222         
+#>  -0.9243          -0.6130         
+#>  -0.8687          -0.6156         
+#>   0.7124           1.7573         
+#>   0.6136           0.8803         
+#>  -0.6290          -0.3302         
+#>  -0.7500          -0.1473         
+#>  -0.8895          -0.3222         
+#>  -0.0236           0.2724
 ```
 
 The estimates for each predictor can then be visualized using the
-`plot_MI()` function.
+`plot.est()` function.
 
 ``` r
-plot_ssvs_est(summary_stats, cond=FALSE)
+plot.est(summary_MI)
 ```
 
-<img src="man/figures/README-plot_MI-1.png" width="100%" />
+<img src="man/figures/README-plot-est-1.png" width="100%" />
+
+The MIP for each predictor can then be visualized using the `plot.mip()`
+function.
+
+``` r
+plot.mip(summary_MI)
+```
+
+<img src="man/figures/README-plot-mip-1.png" width="100%" />
 
 ## Interactive version
 
