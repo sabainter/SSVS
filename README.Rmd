@@ -165,13 +165,13 @@ We will use this multiply imputed data set for SSVS, using the
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
-results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+results <- SSVS_MI(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 ```
 
-The results of SSVS with MI can be summarized by using `summary.mi()`
-function. This will summarize for each predictor *across imputations*:
-the average MIP and the mean, minimum, maximum, and average nonzero beta
-coefficients.
+The results of SSVS with MI can be summarized by using the
+`summary_MI()` function. This will summarize *across imputations* for
+each predictor: the average MIP and the mean, minimum, maximum, and
+average nonzero beta coefficients.
 
 ```{r summary-est, echo=TRUE}
 summary_MI <- summary.mi(results)
