@@ -33,8 +33,8 @@ ssvs_mi(
 \item{progress}{Logical indicating whether to display progress (default is FALSE).}
 }
 \value{
-An SSVS object containing aggregated results across imputations, including mean
-inclusion probabilities and average beta coefficients for each predictor.
+An ssvs_mi object containing aggregated results across imputations that can be
+used in \code{\link[=summary.ssvs_mi]{summary()}}.
 }
 \description{
 This function performs Stochastic Search Variable Selection (SSVS) analysis on multiply imputed datasets
@@ -47,6 +47,6 @@ data(imputed_mtcars)
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
-results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+agg_results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 }
 }
