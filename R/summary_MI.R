@@ -3,8 +3,7 @@
 #' Computes summary statistics (average, minimum, and maximum) for beta coefficients, MIP and
 #' average nonzero beta coefficients from an SSVS result object.
 #'
-#' @param x An SSVS result object or a compatible data frame containing model estimates.
-#' @return A data frame with variables, average, minimum, and maximum for beta, MIP and nonzero beta
+#' @param object An ssvs_mi result object obtained from [`ssvs_mi()`]
 #' @examples
 #' \donttest{
 #' data(imputed_mtcars)
@@ -12,14 +11,15 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_MI <- summary.mi(results)
+#' summary_mi(results)
 #' print(summary_MI)
 #' }
+#' @return A data frame with results
 #' @export
-summary.mi <- function(data) {
-  assert_ssvs(data)
+summary.mi <- function(object) {
 
-  data <- data %>%
+
+  res <- object %>%
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
@@ -41,17 +41,21 @@ summary.mi <- function(data) {
     dplyr::select(Variables, avg.beta, min.beta, max.beta,
                   avg.mip, min.mip, max.mip,
                   avg.nonzero, min.nonzero, max.nonzero)
-  colnames(data) = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+  colnames(res) = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
                            "Avg MIP", "Min MIP", "Max MIP",
                            "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta")
 
-  class(data) <- c("ssvs_summary", class(data))
-  data
+  class(res) <- c("ssvs_mi_summary", class(res))
+  res
 }
 
 
-
-
+#' Print the summary of ssvs_mi
+#' @export
+#' @keywords internal
+print.ssvs_mi_summary <- function(x, ...) {
+  print.data.frame(x, right = FALSE, row.names = FALSE)
+}
 
 
 

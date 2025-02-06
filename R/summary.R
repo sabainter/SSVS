@@ -78,6 +78,7 @@ summary.ssvs <- function(object, interval = 0.89, threshold = 0,
 
 
   res <- res[res$MIP > threshold, ]
+  #set the class of the res object to class "ssvs_summary"
   class(res) <- c("ssvs_summary", class(res))
   res
 }

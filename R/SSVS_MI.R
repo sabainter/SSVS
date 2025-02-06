@@ -13,16 +13,16 @@
 #' @param continuous Logical indicating if the response variable is continuous (default is TRUE).
 #' @param progress Logical indicating whether to display progress (default is FALSE).
 #'
-#' @return An SSVS object containing aggregated results across imputations, including mean
-#'   inclusion probabilities and average beta coefficients for each predictor.
 #' @examples
 #' \donttest{
 #' data(imputed_mtcars)
 #' outcome <- 'qsec'
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
-#' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+#' agg_results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 #' }
+#' @return An ssvs_mi object containing aggregated results across imputations that can be
+#' used in [`summary()`][`summary.ssvs_mi()`].
 #' @export
 ssvs_mi <- function(data, y, x, imp, imp_num = 5,
                     interval = 0.9, continuous = TRUE, progress = FALSE) {
@@ -46,7 +46,7 @@ ssvs_mi <- function(data, y, x, imp, imp_num = 5,
     names(final_results)[names(final_results) == 'Avg Nonzero Beta'] <- paste(i,'Avg Nonzero Beta')
   }
 
-  class(final_results) <- c("ssvs", class(final_results))
+  class(final_results) <- c("ssvs_mi", class(final_results))
   attr(final_results, "response") <- y
 
   final_results
