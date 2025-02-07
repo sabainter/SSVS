@@ -42,7 +42,8 @@ Imports:
     rlang,
     stats,
     dplyr,
-    mice
+    mice,
+    magrittr
 Suggests: 
     AER,
     bslib,

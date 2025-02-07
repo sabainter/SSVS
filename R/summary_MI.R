@@ -4,6 +4,7 @@
 #' average nonzero beta coefficients from an SSVS result object.
 #'
 #' @param object An ssvs_mi result object obtained from [`ssvs_mi()`]
+#' @param ... Ignored
 #' @examples
 #' \donttest{
 #' data(imputed_mtcars)
@@ -11,12 +12,12 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_MI<-summary.ssvs_mi(results)
+#' summary_MI<-summary(results)
 #' print(summary_MI)
 #' }
 #' @return A data frame with results
 #' @export
-summary.ssvs_mi <- function(object) {
+summary.ssvs_mi <- function(object, ...) {
 
   res <- object %>%
     as.data.frame() %>%

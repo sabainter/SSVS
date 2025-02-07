@@ -4,10 +4,12 @@
 \alias{summary.ssvs_mi}
 \title{Calculate Summary Statistics for SSVS-MI Results}
 \usage{
-\method{summary}{ssvs_mi}(object)
+\method{summary}{ssvs_mi}(object, ...)
 }
 \arguments{
 \item{object}{An ssvs_mi result object obtained from \code{\link[=ssvs_mi]{ssvs_mi()}}}
+
+\item{...}{Ignored}
 }
 \value{
 A data frame with results
@@ -23,7 +25,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
 results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-summary_MI<-summary.ssvs_mi(results)
+summary_MI<-summary(results)
 print(summary_MI)
 }
 }
