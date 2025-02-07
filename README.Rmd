@@ -121,6 +121,62 @@ knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 plot(results)
 ```
 
+## Example 3 - SSVS with multiple imputation (MI)
+
+First, we will use the `mice()` function from the {mice} package to
+perform multiple imputation.
+
+```{r impute-data, echo=TRUE, results='hide'}
+library(mice)
+
+# Load the mtcars dataset
+data <- mtcars
+
+# Introduce random missingness in 10% of the data
+set.seed(123)  
+n <- nrow(data) * ncol(data)
+missing_indices <- sample(n, size = 0.1 * n, replace = FALSE)
+
+# Convert missing indices to row-column positions
+rows <- (missing_indices - 1) %% nrow(data) + 1
+cols <- (missing_indices - 1) %/% nrow(data) + 1
+
+# Assign NA to the identified positions
+for (i in seq_along(rows)) {
+  data[rows[i], cols[i]] <- NA
+}
+
+# Perform multiple imputation using mice
+imputed_data <- mice(data, m = 5, maxit = 50, seed = 123)
+
+# Display the results of the imputation
+summary(imputed_data)
+
+# Extract and show the first completed dataset
+imputed_mtcars <- complete(imputed_data, "long")
+head(imputed_mtcars)
+
+```
+
+We will use this multiply imputed data set for SSVS, using the
+`SSVS_MI()` function.
+
+```{r ssvs-MI, echo=TRUE, results='hide'}
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
+imputation <- '.imp'
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+```
+
+The results of SSVS with MI can be summarized with the
+`summary()` function. This will summarize *across imputations* for
+each predictor: the average MIP and the mean, minimum, maximum, and
+average nonzero beta coefficients.
+
+```{r summary-est, echo=TRUE}
+summary_MI <- summary(results)
+print(summary_MI)
+```
 
 ## Interactive version
 

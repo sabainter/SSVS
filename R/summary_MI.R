@@ -41,6 +41,7 @@ summary.ssvs_mi <- function(object, ...) {
     dplyr::select(Variables, avg.beta, min.beta, max.beta,
                   avg.mip, min.mip, max.mip,
                   avg.nonzero, min.nonzero, max.nonzero)
+  #The following line gives a note for each name in the vector, e.g.: "no visible binding for global variable ‘Variables’"
   colnames(res) = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
                            "Avg MIP", "Min MIP", "Max MIP",
                            "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta")
