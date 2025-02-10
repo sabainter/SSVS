@@ -25,7 +25,7 @@ You can install the development version of {SSVS} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVS")
+remotes::install_github("sabainter/SSVS/tree/troubleshooting")
 ```
 
 ## Example 1 - continuous response variable
@@ -111,20 +111,79 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5552  |     -0.5552      |    -0.7106     |    -0.3917     |
-| religiousness | 0.4247 | -0.1422  |     -0.3348      |    -0.4070     |     0.0000     |
-| yearsmarried  | 0.1035 |  0.0321  |      0.3099      |     0.0000     |     0.1024     |
-| children      | 0.0751 |  0.0204  |      0.2714      |     0.0000     |     0.0000     |
-| age           | 0.0111 | -0.0024  |     -0.2146      |     0.0000     |     0.0000     |
-| gender        | 0.0093 |  0.0010  |      0.1067      |     0.0000     |     0.0000     |
-| occupation    | 0.0064 |  0.0008  |      0.1176      |     0.0000     |     0.0000     |
-| education     | 0.0050 |  0.0005  |      0.1066      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5534  |     -0.5534      |    -0.7239     |    -0.4013     |
+| religiousness | 0.4315 | -0.1447  |     -0.3353      |    -0.4127     |     0.0000     |
+| yearsmarried  | 0.1105 |  0.0328  |      0.2973      |     0.0000     |     0.1395     |
+| children      | 0.0795 |  0.0228  |      0.2866      |     0.0000     |     0.0000     |
+| gender        | 0.0073 |  0.0011  |      0.1487      |     0.0000     |     0.0000     |
+| education     | 0.0054 |  0.0007  |      0.1350      |     0.0000     |     0.0000     |
+| age           | 0.0045 | -0.0005  |     -0.1191      |     0.0000     |     0.0000     |
+| occupation    | 0.0045 |  0.0004  |      0.0954      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)
 ```
 
 <img src="man/figures/README-binary-plot-1.png" width="100%" />
+
+## Example 3 - SSVS with multiple imputation (MI)
+
+First, we will use the `mice()` function from the {mice} package to
+perform multiple imputation.
+
+``` r
+library(mice)
+#> 
+#> Attaching package: 'mice'
+#> The following object is masked from 'package:stats':
+#> 
+#>     filter
+#> The following objects are masked from 'package:base':
+#> 
+#>     cbind, rbind
+
+# Load the mtcars dataset
+data <- mtcars
+
+# Introduce random missingness in 10% of the data
+set.seed(123)  
+n <- nrow(data) * ncol(data)
+missing_indices <- sample(n, size = 0.1 * n, replace = FALSE)
+
+# Convert missing indices to row-column positions
+rows <- (missing_indices - 1) %% nrow(data) + 1
+cols <- (missing_indices - 1) %/% nrow(data) + 1
+
+# Assign NA to the identified positions
+for (i in seq_along(rows)) {
+  data[rows[i], cols[i]] <- NA
+}
+
+# Perform multiple imputation using mice
+imputed_data <- mice(data, m = 5, maxit = 50, seed = 123)
+
+# Display the results of the imputation
+summary(imputed_data)
+
+# Extract and show the first completed dataset
+imputed_mtcars <- complete(imputed_data, "long")
+head(imputed_mtcars)
+```
+
+We will use this multiply imputed data set for SSVS, using the
+`SSVS_MI()` function.
+
+``` r
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
+imputation <- '.imp'
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+```
+
+The results of SSVS with MI can be summarized with the `summary()`
+function. This will summarize *across imputations* for each predictor:
+the average MIP and the mean, minimum, maximum, and average nonzero beta
+coefficients.
 
 ## Interactive version
 

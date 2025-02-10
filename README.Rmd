@@ -42,7 +42,7 @@ You can install the development version of {SSVS} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVS")
+remotes::install_github("sabainter/SSVS/tree/troubleshooting")
 ```
 
 ## Example 1 - continuous response variable
@@ -173,10 +173,7 @@ The results of SSVS with MI can be summarized with the
 each predictor: the average MIP and the mean, minimum, maximum, and
 average nonzero beta coefficients.
 
-```{r summary-est, echo=TRUE}
-summary_MI <- summary(results)
-print(summary_MI)
-```
+
 
 ## Interactive version
 
