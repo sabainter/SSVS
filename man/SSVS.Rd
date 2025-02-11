@@ -60,7 +60,7 @@ progress plots will be created for every 1000 iterations. When \code{continuous 
 Only used when \code{continuous = TRUE}.}
 }
 \value{
-An SSVS object that can be used in
+An ssvs object that can be used in
 \code{\link[=summary.ssvs]{summary()}} or \code{\link[=plot.ssvs]{plot()}}.
 }
 \description{
