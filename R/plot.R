@@ -1,6 +1,6 @@
 #' Plot results of an SSVS model
 #'
-#' @param x An SSVS result object obtained from [`ssvs()`]
+#' @param x An ssvs result object obtained from [`ssvs()`]
 #' @param threshold An MIP threshold to show on the plot, must be between 0-1.
 #' If `NULL`, no threshold is used.
 #' @param legend If `TRUE`, show a legend for the shapes based on the threshold.
@@ -56,8 +56,8 @@ plot.ssvs <- function(x, threshold = 0.5, legend = TRUE, title = NULL, color = T
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
                         size = 2) +
-    ggplot2::labs(y = "Inclusion Probability", 
-                  x = "Predictor variables", 
+    ggplot2::labs(y = "Inclusion Probability",
+                  x = "Predictor variables",
                   title = title) +
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
     ggplot2::scale_color_manual(values = cols) +

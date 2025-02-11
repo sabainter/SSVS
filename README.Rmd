@@ -1,5 +1,8 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -15,32 +18,38 @@ knitr::opts_chunk$set(
 set.seed(1000)
 ```
 
-# SSVS <img src="man/figures/logo.png" align="right" width="120" />
+# SSVS <img src="man/figures/logo.png" align="right" width="120"/>
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
+
 <!-- badges: end -->
 
-The goal of {SSVS} is to provide functions for performing stochastic search variable selection (SSVS) 
-for binary and continuous outcomes and visualizing the results. 
-SSVS is a Bayesian variable selection method used to estimate the probability 
-that individual predictors should be included in a regression model. 
-Using MCMC estimation, the method samples thousands of regression models 
-in order to characterize the model uncertainty regarding both the predictor 
-set and the regression parameters.
+The goal of {SSVS} is to provide functions for performing stochastic
+search variable selection (SSVS) for binary and continuous outcomes and
+visualizing the results. SSVS is a Bayesian variable selection method
+used to estimate the probability that individual predictors should be
+included in a regression model. Using MCMC estimation, the method
+samples thousands of regression models in order to characterize the
+model uncertainty regarding both the predictor set and the regression
+parameters.
 
 ## Installation
 
-You can install the development version of {SSVS} from [GitHub](https://github.com/) with:
+You can install the development version of {SSVS} from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVS")
+remotes::install_github("sabainter/SSVS/tree/troubleshooting")
 ```
-## Example 1 - continuous response variable 
 
-Consider a simple example using SSVS on the `mtcars` dataset to predict quarter mile times. We first specify
-our response variable ("qsec"), then choose our predictors and run the `ssvs()` function.
+## Example 1 - continuous response variable
+
+Consider a simple example using SSVS on the `mtcars` dataset to predict
+quarter mile times. We first specify our response variable ("qsec"),
+then choose our predictors and run the `ssvs()` function.
 
 ```{r ssvs, echo=TRUE, results='hide'}
 library(SSVS)
@@ -51,28 +60,30 @@ predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
 results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
 ```
 
-
-The results can be summarized and printed using the `summary()` function. This will display both the MIP
-for each predictor, as well as the probable range of values for each coefficient.
+The results can be summarized and printed using the `summary()`
+function. This will display the MIP for each predictor, the average coefficients 
+including and excluding zeros, and credible intervals for each coefficient.
 
 ```{r summary, echo=TRUE, results='hide'}
 summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 ```
 
-
 ```{r table, echo=FALSE}
 knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 ```
 
-The MIPs for each predictor can then be visualized using the `plot()` function.
+The MIPs for each predictor can then be visualized using the `plot()`
+function.
 
 ```{r plot, echo =TRUE}
 plot(results)
 ```
 
-## Example 2 - binary response variable 
+## Example 2 - binary response variable
 
-In the example above, the response variable was a continuous variable. The same workflow can be used for binary variables by specifying `continuous = FALSE` to the `ssvs()` function.
+In the example above, the response variable was a continuous variable.
+The same workflow can be used for binary variables by specifying
+`continuous = FALSE` to the `ssvs()` function.
 
 As an example, let's create a binary variable:
 
@@ -110,6 +121,62 @@ knitr::kable(summary_results[, 1:6], align = 'lccccc', row.names = FALSE)
 plot(results)
 ```
 
+## Example 3 - SSVS with multiple imputation (MI)
+
+First, we will use the `mice()` function from the {mice} package to
+perform multiple imputation.
+
+```{r impute-data, echo=TRUE, results='hide'}
+library(mice)
+
+# Load the mtcars dataset
+data <- mtcars
+
+# Introduce random missingness in 10% of the data
+set.seed(123)  
+n <- nrow(data) * ncol(data)
+missing_indices <- sample(n, size = 0.1 * n, replace = FALSE)
+
+# Convert missing indices to row-column positions
+rows <- (missing_indices - 1) %% nrow(data) + 1
+cols <- (missing_indices - 1) %/% nrow(data) + 1
+
+# Assign NA to the identified positions
+for (i in seq_along(rows)) {
+  data[rows[i], cols[i]] <- NA
+}
+
+# Perform multiple imputation using mice
+imputed_data <- mice(data, m = 5, maxit = 50, seed = 123)
+
+# Display the results of the imputation
+summary(imputed_data)
+
+# Extract and show the first completed dataset
+imputed_mtcars <- complete(imputed_data, "long")
+head(imputed_mtcars)
+
+```
+
+We will use this multiply imputed data set for SSVS, using the
+`SSVS_MI()` function.
+
+```{r ssvs-MI, echo=TRUE, results='hide'}
+outcome <- 'qsec'
+predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
+imputation <- '.imp'
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+```
+
+The results of SSVS with MI can be summarized with the
+`summary()` function. This will summarize *across imputations* for
+each predictor: the average MIP and the mean, minimum, maximum, and
+average nonzero beta coefficients.
+
+
+
 ## Interactive version
 
-You can launch an interactive (shiny) web application that lets you run SSVS analyses without programming. Simply install this package and run `SSVS::launch()` in an R console.
+You can launch an interactive (shiny) web application that lets you run
+SSVS analyses without programming. Simply install this package and run
+`SSVS::launch()` in an R console.

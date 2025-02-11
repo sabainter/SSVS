@@ -7,7 +7,7 @@
 \method{plot}{ssvs}(x, threshold = 0.5, legend = TRUE, title = NULL, color = TRUE, ...)
 }
 \arguments{
-\item{x}{An SSVS result object obtained from \code{\link[=ssvs]{ssvs()}}}
+\item{x}{An ssvs result object obtained from \code{\link[=ssvs]{ssvs()}}}
 
 \item{threshold}{An MIP threshold to show on the plot, must be between 0-1.
 If \code{NULL}, no threshold is used.}

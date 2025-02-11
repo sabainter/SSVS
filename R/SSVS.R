@@ -49,7 +49,7 @@
 #' "education", "occupation", "rating")
 #' results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
 #' }
-#' @return An SSVS object that can be used in
+#' @return An ssvs object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
 ssvs <- function(data, y, x, continuous = TRUE,
@@ -83,8 +83,10 @@ ssvs <- function(data, y, x, continuous = TRUE,
       inprob = inprob, runs = runs, burn = burn, progress = progress
     )
   }
-
+  #class(ssvs)<- sets the class of the ssvs output object to class "ssvs"
   class(ssvs) <- c("ssvs", class(ssvs))
+  #sets the "response" attribute of ssvs object to y. Setting this attribute here
+  #to be used for setting the title in the plot.ssvs
   attr(ssvs, "response") <- y
   ssvs
 }
