@@ -25,7 +25,7 @@ You can install the development version of {SSVS} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVS/tree/troubleshooting")
+remotes::install_github("sabainter/SSVS")
 ```
 
 ## Example 1 - continuous response variable
@@ -111,14 +111,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5534  |     -0.5534      |    -0.7239     |    -0.4013     |
-| religiousness | 0.4315 | -0.1447  |     -0.3353      |    -0.4127     |     0.0000     |
-| yearsmarried  | 0.1105 |  0.0328  |      0.2973      |     0.0000     |     0.1395     |
-| children      | 0.0795 |  0.0228  |      0.2866      |     0.0000     |     0.0000     |
-| gender        | 0.0073 |  0.0011  |      0.1487      |     0.0000     |     0.0000     |
-| education     | 0.0054 |  0.0007  |      0.1350      |     0.0000     |     0.0000     |
-| age           | 0.0045 | -0.0005  |     -0.1191      |     0.0000     |     0.0000     |
-| occupation    | 0.0045 |  0.0004  |      0.0954      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5569  |     -0.5569      |    -0.7278     |    -0.4045     |
+| religiousness | 0.4010 | -0.1343  |     -0.3348      |    -0.4080     |     0.0000     |
+| yearsmarried  | 0.1092 |  0.0339  |      0.3103      |     0.0000     |     0.1362     |
+| children      | 0.0849 |  0.0233  |      0.2751      |     0.0000     |     0.0000     |
+| age           | 0.0127 | -0.0026  |     -0.2040      |     0.0000     |     0.0000     |
+| education     | 0.0069 |  0.0008  |      0.1098      |     0.0000     |     0.0000     |
+| occupation    | 0.0067 |  0.0008  |      0.1247      |     0.0000     |     0.0000     |
+| gender        | 0.0057 |  0.0006  |      0.1009      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)

@@ -42,7 +42,7 @@ You can install the development version of {SSVS} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("sabainter/SSVS/tree/troubleshooting")
+remotes::install_github("sabainter/SSVS")
 ```
 
 ## Example 1 - continuous response variable
