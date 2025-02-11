@@ -1,6 +1,6 @@
-# SSVS 2.1.0 (2025-02-03)
+# SSVS 2.1.0 (2025-02-11)
 
-- Added functions `SSVS_MI()`, `plot_MI()`, and `summary_MI()` for SSVS with multiply imputed data
+- Added functions for SSVS with multiply imputed data
 - Added an example demonstrating SSVS for multiply imputed data
 
 # SSVS 2.0.0 (2022-05-27)

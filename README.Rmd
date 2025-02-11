@@ -158,8 +158,7 @@ head(imputed_mtcars)
 
 ```
 
-We will use this multiply imputed data set for SSVS, using the
-`SSVS_MI()` function.
+We will use this multiply imputed data set for SSVS, using the `ssvs_mi()` function.
 
 ```{r ssvs-MI, echo=TRUE, results='hide'}
 outcome <- 'qsec'
