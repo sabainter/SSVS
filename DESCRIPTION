@@ -42,7 +42,8 @@ Imports:
     rlang,
     stats,
     dplyr,
-    magrittr
+    magrittr,
+    gridExtra
 Suggests: 
     AER,
     bslib,

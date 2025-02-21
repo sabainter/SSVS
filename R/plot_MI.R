@@ -122,7 +122,7 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
   }
 
   if (type=="both") {
-    p1+p2
+    gridExtra::grid.arrange(p1,p2)
   } else if (type=="estimate") {
     p1
   } else if (type=="MIP") {
