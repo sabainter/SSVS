@@ -44,7 +44,7 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
     est_title <- "SSVS-MI estimates"
   }
 
-  p1 <- ggplot2::ggplot(data, ggplot2::aes(x = forcats::fct_inorder(Variable),
+  p1 <- ggplot2::ggplot(data=data, ggplot2::aes(x = Variable,
                                             y = .data[['Avg Beta']])) +
       ggplot2::geom_errorbar(
         ggplot2::aes(ymin = .data[['Min Beta']], ymax = .data[['Max Beta']]),
@@ -52,7 +52,7 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
       ) +
       ggplot2::geom_point() +
       ggplot2::labs(
-        title = title,
+        title = est_title,
         x = "Variables",
         y = "Mean Coefficients"
       ) +
@@ -100,7 +100,7 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
                            position = "dodge") +
     ggplot2::labs(y = "Marginal Inclusion Probability",
                   x = "Predictor variables",
-                  title = title) +
+                  title = mip_title) +
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
     ggplot2::scale_color_manual(values = cols) +
     ggplot2::theme_classic() +
