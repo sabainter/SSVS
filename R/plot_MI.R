@@ -34,7 +34,6 @@
 #' @export
 plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
                          est_title = NULL, mip_title = NULL, color = TRUE, ...) {
-  checkmate::assert_ssvs_mi(data)
   checkmate::assert_number(threshold, lower = 0, upper = 1, null.ok = TRUE)
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
   checkmate::assert_string(est_title, null.ok = TRUE)
