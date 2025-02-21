@@ -122,11 +122,11 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
     }
   }
 
-  if (type="both") {
+  if (type=="both") {
     p1+p2
-  } else if (type="estimate") {
+  } else if (type=="estimate") {
     p1
-  } else if (type="MIP") {
+  } else if (type=="MIP") {
     p2
   }
 
