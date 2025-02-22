@@ -19,7 +19,7 @@
 #' @export
 summary.ssvs_mi <- function(object, ...) {
 
-  res <- object %>%
+  temp <- object %>%
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
@@ -37,14 +37,18 @@ summary.ssvs_mi <- function(object, ...) {
       min.nonzero = min(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE),
       max.nonzero = max(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE)
     ) %>%
-    dplyr::ungroup() %>%
-    #The following line gives a note for each name in the vector, e.g.: "no visible binding for global variable ‘Variables’"
-    dplyr::select(Variables, avg.beta, min.beta, max.beta,
+    dplyr::ungroup()
+    #The following line gives a note for each name in the vector, e.g.: "no visible binding for global variable ‘Variables’
+
+  Variables <- temp[,1] %>% as.data.frame()
+  res <- temp %>%
+    dplyr::select(avg.beta, min.beta, max.beta,
                   avg.mip, min.mip, max.mip,
                   avg.nonzero, min.nonzero, max.nonzero)
-  colnames(res) = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
-                           "Avg MIP", "Min MIP", "Max MIP",
-                           "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta")
+  res <- cbind(res, Variables)
+  colnames(res) <- c("Avg Beta", "Min Beta", "Max Beta",
+                     "Avg MIP", "Min MIP", "Max MIP",
+                     "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta", "Variable")
 
   class(res) <- c("ssvs_mi_summary", class(res))
   res
