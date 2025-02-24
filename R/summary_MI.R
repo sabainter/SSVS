@@ -19,36 +19,36 @@
 #' @export
 summary.ssvs_mi <- function(object, ...) {
 
+  vars = c("Avg Beta", "MIP", "Avg Nonzero Beta")
+  vars_out = c("Variables", "avg.beta", "min.beta", "max.beta",
+               "avg.mip", "min.mip", "max.mip",
+               "avg.nonzero", "min.nonzero", "max.nonzero")
   temp <- object %>%
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      avg.beta = mean(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE),
-      min.beta = min(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE),
-      max.beta = max(dplyr::c_across(dplyr::contains("Avg Beta")), na.rm = TRUE)
+      avg.beta = mean(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
+      min.beta = min(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
+      max.beta = max(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE)
     ) %>%
     dplyr::mutate(
-      avg.mip = mean(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE),
-      min.mip = min(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE),
-      max.mip = max(dplyr::c_across(dplyr::contains("MIP")), na.rm = TRUE)
+      avg.mip = mean(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
+      min.mip = min(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
+      max.mip = max(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE)
     ) %>%
     dplyr::mutate(
-      avg.nonzero = mean(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE),
-      min.nonzero = min(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE),
-      max.nonzero = max(dplyr::c_across(dplyr::contains("Avg Nonzero Beta")), na.rm = TRUE)
+      avg.nonzero = mean(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE),
+      min.nonzero = min(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE),
+      max.nonzero = max(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE)
     ) %>%
-    dplyr::ungroup()
-    #The following line gives a note for each name in the vector, e.g.: "no visible binding for global variable ‘Variables’
+    dplyr::ungroup() %>%
+    dplyr::select({{ vars_out[1] }}, {{ vars_out[2] }}, {{ vars_out[3] }}, {{ vars_out[4] }},
+                  {{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }},
+                  {{ vars_out[8] }}, {{ vars_out[9] }}, {{ vars_out[10] }})
 
-  Variables <- temp[,1] %>% as.data.frame()
-  res <- temp %>%
-    dplyr::select(avg.beta, min.beta, max.beta,
-                  avg.mip, min.mip, max.mip,
-                  avg.nonzero, min.nonzero, max.nonzero)
-  res <- cbind(res, Variables)
-  colnames(res) <- c("Avg Beta", "Min Beta", "Max Beta",
+  colnames(res) <- c("Variable", "Avg Beta", "Min Beta", "Max Beta",
                      "Avg MIP", "Min MIP", "Max MIP",
-                     "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta", "Variable")
+                     "Avg Nonzero Beta", "Min Nonzero Beta", "Max Nonzero Beta")
 
   class(res) <- c("ssvs_mi_summary", class(res))
   res

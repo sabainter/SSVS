@@ -39,6 +39,8 @@ Defaults to 0.5.}
 \item{mip_title}{A character string specifying the plot title. Defaults to \code{"Multiple Inclusion Probability for SSVS-MI"}.}
 
 \item{color}{Logical indicating whether to use color to highlight thresholds. Defaults to \code{TRUE}.}
+
+\item{...}{Ignored}
 }
 \value{
 Two \code{ggplot2} objects representing the plot of SSVS estimates and the plot of MIP with thresholds.
