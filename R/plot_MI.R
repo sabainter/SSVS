@@ -20,6 +20,7 @@
 #' @param legend Logical indicating whether to include a legend for the threshold. Defaults to `TRUE`.
 #' @param mip_title A character string specifying the plot title. Defaults to `"Multiple Inclusion Probability for SSVS-MI"`.
 #' @param color Logical indicating whether to use color to highlight thresholds. Defaults to `TRUE`.
+#' @param ... Ignored
 #' @return Two `ggplot2` objects representing the plot of SSVS estimates and the plot of MIP with thresholds.
 #' @examples
 #' \donttest{
