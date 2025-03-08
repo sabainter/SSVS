@@ -8,3 +8,9 @@ assert_ssvs <- function(x) {
   }
   invisible(TRUE)
 }
+
+assert_ssvs_mi <- function(object) {
+  if (!inherits(object, "ssvs_mi")) {
+    stop("The input must be an object of class 'ssvs_mi'.", call. = FALSE)
+  }
+}

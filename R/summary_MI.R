@@ -28,24 +28,24 @@ summary.ssvs_mi <- function(object, ...) {
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      avg.beta = mean(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
-      min.beta = min(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
-      max.beta = max(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE)
+      avg.beta = mean(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE),
+      min.beta = min(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE),
+      max.beta = max(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE)
     ) %>%
     dplyr::mutate(
-      avg.mip = mean(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
-      min.mip = min(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
-      max.mip = max(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE)
+      avg.mip = mean(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE),
+      min.mip = min(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE),
+      max.mip = max(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE)
     ) %>%
     dplyr::mutate(
-      avg.nonzero = mean(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE),
-      min.nonzero = min(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE),
-      max.nonzero = max(dplyr::c_across(dplyr::contains({{ vars[3] }})), na.rm = TRUE)
+      avg.nonzero = mean(dplyr::c_across(dplyr::contains(vars[3])), na.rm = TRUE),
+      min.nonzero = min(dplyr::c_across(dplyr::contains(vars[3])), na.rm = TRUE),
+      max.nonzero = max(dplyr::c_across(dplyr::contains(vars[3])), na.rm = TRUE)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select({{ vars_out[1] }}, {{ vars_out[2] }}, {{ vars_out[3] }}, {{ vars_out[4] }},
-                  {{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }},
-                  {{ vars_out[8] }}, {{ vars_out[9] }}, {{ vars_out[10] }})
+    dplyr::select(vars_out[1], vars_out[2], vars_out[3], vars_out[4],
+                  vars_out[5], vars_out[6], vars_out[7],
+                  vars_out[8], vars_out[9], vars_out[10])
 
   colnames(res) <- c("Variable", "Avg Beta", "Min Beta", "Max Beta",
                      "Avg MIP", "Min MIP", "Max MIP",

@@ -34,26 +34,27 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
   vars = c("Avg Beta", "MIP")
   vars_out = c("Variables", "avg.beta", "min.beta", "max.beta",
                "avg.mip", "min.mip", "max.mip")
-  vars_names = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+  vars_names = c("Variables", "Avg Beta", "Min Beta", "Max Beta",
                  "Avg MIP", "Min MIP", "Max MIP")
-  data <- x %>%
+  temp <- x %>%
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      avg.beta = mean(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
-      min.beta = min(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
-      max.beta = max(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE)
+      avg.beta = mean(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE),
+      min.beta = min(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE),
+      max.beta = max(dplyr::c_across(dplyr::contains(vars[1])), na.rm = TRUE)
     ) %>%
     dplyr::mutate(
-      avg.mip = mean(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
-      min.mip = min(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
-      max.mip = max(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE)
+      avg.mip = mean(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE),
+      min.mip = min(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE),
+      max.mip = max(dplyr::c_across(dplyr::contains(vars[2])), na.rm = TRUE)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select({{ vars_out[1] }}, {{ vars_out[2] }}, {{ vars_out[3] }}, {{ vars_out[4] }},
-                  {{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }})
+    dplyr::select(vars_out[1], vars_out[2], vars_out[3], vars_out[4],
+                  vars_out[5], vars_out[6], vars_out[7])
 
-  colnames(data) <- c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+  data <- temp
+  colnames(data) <- c("Variables", "Avg Beta", "Min Beta", "Max Beta",
                       "Avg MIP", "Min MIP", "Max MIP")
 
 
@@ -61,7 +62,7 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
     est_title <- "SSVS-MI estimates"
   }
 
-  p1 <- ggplot2::ggplot(data=data, ggplot2::aes(x = .data[["Variable"]],
+  p1 <- ggplot2::ggplot(data=data, ggplot2::aes(x = .data[["Variables"]],
                                             y = .data[["Avg Beta"]])) +
       ggplot2::geom_errorbar(
         ggplot2::aes(ymin = .data[["Min Beta"]], ymax = .data[["Max Beta"]]),
@@ -75,14 +76,7 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
       ) +
       ggplot2::theme_classic()
 
-  plotDF <- data %>%
-    as.data.frame() %>%
-    dplyr::mutate(
-      avg.mip = {{ vars_names[5] }},
-      min.mip = {{ vars_names[6] }},
-      max.mip = {{ vars_names[7] }}
-    ) %>%
-    dplyr::select({{ vars_out[1] }},{{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }})
+  plotDF <- temp
   plotDF <- plotDF[order(-plotDF$avg.mip),]
 
   if (is.null(threshold)) {
@@ -104,12 +98,12 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
   }
 
   p2 <- ggplot2::ggplot(data = plotDF) +
-    ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variable"]], -.data[["avg.mip"]]),
+    ggplot2::geom_point(ggplot2::aes(x = stats::reorder(.data[["Variables"]], -.data[["avg.mip"]]),
                                      y = .data[["avg.mip"]],
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
                         size = 2) +
-    ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variable"]],
+    ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variables"]],
                                         y = .data[["avg.mip"]],
                                         ymin = .data[["min.mip"]],
                                         ymax = .data[["max.mip"]]),
