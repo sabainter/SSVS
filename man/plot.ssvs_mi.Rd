@@ -5,7 +5,7 @@
 \title{Plot SSVS-MI Estimates and Marginal Inclusion Probabilities (MIP)}
 \usage{
 \method{plot}{ssvs_mi}(
-  data,
+  x,
   type = "both",
   threshold = 0.5,
   legend = TRUE,
@@ -16,16 +16,7 @@
 )
 }
 \arguments{
-\item{data}{A data frame containing summary statistics for SSVS-MI results. Must include columns:
-\describe{
-\item{Variable}{The predictor variables.}
-\item{Avg Beta}{The average beta coefficients across imputations or replications.}
-\item{Min Beta}{The minimum beta coefficients.}
-\item{Max Beta}{The maximum beta coefficients.}
-\item{Avg MIP}{The average MIP values across imputations or replications.}
-\item{Min MIP}{The minimum MIP values.}
-\item{Max MIP}{The maximum MIP values.}
-}}
+\item{x}{An ssvs result object obtained from \code{\link[=ssvs_mi]{ssvs_mi()}}}
 
 \item{type}{Defaults to "both", can change to "estimate" or "MIP".}
 
@@ -56,7 +47,6 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
 results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-summary_MI <- summary.ssvs_mi(results)
-plot.ssvs_mi(summary_MI)
+plot.ssvs_mi(results)
 }
 }

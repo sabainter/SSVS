@@ -3,16 +3,7 @@
 #' This function creates a plot of SSVS-MI estimates with minimum and maximum and a plot for marginal
 #' inclusion probabilities (MIP) optional thresholds for highlighting significant predictors..
 #'
-#' @param data A data frame containing summary statistics for SSVS-MI results. Must include columns:
-#'   \describe{
-#'     \item{Variable}{The predictor variables.}
-#'     \item{Avg Beta}{The average beta coefficients across imputations or replications.}
-#'     \item{Min Beta}{The minimum beta coefficients.}
-#'     \item{Max Beta}{The maximum beta coefficients.}
-#'     \item{Avg MIP}{The average MIP values across imputations or replications.}
-#'     \item{Min MIP}{The minimum MIP values.}
-#'     \item{Max MIP}{The maximum MIP values.}
-#'   }
+#' @param x An ssvs result object obtained from [`ssvs_mi()`]
 #' @param type Defaults to "both", can change to "estimate" or "MIP".
 #' @param est_title A character string specifying the plot title. Defaults to `"SSVS-MI estimates"`.
 #' @param threshold A numeric value (between 0 and 1) specifying the MIP threshold to highlight significant predictors.
@@ -29,26 +20,51 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_MI <- summary.ssvs_mi(results)
-#' plot.ssvs_mi(summary_MI)
+#' plot.ssvs_mi(results)
 #' }
 #' @export
-plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
+plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
                          est_title = NULL, mip_title = NULL, color = TRUE, ...) {
+  assert_ssvs_mi(x)
   checkmate::assert_number(threshold, lower = 0, upper = 1, null.ok = TRUE)
   checkmate::assert_logical(legend, len = 1, any.missing = FALSE)
   checkmate::assert_string(est_title, null.ok = TRUE)
   checkmate::assert_string(mip_title, null.ok = TRUE)
+
+  vars = c("Avg Beta", "MIP")
+  vars_out = c("Variables", "avg.beta", "min.beta", "max.beta",
+               "avg.mip", "min.mip", "max.mip")
+  vars_names = c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+                 "Avg MIP", "Min MIP", "Max MIP")
+  data <- x %>%
+    as.data.frame() %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      avg.beta = mean(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
+      min.beta = min(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE),
+      max.beta = max(dplyr::c_across(dplyr::contains({{ vars[1] }})), na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+      avg.mip = mean(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
+      min.mip = min(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE),
+      max.mip = max(dplyr::c_across(dplyr::contains({{ vars[2] }})), na.rm = TRUE)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::select({{ vars_out[1] }}, {{ vars_out[2] }}, {{ vars_out[3] }}, {{ vars_out[4] }},
+                  {{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }})
+
+  colnames(data) <- c("Variable", "Avg Beta", "Min Beta", "Max Beta",
+                      "Avg MIP", "Min MIP", "Max MIP")
 
 
   if (is.null(est_title)) {
     est_title <- "SSVS-MI estimates"
   }
 
-  p1 <- ggplot2::ggplot(data=data, ggplot2::aes(x = Variable,
-                                            y = .data[['Avg Beta']])) +
+  p1 <- ggplot2::ggplot(data=data, ggplot2::aes(x = .data[["Variable"]],
+                                            y = .data[["Avg Beta"]])) +
       ggplot2::geom_errorbar(
-        ggplot2::aes(ymin = .data[['Min Beta']], ymax = .data[['Max Beta']]),
+        ggplot2::aes(ymin = .data[["Min Beta"]], ymax = .data[["Max Beta"]]),
         position = "dodge", width = 0.2
       ) +
       ggplot2::geom_point() +
@@ -62,11 +78,11 @@ plot.ssvs_mi <- function(data, type = "both", threshold = 0.5, legend = TRUE,
   plotDF <- data %>%
     as.data.frame() %>%
     dplyr::mutate(
-      avg.mip = `Avg MIP`,
-      min.mip = `Min MIP`,
-      max.mip = `Max MIP`
+      avg.mip = {{ vars_names[5] }},
+      min.mip = {{ vars_names[6] }},
+      max.mip = {{ vars_names[7] }}
     ) %>%
-    dplyr::select(Variable, avg.mip, min.mip, max.mip)
+    dplyr::select({{ vars_out[1] }},{{ vars_out[5] }}, {{ vars_out[6] }}, {{ vars_out[7] }})
   plotDF <- plotDF[order(-plotDF$avg.mip),]
 
   if (is.null(threshold)) {

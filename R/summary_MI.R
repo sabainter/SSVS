@@ -18,12 +18,13 @@
 #' @return A data frame with results
 #' @export
 summary.ssvs_mi <- function(object, ...) {
+  assert_ssvs_mi(object)
 
   vars = c("Avg Beta", "MIP", "Avg Nonzero Beta")
   vars_out = c("Variables", "avg.beta", "min.beta", "max.beta",
                "avg.mip", "min.mip", "max.mip",
                "avg.nonzero", "min.nonzero", "max.nonzero")
-  temp <- object %>%
+  res <- object %>%
     as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
