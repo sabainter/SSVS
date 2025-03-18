@@ -12,7 +12,7 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' summary_MI<-summary.ssvs_mi(results)
+#' summary_MI<-summary(results)
 #' print(summary_MI)
 #' }
 #' @return A data frame with results

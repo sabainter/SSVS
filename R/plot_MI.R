@@ -20,7 +20,7 @@
 #' predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 #' imputation <- '.imp'
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
-#' plot.ssvs_mi(results)
+#' plot(results)
 #' }
 #' @export
 plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
@@ -102,7 +102,7 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
                                      y = .data[["avg.mip"]],
                                      shape = .data[["threshold"]],
                                      color = .data[["threshold"]]),
-                        size = 2) +
+                        linewidth = 2) +
     ggplot2::geom_errorbar(ggplot2::aes(x = .data[["Variables"]],
                                         y = .data[["avg.mip"]],
                                         ymin = .data[["min.mip"]],
@@ -115,7 +115,7 @@ plot.ssvs_mi <- function(x, type = "both", threshold = 0.5, legend = TRUE,
     ggplot2::scale_y_continuous(limits = c(0,1.1), breaks = c(0, .25, .5, .75, 1)) +
     ggplot2::scale_color_manual(values = cols) +
     ggplot2::theme_classic() +
-    ggplot2::geom_vline(xintercept = nrow(plotDF)+.5, linetype = 1, size = .5, alpha = .2) +
+    ggplot2::geom_vline(xintercept = nrow(plotDF)+.5, linetype = 1, linewidth = .5, alpha = .2) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1),
                    panel.spacing = ggplot2::unit(0, "lines"),
                    strip.background = ggplot2::element_blank(),
