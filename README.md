@@ -111,14 +111,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5569  |     -0.5569      |    -0.7278     |    -0.4045     |
-| religiousness | 0.4010 | -0.1343  |     -0.3348      |    -0.4080     |     0.0000     |
-| yearsmarried  | 0.1092 |  0.0339  |      0.3103      |     0.0000     |     0.1362     |
-| children      | 0.0849 |  0.0233  |      0.2751      |     0.0000     |     0.0000     |
-| age           | 0.0127 | -0.0026  |     -0.2040      |     0.0000     |     0.0000     |
-| education     | 0.0069 |  0.0008  |      0.1098      |     0.0000     |     0.0000     |
-| occupation    | 0.0067 |  0.0008  |      0.1247      |     0.0000     |     0.0000     |
-| gender        | 0.0057 |  0.0006  |      0.1009      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5552  |     -0.5552      |    -0.7106     |    -0.3917     |
+| religiousness | 0.4247 | -0.1422  |     -0.3348      |    -0.4070     |     0.0000     |
+| yearsmarried  | 0.1035 |  0.0321  |      0.3099      |     0.0000     |     0.1024     |
+| children      | 0.0751 |  0.0204  |      0.2714      |     0.0000     |     0.0000     |
+| age           | 0.0111 | -0.0024  |     -0.2146      |     0.0000     |     0.0000     |
+| gender        | 0.0093 |  0.0010  |      0.1067      |     0.0000     |     0.0000     |
+| occupation    | 0.0064 |  0.0008  |      0.1176      |     0.0000     |     0.0000     |
+| education     | 0.0050 |  0.0005  |      0.1066      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)
@@ -171,7 +171,7 @@ head(imputed_mtcars)
 ```
 
 We will use this multiply imputed data set for SSVS, using the
-`SSVS_MI()` function.
+`ssvs_mi()` function.
 
 ``` r
 outcome <- 'qsec'
@@ -180,10 +180,10 @@ imputation <- '.imp'
 results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 ```
 
-The results of SSVS with MI can be summarized with the `summary()`
-function. This will summarize *across imputations* for each predictor:
-the average MIP and the mean, minimum, maximum, and average nonzero beta
-coefficients.
+The results of SSVS with MI can be summarized with the `summary()` and
+`plot()` functions. This will summarize *across imputations* for each
+predictor: the average MIP and the mean, minimum, maximum, and average
+nonzero beta coefficients.
 
 ## Interactive version
 
