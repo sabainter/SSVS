@@ -1,4 +1,4 @@
-# SSVS 2.1.0 (2025-02-11)
+# SSVS 2.1.0 (2025-03-18)
 
 - Added functions for SSVS with multiply imputed data
 - Added an example demonstrating SSVS for multiply imputed data
