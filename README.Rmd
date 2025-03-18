@@ -168,8 +168,7 @@ results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imp
 ```
 
 The results of SSVS with MI can be summarized with the
-`summary()` function. This will summarize *across imputations* for
-each predictor: the average MIP and the mean, minimum, maximum, and
+`summary()` and `plot()` functions. This will summarize *across imputations* for each predictor: the average MIP and the mean, minimum, maximum, and
 average nonzero beta coefficients.
 
 
