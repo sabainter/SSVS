@@ -10,7 +10,8 @@
 #' @param imp The imputation variable.
 #' @param imp_num The number of imputations to process (default is 5).
 #' @param interval Confidence interval level for summary results (default is 0.9).
-#' @param continuous Logical indicating if the response variable is continuous (default is TRUE).
+#' @param continuous If `TRUE`, treat the response variable as continuous. If
+#' `FALSE`, treat the response variable as binary.
 #' @param progress Logical indicating whether to display progress (default is FALSE).
 #'
 #' @examples
@@ -23,11 +24,12 @@
 #' results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
 #'
 #' # example 2: binary response variable
+#' data(imputed_affairs)
 #' outcome <- "hadaffair"
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
 #' imputation <- '.imp'
-#' results <- ssvs_mi(data = Affairs, x = predictors, y = outcome, continuous = FALSE, imp = imputation)
+#' results <- ssvs_mi(data = imputed_affairs, x = predictors, y = outcome, continuous = FALSE, imp = imputation)
 #' }
 #' @return An ssvs_mi object containing aggregated results across imputations that can be
 #' used in [`summary()`][`summary.ssvs_mi()`].
