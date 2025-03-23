@@ -43,10 +43,18 @@ aggregated results across multiple imputations.
 }
 \examples{
 \donttest{
+# example 1: continuous response variable
 data(imputed_mtcars)
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt', 'vs', 'am', 'gear', 'carb','mpg')
 imputation <- '.imp'
-agg_results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+results <- ssvs_mi(data = imputed_mtcars, y = outcome, x = predictors, imp = imputation)
+
+# example 2: binary response variable
+outcome <- "hadaffair"
+predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
+"education", "occupation", "rating")
+imputation <- '.imp'
+results <- ssvs_mi(data = Affairs, x = predictors, y = outcome, continuous = FALSE, imp = imputation)
 }
 }
