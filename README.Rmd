@@ -23,7 +23,7 @@ set.seed(1000)
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
-
+[![R-CMD-check](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of {SSVS} is to provide functions for performing stochastic
