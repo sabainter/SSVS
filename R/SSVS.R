@@ -144,7 +144,7 @@ ssvs_continuous <- function(data, y, x, inprob, runs, burn, a1, b1, prec.beta, p
       log.p.out <- log(1 - inprob) - 0.5 * taue * sum(r^2)
       diff <- log.p.in - log.p.out
       diff <- ifelse(diff > 10, 10, diff)
-      p.in <- exp(diff) / (1 + exp(diff))
+      p.in <- stats::plogis(diff)
       delta[j] <- stats::rbinom(1, 1, p.in)
       beta[j] <- delta[j] * alpha[j]
       r <- r - x[, j] * beta[j]
