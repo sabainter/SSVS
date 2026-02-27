@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
-
+[![R-CMD-check](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of {SSVS} is to provide functions for performing stochastic
@@ -54,16 +54,16 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:---------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| wt       | 0.8433 |  1.0433  |      1.2372      |     0.0000     |     1.9513     |
-| vs       | 0.7512 |  0.6399  |      0.8519      |     0.0000     |     1.1982     |
-| hp       | 0.5413 | -0.4995  |     -0.9228      |    -1.3349     |     0.0000     |
-| cyl      | 0.4551 | -0.5173  |     -1.1367      |    -1.7670     |     0.0005     |
-| am       | 0.4240 | -0.3107  |     -0.7328      |    -1.0805     |     0.0000     |
-| disp     | 0.4130 | -0.4553  |     -1.1023      |    -1.8170     |     0.0012     |
-| carb     | 0.3938 | -0.2890  |     -0.7338      |    -1.0068     |     0.0000     |
-| gear     | 0.2013 | -0.0918  |     -0.4560      |    -0.5464     |     0.0002     |
-| mpg      | 0.1584 |  0.0563  |      0.3557      |    -0.0001     |     0.4160     |
-| drat     | 0.1003 | -0.0180  |     -0.1794      |    -0.0008     |     0.0000     |
+| wt       | 0.8610 |  1.0867  |      1.2621      |     0.0000     |     1.9848     |
+| vs       | 0.7811 |  0.6758  |      0.8652      |     0.0000     |     1.2105     |
+| hp       | 0.5624 | -0.5301  |     -0.9425      |    -1.3503     |     0.0000     |
+| disp     | 0.4148 | -0.4669  |     -1.1257      |    -1.8466     |     0.0013     |
+| carb     | 0.4077 | -0.3031  |     -0.7435      |    -1.0244     |     0.0000     |
+| cyl      | 0.4030 | -0.4390  |     -1.0894      |    -1.7133     |     0.0000     |
+| am       | 0.3878 | -0.2710  |     -0.6988      |    -1.0090     |     0.0000     |
+| gear     | 0.1889 | -0.0804  |     -0.4256      |    -0.4925     |     0.0000     |
+| mpg      | 0.1675 |  0.0623  |      0.3721      |     0.0000     |     0.4615     |
+| drat     | 0.0881 | -0.0134  |     -0.1523      |     0.0000     |     0.0000     |
 
 The MIPs for each predictor can then be visualized using the `plot()`
 function.
@@ -84,7 +84,7 @@ As an example, let’s create a binary variable:
 
 ``` r
 library(AER)
-#> Warning: package 'AER' was built under R version 4.3.3
+#> Warning: package 'AER' was built under R version 4.5.2
 data(Affairs)
 Affairs$hadaffair[Affairs$affairs > 0] <- 1
 Affairs$hadaffair[Affairs$affairs == 0] <- 0
@@ -111,14 +111,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5552  |     -0.5552      |    -0.7106     |    -0.3917     |
-| religiousness | 0.4247 | -0.1422  |     -0.3348      |    -0.4070     |     0.0000     |
-| yearsmarried  | 0.1035 |  0.0321  |      0.3099      |     0.0000     |     0.1024     |
-| children      | 0.0751 |  0.0204  |      0.2714      |     0.0000     |     0.0000     |
-| age           | 0.0111 | -0.0024  |     -0.2146      |     0.0000     |     0.0000     |
-| gender        | 0.0093 |  0.0010  |      0.1067      |     0.0000     |     0.0000     |
-| occupation    | 0.0064 |  0.0008  |      0.1176      |     0.0000     |     0.0000     |
-| education     | 0.0050 |  0.0005  |      0.1066      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5549  |     -0.5549      |    -0.7258     |    -0.4009     |
+| religiousness | 0.4057 | -0.1361  |     -0.3354      |    -0.4052     |     0.0000     |
+| yearsmarried  | 0.1069 |  0.0332  |      0.3103      |     0.0000     |     0.1330     |
+| children      | 0.0719 |  0.0200  |      0.2782      |     0.0000     |     0.0000     |
+| age           | 0.0096 | -0.0018  |     -0.1877      |     0.0000     |     0.0000     |
+| gender        | 0.0067 |  0.0009  |      0.1341      |     0.0000     |     0.0000     |
+| occupation    | 0.0059 |  0.0006  |      0.0975      |     0.0000     |     0.0000     |
+| education     | 0.0043 |  0.0003  |      0.0730      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)
