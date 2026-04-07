@@ -10,6 +10,7 @@ ssvs(
   x,
   continuous = TRUE,
   prior.probs = 0.5,
+  force.in = NULL,
   runs = 20000,
   burn = 5000,
   a1 = 0.01,
@@ -37,6 +38,12 @@ that variable to always be included. The default prior inclusion probability is
 magnitude of the marginal inclusion probabilities (MIPs), but the relative pattern of
 MIPs is expected to remain fairly consistent.}
 
+\item{force.in}{Character vector specifying variables that should always be
+included in the model. This is a convenience parameter that sets prior.probs = 1.0
+for the specified variables. If both prior.probs and force.in are provided,
+force.in takes precedence and will override probabilities for those variables.
+Default is NULL.}
+
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}
 
@@ -57,12 +64,6 @@ Only used when \code{continuous = TRUE}.}
 progress plots will be created for every 1000 iterations. When \code{continuous = FALSE},
 10 progress messages will be printed.
 Only used when \code{continuous = TRUE}.}
-
-\item{force.in}{Character vector specifying variables that should always be
-included in the model. This is a convenience parameter that sets prior.probs = 1.0
-for the specified variables. If both prior.probs and force.in are provided,
-force.in takes precedence and will override probabilities for those variables.
-Default is NULL.}
 }
 \value{
 An ssvs object that can be used in
