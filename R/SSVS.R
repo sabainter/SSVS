@@ -38,12 +38,21 @@
 #' Only used when `continuous = TRUE`.
 #' @examples
 #' \donttest{
-#' # Example 1: continuous response variable
+#' # Example 1: Continuous response variable, uniform prior
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome,
+#' prior.probs = .5, #same for all predictors
+#' progress = FALSE)
 #'
-#' # Example 2: binary response variable
+#'#' # Example 2: Continuous response variable, variable-specific priors
+#' outcome <- "mpg"
+#' predictors <- c("cyl", "disp", "hp", "wt")
+#' prior.probs = c(0.7, 0.5, 0.2, 0.2) # Different prior probability for each
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome,
+#' progress = FALSE)
+#'
+#' # Example 3: Binary response variable
 #' library(AER)
 #' data(Affairs)
 #' Affairs$hadaffair[Affairs$affairs > 0] <- 1
@@ -52,19 +61,29 @@
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
 #' results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+#'
+#' #' # Example 4: Binary response variable with forced inclusion of select predictors
+#' library(AER)
+#' data(Affairs)
+#' Affairs$hadaffair[Affairs$affairs > 0] <- 1
+#' Affairs$hadaffair[Affairs$affairs == 0] <- 0
+#' outcome <- "hadaffair"
+#' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
+#' "education", "occupation", "rating")
+#' results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"). continuous = FALSE, progress = FALSE)
 #' }
 #' @return An ssvs object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
 ssvs <- function(data, y, x, continuous = TRUE,
-                 prior.probs = 0.5, runs = 20000, burn = 5000,
+                 prior.probs = 0.5, force.in = NULL, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, progress = TRUE) {
+
   checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
   checkmate::assert_character(x, any.missing = FALSE, min.len = 1)
   checkmate::assert_character(y, any.missing = FALSE, len = 1)
   checkmate::assert_subset(c(x, y), names(data))
   checkmate::assert_logical(continuous, len = 1, any.missing = FALSE)
-  #checkmate::assert_number(inprob, lower = 0, upper = 1)
   checkmate::assert_integerish(burn, lower = 1, len = 1, any.missing = FALSE)
   checkmate::assert_integerish(runs, lower = burn + 1, len = 1, any.missing = FALSE)
   checkmate::assert_number(a1, lower = 0)
@@ -75,16 +94,25 @@ ssvs <- function(data, y, x, continuous = TRUE,
   checkmate::assert_false(prec.beta == 0)
   checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
 
+  # NEW: Compute inclusion probabilities with validation
+  inclusion_probs <- compute_inclusion_probs(
+    x = x,
+    prior.probs = prior.probs,
+    force.in = force.in
+    )
+
   if (continuous) {
     ssvs <- ssvs_continuous(
       data = data, y = y, x = x,
-      prior.probs = prior.probs, runs = runs, burn = burn,
+      inclusion_probs = inclusion_probs,  # CHANGED: pass computed probs
+      runs = runs, burn = burn,
       a1 = a1, b1 = b1, prec.beta = prec.beta, progress = progress
     )
   } else {
     ssvs <- ssvs_binary(
       data = data, y = y, x = x,
-      prior.probs = prior.probs, runs = runs, burn = burn, progress = progress
+      inclusion_probs = inclusion_probs,  # CHANGED: pass computed probs
+      runs = runs, burn = burn, progress = progress
     )
   }
   #class(ssvs)<- sets the class of the ssvs output object to class "ssvs"
@@ -95,7 +123,8 @@ ssvs <- function(data, y, x, continuous = TRUE,
   ssvs
 }
 
-ssvs_continuous <- function(data, y, x, prior.probs, runs, burn, a1, b1, prec.beta, progress) {
+ssvs_continuous <- function(data, y, x, inclusion_probs,
+                            runs, burn, a1, b1, prec.beta, progress) {
   y <- data[, y]
   x <- data[, x]
 
@@ -144,8 +173,9 @@ ssvs_continuous <- function(data, y, x, prior.probs, runs, burn, a1, b1, prec.be
     r <- y - int - x %*% beta
     for (j in 1:p) {
       r <- r + x[, j] * beta[j]
-      log.p.in <- log(prior.probs) - 0.5 * taue * sum((r - x[, j] * alpha[j])^2)
-      log.p.out <- log(1 - prior.probs) - 0.5 * taue * sum(r^2)
+      #CHANGED: use variable specific prior probability
+      log.p.in <- log(inclusion_probs[j]) - 0.5 * taue * sum((r - x[, j] * alpha[j])^2)
+      log.p.out <- log(1 - inclusion_probs[j]) - 0.5 * taue * sum(r^2)
       diff <- log.p.in - log.p.out
       diff <- ifelse(diff > 10, 10, diff)
       p.in <- stats::plogis(diff)
@@ -179,7 +209,7 @@ ssvs_continuous <- function(data, y, x, prior.probs, runs, burn, a1, b1, prec.be
   result
 }
 
-ssvs_binary <- function(data, y, x, prior.probs, runs, burn, progress) {
+ssvs_binary <- function(data, y, x, inclusion_probs, runs, burn, progress) {
   # Automatically convert any two-level factors to binary variables
   for (i in 1:ncol(data[,x])){
     if (length(levels(data[,i]))==2){
@@ -205,8 +235,8 @@ ssvs_binary <- function(data, y, x, prior.probs, runs, burn, progress) {
   myPrior <- BoomSpikeSlab::LogitZellnerPrior(predictors = designMatrix,
                                               successes = y,
                                               trials = NULL,
-                                              expected.model.size = (ncol(x)*prior.probs),
-                                              prior.inclusion.probabilities = NULL)
+                                              prior.inclusion.probabilities = inclusion_probs,
+                                              expected.model.size = sum(inclusion_probs),)
 
 
 

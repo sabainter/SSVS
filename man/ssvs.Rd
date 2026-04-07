@@ -9,7 +9,7 @@ ssvs(
   y,
   x,
   continuous = TRUE,
-  inprob = 0.5,
+  prior.probs = 0.5,
   runs = 20000,
   burn = 5000,
   a1 = 0.01,
@@ -28,15 +28,14 @@ ssvs(
 \item{continuous}{If \code{TRUE}, treat the response variable as continuous. If
 \code{FALSE}, treat the response variable as binary.}
 
-\item{inprob}{Prior inclusion probability value, which applies to all predictors.
-The prior inclusion probability reflects the prior belief that each predictor
-should be included in the model. A prior inclusion probability of .5 reflects
-the belief that each predictor has an equal probability of being included or
-excluded. Note that a value of .5 also implies a prior belief that the true model
-contains half of the candidate predictors. The prior inclusion probability will
-influence the magnitude of the marginal inclusion probabilities (MIPs), but the
-relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
-(2020) for more information.}
+\item{prior.probs}{Numeric vector or scalar specifying the prior probability
+that each predictor variable is included in the model. If a scalar, the value is
+replicated for all variables. If a vector, must have legnth equal to length(x).
+Each value must be between 0 and 1. Setting a prior probability to 1.0 forces
+that variable to always be included. The default prior inclusion probability is
+.5 for all predictors. The prior inclusion probabilities will influence the
+magnitude of the marginal inclusion probabilities (MIPs), but the relative pattern of
+MIPs is expected to remain fairly consistent.}
 
 \item{runs}{Total number of iterations (including burn-in). Results are based on
 the Total - Burn-in iterations.}
@@ -58,6 +57,12 @@ Only used when \code{continuous = TRUE}.}
 progress plots will be created for every 1000 iterations. When \code{continuous = FALSE},
 10 progress messages will be printed.
 Only used when \code{continuous = TRUE}.}
+
+\item{force.in}{Character vector specifying variables that should always be
+included in the model. This is a convenience parameter that sets prior.probs = 1.0
+for the specified variables. If both prior.probs and force.in are provided,
+force.in takes precedence and will override probabilities for those variables.
+Default is NULL.}
 }
 \value{
 An ssvs object that can be used in
@@ -69,12 +74,21 @@ outcomes, \code{\link[BoomSpikeSlab:logit.spike]{BoomSpikeSlab::logit.spike()}} 
 }
 \examples{
 \donttest{
-# Example 1: continuous response variable
+# Example 1: Continuous response variable, uniform prior
 outcome <- "qsec"
 predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome,
+prior.probs = .5, #same for all predictors
+progress = FALSE)
 
-# Example 2: binary response variable
+#' # Example 2: Continuous response variable, variable-specific priors
+outcome <- "mpg"
+predictors <- c("cyl", "disp", "hp", "wt")
+prior.probs = c(0.7, 0.5, 0.2, 0.2) # Different prior probability for each
+results <- ssvs(data = mtcars, x = predictors, y = outcome,
+progress = FALSE)
+
+# Example 3: Binary response variable
 library(AER)
 data(Affairs)
 Affairs$hadaffair[Affairs$affairs > 0] <- 1
@@ -83,5 +97,15 @@ outcome <- "hadaffair"
 predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 "education", "occupation", "rating")
 results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+
+#' # Example 4: Binary response variable with forced inclusion of select predictors
+library(AER)
+data(Affairs)
+Affairs$hadaffair[Affairs$affairs > 0] <- 1
+Affairs$hadaffair[Affairs$affairs == 0] <- 0
+outcome <- "hadaffair"
+predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
+"education", "occupation", "rating")
+results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"). continuous = FALSE, progress = FALSE)
 }
 }
