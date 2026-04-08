@@ -107,6 +107,7 @@ Affairs$hadaffair[Affairs$affairs == 0] <- 0
 outcome <- "hadaffair"
 predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 "education", "occupation", "rating")
-results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"). continuous = FALSE, progress = FALSE)
+results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"),
+continuous = FALSE, progress = FALSE)
 }
 }

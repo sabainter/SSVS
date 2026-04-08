@@ -70,7 +70,8 @@
 #' outcome <- "hadaffair"
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
-#' results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"). continuous = FALSE, progress = FALSE)
+#' results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"),
+#' continuous = FALSE, progress = FALSE)
 #' }
 #' @return An ssvs object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
@@ -98,7 +99,8 @@ ssvs <- function(data, y, x, continuous = TRUE,
   inclusion_probs <- compute_inclusion_probs(
     x = x,
     prior.probs = prior.probs,
-    force.in = force.in
+    force.in = force.in,
+    continuous = continuous
     )
 
   if (continuous) {

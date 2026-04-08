@@ -17,15 +17,12 @@ assert_ssvs_mi <- function(object) {
 
 compute_inclusion_probs <- function(x,
                                     prior.probs = .5,
-                                    force.in = NULL) {
+                                    force.in = NULL,
+                                    continuous = TRUE) {
 
   n_vars <- length(x)
 
   ## Step 1: Create base prior probabilities
-  if (!is.null(prior.probs)) {
-    # User provided explicit probabilities
-     prior.probs <-.5
-  }
 
     # Validation
     if (length(prior.probs) == 1) {
@@ -72,9 +69,17 @@ compute_inclusion_probs <- function(x,
     }
     # Set forced variables to probability 1.0
     probs[force_idx] <- 1.0
-    }
+  }
 
+  if (continuous) {
     #Name and return
     names(probs) <- x
+    return(probs)  # No intercept in continuous version
+    } else {
+      probs<-c(1, probs)
+      names(probs) <-c("(Intercept)",x)
+        return(probs)  # Intercept always included in binary version  }
+      }
+
     return(probs)
     }
