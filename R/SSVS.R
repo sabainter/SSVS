@@ -16,6 +16,8 @@
 #' .5 for all predictors. The prior inclusion probabilities will influence the
 #' magnitude of the marginal inclusion probabilities (MIPs), but the relative pattern of
 #' MIPs is expected to remain fairly consistent.
+#' @param inprob **Deprecated**; use `prior.probs` instead.
+#' If provided, this overrides `prior.probs` (with a warning).
 #' @param force.in Character vector specifying variables that should always be
 #' included in the model. This is a convenience parameter that sets prior.probs = 1.0
 #' for the specified variables. If both prior.probs and force.in are provided,
@@ -77,7 +79,7 @@
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
 ssvs <- function(data, y, x, continuous = TRUE,
-                 prior.probs = 0.5, force.in = NULL, runs = 20000, burn = 5000,
+                 prior.probs = 0.5, inprob=NULL,force.in = NULL, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, progress = TRUE) {
 
   checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
@@ -96,6 +98,13 @@ ssvs <- function(data, y, x, continuous = TRUE,
   checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
 
   # NEW: Compute inclusion probabilities with validation
+    # Deprecation handling for 'inprob'
+    if (!is.null(inprob)) {
+      warning("The 'inprob' argument is **deprecated**. Please use 'prior.probs' instead.",
+              call. = FALSE)
+      prior.probs <- inprob  # use the old value for backwards compatibility
+      }
+
   inclusion_probs <- compute_inclusion_probs(
     x = x,
     prior.probs = prior.probs,

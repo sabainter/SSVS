@@ -40,3 +40,12 @@ test_that("ssvs works", {
   # Check precision is positive
   expect_true(all(results_simple$taue > 0))
 })
+
+test_that("inprob is deprecated but still works", {
+  expect_warning(
+    result1 <- ssvs(test_data, y = "Y", x = c("X1","X2"), inprob = 0.4),
+    "deprecated"  # check that the warning message contains 'deprecated'
+    )
+  result2 <- ssvs(test_data, y = "Y", x = c("X1","X2"), prior.probs = 0.4)
+  expect_identical(result1, result2)
+  })
