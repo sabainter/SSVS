@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
 [![R-CMD-check](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -40,7 +39,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, prior.probs = .5, progress = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`
@@ -111,14 +110,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5549  |     -0.5549      |    -0.7258     |    -0.4009     |
-| religiousness | 0.4057 | -0.1361  |     -0.3354      |    -0.4052     |     0.0000     |
-| yearsmarried  | 0.1069 |  0.0332  |      0.3103      |     0.0000     |     0.1330     |
-| children      | 0.0719 |  0.0200  |      0.2782      |     0.0000     |     0.0000     |
-| age           | 0.0096 | -0.0018  |     -0.1877      |     0.0000     |     0.0000     |
-| gender        | 0.0067 |  0.0009  |      0.1341      |     0.0000     |     0.0000     |
-| occupation    | 0.0059 |  0.0006  |      0.0975      |     0.0000     |     0.0000     |
-| education     | 0.0043 |  0.0003  |      0.0730      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5521  |     -0.5521      |    -0.7095     |    -0.3866     |
+| religiousness | 0.4698 | -0.1588  |     -0.3379      |    -0.4268     |     0.0000     |
+| yearsmarried  | 0.1477 |  0.0473  |      0.3206      |     0.0000     |     0.2665     |
+| children      | 0.0953 |  0.0270  |      0.2833      |     0.0000     |     0.0000     |
+| age           | 0.0147 | -0.0029  |     -0.1990      |     0.0000     |     0.0000     |
+| gender        | 0.0115 |  0.0015  |      0.1306      |     0.0000     |     0.0000     |
+| occupation    | 0.0095 |  0.0009  |      0.0954      |     0.0000     |     0.0000     |
+| education     | 0.0061 |  0.0008  |      0.1347      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)

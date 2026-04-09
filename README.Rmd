@@ -22,7 +22,6 @@ set.seed(1000)
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/sabainter/SSVS/workflows/R-CMD-check/badge.svg)](https://github.com/sabainter/SSVS/actions)
 [![R-CMD-check](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sabainter/SSVS/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -57,7 +56,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, prior.probs = .5, progress = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`
