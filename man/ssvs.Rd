@@ -10,6 +10,7 @@ ssvs(
   x,
   continuous = TRUE,
   prior.probs = 0.5,
+  inprob = NULL,
   force.in = NULL,
   runs = 20000,
   burn = 5000,
@@ -37,6 +38,9 @@ that variable to always be included. The default prior inclusion probability is
 .5 for all predictors. The prior inclusion probabilities will influence the
 magnitude of the marginal inclusion probabilities (MIPs), but the relative pattern of
 MIPs is expected to remain fairly consistent.}
+
+\item{inprob}{\strong{Deprecated}; use \code{prior.probs} instead.
+If provided, this overrides \code{prior.probs} (with a warning).}
 
 \item{force.in}{Character vector specifying variables that should always be
 included in the model. This is a convenience parameter that sets prior.probs = 1.0
