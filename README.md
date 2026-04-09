@@ -35,6 +35,7 @@ then choose our predictors and run the `ssvs()` function.
 
 ``` r
 library(SSVS)
+set.seed(1000)
 outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
@@ -99,6 +100,7 @@ predictors <- c("gender", "age", "yearsmarried", "children", "religiousness", "e
 And finally run the model:
 
 ``` r
+set.seed(1000)
 results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
 ```
 
@@ -110,14 +112,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5557  |     -0.5557      |    -0.7112     |    -0.3924     |
-| religiousness | 0.4820 | -0.1612  |     -0.3345      |    -0.4201     |     0.0000     |
-| yearsmarried  | 0.1155 |  0.0347  |      0.3009      |     0.0000     |     0.1660     |
-| children      | 0.0924 |  0.0271  |      0.2930      |     0.0000     |     0.0000     |
-| gender        | 0.0097 |  0.0012  |      0.1251      |     0.0000     |     0.0000     |
-| age           | 0.0083 | -0.0015  |     -0.1809      |     0.0000     |     0.0000     |
-| occupation    | 0.0069 |  0.0009  |      0.1311      |     0.0000     |     0.0000     |
-| education     | 0.0065 |  0.0009  |      0.1374      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5555  |     -0.5555      |    -0.7123     |    -0.3931     |
+| religiousness | 0.5125 | -0.1716  |     -0.3349      |    -0.4227     |     0.0000     |
+| yearsmarried  | 0.1486 |  0.0454  |      0.3053      |     0.0000     |     0.2493     |
+| children      | 0.0995 |  0.0292  |      0.2933      |     0.0000     |     0.0000     |
+| age           | 0.0104 | -0.0023  |     -0.2193      |     0.0000     |     0.0000     |
+| education     | 0.0101 |  0.0009  |      0.0867      |     0.0000     |     0.0000     |
+| gender        | 0.0097 |  0.0011  |      0.1121      |     0.0000     |     0.0000     |
+| occupation    | 0.0089 |  0.0009  |      0.1009      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)
