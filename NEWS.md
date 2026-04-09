@@ -1,3 +1,9 @@
+# SSVS 2.2.0 (2026-04-08)
+
+- Added new argument force.in to specify predictors that are always included
+- Added new argument `prior.probs` (replacing old `inprob` argument) for variable specific prior probabilities 
+- Deprecated `inprob` argument
+
 # SSVS 2.1.0 (2025-03-18)
 
 - Added functions for SSVS with multiply imputed data

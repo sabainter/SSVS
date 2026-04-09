@@ -6,7 +6,7 @@ test_that("ssvs argument error checking works", {
   expect_error(ssvs("nodata", x = predictors, y = outcome))
   expect_error(ssvs(mtcars, x = "novar", y = outcome))
   expect_error(ssvs(mtcars, x = predictors, y = "novar"))
-  expect_error(ssvs(mtcars, x = predictors, y = outcome, inprob = 2))
+  expect_error(ssvs(mtcars, x = predictors, y = outcome, prior.probs = 2))
   expect_error(ssvs(mtcars, x = predictors, y = outcome, burn = 0))
   expect_error(ssvs(mtcars, x = predictors, y = outcome, burn = 1000, runs = 1000))
   expect_error(ssvs(mtcars, x = predictors, y = outcome, burn = 0))
@@ -40,3 +40,16 @@ test_that("ssvs works", {
   # Check precision is positive
   expect_true(all(results_simple$taue > 0))
 })
+
+test_data <- data.frame(  Y = rnorm(10),  X1 = rnorm(10),  X2 = rnorm(10))
+
+test_that("inprob is deprecated but still works", {
+  expect_warning({
+    set.seed(123)
+    result1 <- ssvs(test_data, y = "Y", x = c("X1","X2"), inprob = 0.4)},
+    regexp = "deprecated")
+
+  set.seed(123)
+  result2 <- ssvs(test_data, y = "Y", x = c("X1","X2"), prior.probs = 0.4)
+  expect_identical(result1, result2, tolerance = 1e-8)
+  })

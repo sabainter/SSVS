@@ -57,6 +57,7 @@ outcome <- "hadaffair"
 predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 "education", "occupation", "rating")
 imputation <- '.imp'
-results <- ssvs_mi(data = imputed_affairs, x = predictors, y = outcome, continuous = FALSE, imp = imputation)
+results <- ssvs_mi(data = imputed_affairs, x = predictors, y = outcome,
+continuous = FALSE, imp = imputation)
 }
 }

@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
+Rplots.pdf
+man/figures/README-binary-plot-1.png
+*.png

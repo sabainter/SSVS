@@ -29,7 +29,8 @@
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
 #' imputation <- '.imp'
-#' results <- ssvs_mi(data = imputed_affairs, x = predictors, y = outcome, continuous = FALSE, imp = imputation)
+#' results <- ssvs_mi(data = imputed_affairs, x = predictors, y = outcome,
+#' continuous = FALSE, imp = imputation)
 #' }
 #' @return An ssvs_mi object containing aggregated results across imputations that can be
 #' used in [`summary()`][`summary.ssvs_mi()`].

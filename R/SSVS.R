@@ -8,15 +8,21 @@
 #' @param x The set of predictor variables
 #' @param continuous If `TRUE`, treat the response variable as continuous. If
 #' `FALSE`, treat the response variable as binary.
-#' @param inprob Prior inclusion probability value, which applies to all predictors.
-#' The prior inclusion probability reflects the prior belief that each predictor
-#' should be included in the model. A prior inclusion probability of .5 reflects
-#' the belief that each predictor has an equal probability of being included or
-#' excluded. Note that a value of .5 also implies a prior belief that the true model
-#' contains half of the candidate predictors. The prior inclusion probability will
-#' influence the magnitude of the marginal inclusion probabilities (MIPs), but the
-#' relative pattern of MIPs is expected to remain fairly consistent, see Bainter et al.
-#' (2020) for more information.
+#' @param prior.probs Numeric vector or scalar specifying the prior probability
+#' that each predictor variable is included in the model. If a scalar, the value is
+#' replicated for all variables. If a vector, must have legnth equal to length(x).
+#' Each value must be between 0 and 1. Setting a prior probability to 1.0 forces
+#' that variable to always be included. The default prior inclusion probability is
+#' .5 for all predictors. The prior inclusion probabilities will influence the
+#' magnitude of the marginal inclusion probabilities (MIPs), but the relative pattern of
+#' MIPs is expected to remain fairly consistent.
+#' @param inprob **Deprecated**; use `prior.probs` instead.
+#' If provided, this overrides `prior.probs` (with a warning).
+#' @param force.in Character vector specifying variables that should always be
+#' included in the model. This is a convenience parameter that sets prior.probs = 1.0
+#' for the specified variables. If both prior.probs and force.in are provided,
+#' force.in takes precedence and will override probabilities for those variables.
+#' Default is NULL.
 #' @param runs Total number of iterations (including burn-in). Results are based on
 #' the Total - Burn-in iterations.
 #' @param burn Number of burn-in iterations. Burn-in iterations are discarded
@@ -34,12 +40,21 @@
 #' Only used when `continuous = TRUE`.
 #' @examples
 #' \donttest{
-#' # Example 1: continuous response variable
+#' # Example 1: Continuous response variable, uniform prior
 #' outcome <- "qsec"
 #' predictors <- c("cyl", "disp", "hp", "drat", "wt", "vs", "am", "gear", "carb", "mpg")
-#' results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome,
+#' prior.probs = .5, #same for all predictors
+#' progress = FALSE)
 #'
-#' # Example 2: binary response variable
+#'#' # Example 2: Continuous response variable, variable-specific priors
+#' outcome <- "mpg"
+#' predictors <- c("cyl", "disp", "hp", "wt")
+#' prior.probs = c(0.7, 0.5, 0.2, 0.2) # Different prior probability for each
+#' results <- ssvs(data = mtcars, x = predictors, y = outcome,
+#' progress = FALSE)
+#'
+#' # Example 3: Binary response variable
 #' library(AER)
 #' data(Affairs)
 #' Affairs$hadaffair[Affairs$affairs > 0] <- 1
@@ -48,19 +63,30 @@
 #' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
 #' "education", "occupation", "rating")
 #' results <- ssvs(data = Affairs, x = predictors, y = outcome, continuous = FALSE, progress = FALSE)
+#'
+#' #' # Example 4: Binary response variable with forced inclusion of select predictors
+#' library(AER)
+#' data(Affairs)
+#' Affairs$hadaffair[Affairs$affairs > 0] <- 1
+#' Affairs$hadaffair[Affairs$affairs == 0] <- 0
+#' outcome <- "hadaffair"
+#' predictors <- c("gender", "age", "yearsmarried", "children", "religiousness",
+#' "education", "occupation", "rating")
+#' results <- ssvs(data = Affairs, x = predictors, y = outcome, force.in = c("children", "rating"),
+#' continuous = FALSE, progress = FALSE)
 #' }
 #' @return An ssvs object that can be used in
 #' [`summary()`][`summary.ssvs`] or [`plot()`][`plot.ssvs`].
 #' @export
 ssvs <- function(data, y, x, continuous = TRUE,
-                 inprob = 0.5, runs = 20000, burn = 5000,
+                 prior.probs = 0.5, inprob=NULL,force.in = NULL, runs = 20000, burn = 5000,
                  a1 = 0.01, b1 = 0.01, prec.beta = 0.1, progress = TRUE) {
+
   checkmate::assert_data_frame(data, min.rows = 1, min.cols = 2)
   checkmate::assert_character(x, any.missing = FALSE, min.len = 1)
   checkmate::assert_character(y, any.missing = FALSE, len = 1)
   checkmate::assert_subset(c(x, y), names(data))
   checkmate::assert_logical(continuous, len = 1, any.missing = FALSE)
-  checkmate::assert_number(inprob, lower = 0, upper = 1)
   checkmate::assert_integerish(burn, lower = 1, len = 1, any.missing = FALSE)
   checkmate::assert_integerish(runs, lower = burn + 1, len = 1, any.missing = FALSE)
   checkmate::assert_number(a1, lower = 0)
@@ -71,16 +97,33 @@ ssvs <- function(data, y, x, continuous = TRUE,
   checkmate::assert_false(prec.beta == 0)
   checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
 
+  # NEW: Compute inclusion probabilities with validation
+    # Deprecation handling for 'inprob'
+    if (!is.null(inprob)) {
+      warning("The 'inprob' argument is **deprecated**. Please use 'prior.probs' instead.",
+              call. = FALSE)
+      prior.probs <- inprob  # use the old value for backwards compatibility
+      }
+
+  inclusion_probs <- compute_inclusion_probs(
+    x = x,
+    prior.probs = prior.probs,
+    force.in = force.in,
+    continuous = continuous
+    )
+
   if (continuous) {
     ssvs <- ssvs_continuous(
       data = data, y = y, x = x,
-      inprob = inprob, runs = runs, burn = burn,
+      inclusion_probs = inclusion_probs,  # CHANGED: pass computed probs
+      runs = runs, burn = burn,
       a1 = a1, b1 = b1, prec.beta = prec.beta, progress = progress
     )
   } else {
     ssvs <- ssvs_binary(
       data = data, y = y, x = x,
-      inprob = inprob, runs = runs, burn = burn, progress = progress
+      inclusion_probs = inclusion_probs,  # CHANGED: pass computed probs
+      runs = runs, burn = burn, progress = progress
     )
   }
   #class(ssvs)<- sets the class of the ssvs output object to class "ssvs"
@@ -91,7 +134,8 @@ ssvs <- function(data, y, x, continuous = TRUE,
   ssvs
 }
 
-ssvs_continuous <- function(data, y, x, inprob, runs, burn, a1, b1, prec.beta, progress) {
+ssvs_continuous <- function(data, y, x, inclusion_probs,
+                            runs, burn, a1, b1, prec.beta, progress) {
   y <- data[, y]
   x <- data[, x]
 
@@ -140,8 +184,9 @@ ssvs_continuous <- function(data, y, x, inprob, runs, burn, a1, b1, prec.beta, p
     r <- y - int - x %*% beta
     for (j in 1:p) {
       r <- r + x[, j] * beta[j]
-      log.p.in <- log(inprob) - 0.5 * taue * sum((r - x[, j] * alpha[j])^2)
-      log.p.out <- log(1 - inprob) - 0.5 * taue * sum(r^2)
+      #CHANGED: use variable specific prior probability
+      log.p.in <- log(inclusion_probs[j]) - 0.5 * taue * sum((r - x[, j] * alpha[j])^2)
+      log.p.out <- log(1 - inclusion_probs[j]) - 0.5 * taue * sum(r^2)
       diff <- log.p.in - log.p.out
       diff <- ifelse(diff > 10, 10, diff)
       p.in <- stats::plogis(diff)
@@ -175,7 +220,7 @@ ssvs_continuous <- function(data, y, x, inprob, runs, burn, a1, b1, prec.beta, p
   result
 }
 
-ssvs_binary <- function(data, y, x, inprob, runs, burn, progress) {
+ssvs_binary <- function(data, y, x, inclusion_probs, runs, burn, progress) {
   # Automatically convert any two-level factors to binary variables
   for (i in 1:ncol(data[,x])){
     if (length(levels(data[,i]))==2){
@@ -201,8 +246,8 @@ ssvs_binary <- function(data, y, x, inprob, runs, burn, progress) {
   myPrior <- BoomSpikeSlab::LogitZellnerPrior(predictors = designMatrix,
                                               successes = y,
                                               trials = NULL,
-                                              expected.model.size = (ncol(x)*inprob),
-                                              prior.inclusion.probabilities = NULL)
+                                              prior.inclusion.probabilities = inclusion_probs,
+                                              expected.model.size = sum(inclusion_probs),)
 
 
 
