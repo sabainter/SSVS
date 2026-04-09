@@ -40,7 +40,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, prior.probs = .5, progress = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`
@@ -111,14 +111,14 @@ summary_results <- summary(results, interval = 0.9, ordered = TRUE)
 
 | Variable      |  MIP   | Avg Beta | Avg Nonzero Beta | Lower CI (90%) | Upper CI (90%) |
 |:--------------|:------:|:--------:|:----------------:|:--------------:|:--------------:|
-| rating        | 1.0000 | -0.5549  |     -0.5549      |    -0.7258     |    -0.4009     |
-| religiousness | 0.4057 | -0.1361  |     -0.3354      |    -0.4052     |     0.0000     |
-| yearsmarried  | 0.1069 |  0.0332  |      0.3103      |     0.0000     |     0.1330     |
-| children      | 0.0719 |  0.0200  |      0.2782      |     0.0000     |     0.0000     |
-| age           | 0.0096 | -0.0018  |     -0.1877      |     0.0000     |     0.0000     |
-| gender        | 0.0067 |  0.0009  |      0.1341      |     0.0000     |     0.0000     |
-| occupation    | 0.0059 |  0.0006  |      0.0975      |     0.0000     |     0.0000     |
-| education     | 0.0043 |  0.0003  |      0.0730      |     0.0000     |     0.0000     |
+| rating        | 1.0000 | -0.5549  |     -0.5549      |    -0.7257     |    -0.3996     |
+| religiousness | 0.5337 | -0.1817  |     -0.3405      |    -0.4362     |     0.0000     |
+| yearsmarried  | 0.1589 |  0.0502  |      0.3157      |     0.0000     |     0.2760     |
+| children      | 0.1207 |  0.0344  |      0.2853      |     0.0000     |     0.1805     |
+| gender        | 0.0128 |  0.0015  |      0.1177      |     0.0000     |     0.0000     |
+| age           | 0.0111 | -0.0021  |     -0.1925      |     0.0000     |     0.0000     |
+| education     | 0.0082 |  0.0009  |      0.1108      |     0.0000     |     0.0000     |
+| occupation    | 0.0077 |  0.0009  |      0.1152      |     0.0000     |     0.0000     |
 
 ``` r
 plot(results)

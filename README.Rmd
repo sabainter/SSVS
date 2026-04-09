@@ -57,7 +57,7 @@ outcome <- 'qsec'
 predictors <- c('cyl', 'disp', 'hp', 'drat', 'wt',
  'vs', 'am', 'gear', 'carb','mpg')
 
-results <- ssvs(data = mtcars, x = predictors, y = outcome, progress = FALSE)
+results <- ssvs(data = mtcars, x = predictors, y = outcome, prior.probs = .5, progress = FALSE)
 ```
 
 The results can be summarized and printed using the `summary()`
